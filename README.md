@@ -1,66 +1,223 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# 💡 Kaligraph Design — Sistem Manajemen & POS Neon Box / Signage
 
 <p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
+  <img src="public/images/neon_box_hero.jpg" alt="Kaligraph Design Banner" width="100%" style="border-radius: 16px; max-height: 400px; object-fit: cover;">
 </p>
 
-## About Laravel
+<p align="center">
+  <strong>Solusi Digital Manajemen Bisnis Neon Box, Huruf Timbul & Signage Custom Terintegrasi</strong><br>
+  Dibangun dengan framework <strong>Laravel 10</strong>, <strong>MySQL</strong>, dan arsitektur UI bertema <em>Electric Neon Modern</em>.
+</p>
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+<p align="center">
+  <img src="https://img.shields.io/badge/Laravel-10.x-FF2D20?style=for-the-badge&logo=laravel&logoColor=white" alt="Laravel 10">
+  <img src="https://img.shields.io/badge/PHP-8.1+-777BB4?style=for-the-badge&logo=php&logoColor=white" alt="PHP 8.1+">
+  <img src="https://img.shields.io/badge/MySQL-8.0+-4479A1?style=for-the-badge&logo=mysql&logoColor=white" alt="MySQL">
+  <img src="https://img.shields.io/badge/License-MIT-green?style=for-the-badge" alt="MIT License">
+</p>
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+---
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+## 📖 Tentang Kaligraph Design
 
-## Learning Laravel
+**Kaligraph Design** adalah aplikasi web komprehensif yang dirancang khusus untuk operasional bisnis manufaktur dan penjualan **Neon Box, Huruf Timbul, LED Signage, dan Reklame Visual**.
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+Aplikasi ini menggabungkan dua ekosistem dalam satu platform:
+1. **Frontend Publik & Portal Pelanggan**: Showcase produk berfoto, rentang harga, lokasi showroom dengan peta interaktif Google Maps (Embed Iframe), dan portal khusus pelanggan untuk memantau status pengerjaan pesanan.
+2. **Backend Admin & Sistem POS**: Manajemen pesanan kasir, antrean produksi workshop, pencatatan stok material akrilik/LED, operasional harian, manajemen multi-cabang/showroom, dan kontrol hak akses berbasis matriks izin (Permission Matrix).
 
-You may also try the [Laravel Bootcamp](https://bootcamp.laravel.com), where you will be guided through building a modern Laravel application from scratch.
+---
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains over 2000 video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+## ✨ Fitur-Fitur Utama
 
-## Laravel Sponsors
+### 1. 🌐 Landing Page Modern (Showcase Neon Box)
+- **Hero Section Dinamis**: Menampilkan identitas visual neon box beresolusi tinggi dengan tipografi modern dan CTA order WhatsApp.
+- **Katalog Produk Real-Time**: Menampilkan foto produk asli, deskripsi spesifikasi material, dan **rentang harga** (*contoh: Rp 350.000 - Rp 750.000*).
+- **Lokasi & Showroom dengan Iframe Maps**: Setiap cabang dilengkapi peta interaktif Google Maps yang di-embed langsung via kode `<iframe>`.
+- **Floating WhatsApp Button**: Tombol chat WhatsApp mengambang dengan efek *pulse animation* untuk konsultasi instan.
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the Laravel [Patreon page](https://patreon.com/taylorotwell).
+### 2. 👥 Pemisahan Jalur Login (Dual Login System)
+- **Portal Pilihan (`/login`)**: Halaman pemilih visual (*Saya Pelanggan* vs *Saya Staff/Admin*).
+- **Portal Pelanggan (`/login/customer` & `/register/customer`)**:
+  - Registrasi & login mandiri untuk pelanggan.
+  - Akses ke **Dashboard Pelanggan (`/customer/dashboard`)** untuk melihat riwayat order, status pengerjaan, dan katalog.
+- **Login Staff / Admin (`/login/admin`)**:
+  - Login khusus internal (Superadmin, Owner, Admin, Kasir).
+  - Terhubung langsung ke dashboard manajemen POS & workshop.
 
-### Premium Partners
+### 3. 🔐 Forgot Password via OTP Email
+- **Request OTP (`/forgot-password`)**: Masukkan email terdaftar untuk meminta kode OTP 6 digit.
+- **Template Email HTML Elegan (`OtpMail`)**: Email otomatis dengan desain branding resmi Kaligraph Design.
+- **Verifikasi OTP Interaktif (`/forgot-password/verify`)**:
+  - 6 kotak digit otomatis berpindah (*auto-advance*) dan mendukung *copy-paste*.
+  - **Countdown Timer 10 Menit**.
+  - Tombol kirim ulang OTP (*Resend OTP*).
+- **Reset Password (`/forgot-password/reset`)**: Form pembaruan kata sandi baru yang aman.
 
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Cubet Techno Labs](https://cubettech.com)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[Many](https://www.many.co.uk)**
-- **[Webdock, Fast VPS Hosting](https://www.webdock.io/en)**
-- **[DevSquad](https://devsquad.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel/)**
-- **[OP.GG](https://op.gg)**
-- **[WebReinvent](https://webreinvent.com/?utm_source=laravel&utm_medium=github&utm_campaign=patreon-sponsors)**
-- **[Lendio](https://lendio.com)**
+### 4. 📦 Modul Kelola Produk Signage (`/produk`)
+- **Upload Foto Produk**: Upload gambar produk (JPG, PNG, WEBP, SVG) dengan *Live Preview*.
+- **Rentang Harga (Price Range)**: Pengaturan *Harga Minimum* dan *Harga Maksimum*.
+- **Manajemen Status**: Toggle aktif/non-aktifkan produk dari katalog dan kasir.
+- **Modal Edit Produk**: Pengeditan instan tanpa refresh halaman.
 
-## Contributing
+### 5. 📍 Modul Cabang & Lokasi Showroom (`/branches`)
+- **Embed Iframe Google Maps**: Input kode `<iframe>` resmi dari Google Maps atau link embed.
+- **Preview Peta Admin**: Menampilkan pratinjau peta langsung di panel admin cabang.
+- **Integrasi Landing Page**: Peta otomatis tampil responsif di halaman publik.
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+### 6. 🛒 Kasir POS (Point of Sale) (`/kasir`)
+- Antarmuka kasir cepat berbasis kartu produk dengan thumbnail foto.
+- Keranjang belanja interaktif (tambah qty, hapus item, hitung total otomatis).
+- Pilihan kategori pesanan (*Dine-in*, *Takeaway*, *Online Order* / *Custom Project*).
+- Cetak struk / nota pesanan instan.
 
-## Code of Conduct
+### 7. 🏭 Manajemen Produksi & Stok (`/produksi` & `/stok`)
+- Pelacakan alur pengerjaan pesanan signage (*Menunggu*, *Proses Desain*, *Cutting & Rangka*, *Perakitan LED*, *Selesai*).
+- Pencatatan stok bahan baku (plat akrilik, trafo LED, kabel, pipa galvanis, stiker vinyl).
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+### 8. 🛡️ Pengguna, Hak Akses Matriks & Log Aktivitas
+- **Manajemen Pengguna (`/users`)**: Kelola akun staff, level role, dan penempatan cabang.
+- **Matriks Akses (`/akses`)**: Konfigurasi izin CRUD per fitur untuk setiap role secara fleksibel.
+- **Log Aktivitas (`/activity-log`)**: Pencatatan audit trail semua tindakan login, CRUD produk, order, dan cabang.
 
-## Security Vulnerabilities
+---
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+## 🛠️ Kebutuhan Sistem
 
-## License
+- **PHP**: Versi 8.1 atau lebih tinggi
+- **Database**: MySQL 8.0+ / MariaDB 10.4+
+- **Web Server**: Apache / Nginx (atau Laragon / XAMPP)
+- **Composer**: Versi 2.x
+- **Mail Catcher (Lokal)**: Mailpit (tersedia otomatis di Laragon pada port 1025 / UI 8025)
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+---
+
+## 🚀 Panduan Instalasi & Menjalankan Proyek
+
+### 1. Clone Repositori
+```bash
+git clone https://github.com/RifatJibranHudaya/Kaligraph-Design.git
+cd food-app-laravel
+```
+
+### 2. Install Dependensi PHP
+```bash
+composer install
+```
+
+### 3. Konfigurasi Environment (`.env`)
+Salin file `.env.example` menjadi `.env`:
+```bash
+cp .env.example .env
+```
+Sesuaikan konfigurasi database dan mail di `.env`:
+```env
+APP_NAME="Kaligraph Design"
+APP_URL=http://localhost/food-app-laravel/public
+
+DB_CONNECTION=mysql
+DB_HOST=127.0.0.1
+DB_PORT=3306
+DB_DATABASE=food_sales_laravel
+DB_USERNAME=root
+DB_PASSWORD=
+
+MAIL_MAILER=smtp
+MAIL_HOST=127.0.0.1
+MAIL_PORT=1025
+MAIL_USERNAME=null
+MAIL_PASSWORD=null
+MAIL_FROM_ADDRESS="noreply@kaligraphdesign.com"
+MAIL_FROM_NAME="Kaligraph Design"
+```
+
+### 4. Generate Application Key
+```bash
+php artisan key:generate
+```
+
+### 5. Jalankan Migrasi & Seeder Database
+```bash
+php artisan migrate --seed
+```
+
+### 6. Jalankan Server Aplikasi
+Jika menggunakan Laragon, aplikasi dapat langsung diakses melalui:
+```
+http://localhost/food-app-laravel/public/
+```
+Atau menggunakan artisan serve bawaan:
+```bash
+php artisan serve
+```
+
+---
+
+## 🔑 Kredensial Akun Default
+
+| Role / Level | Username | Email | Password | Hak Akses Utama |
+| :--- | :--- | :--- | :--- | :--- |
+| **Superadmin** | `admin` | `admin@kaligraphdesign.com` | `admin` | Seluruh Modul & Manajemen Sistem |
+| **Owner** | `owner` | `owner@kaligraphdesign.com` | `owner` | Laporan, Multi-Cabang, POS, Produksi |
+| **Kasir / Staff** | `kasir` | `kasir@kaligraphdesign.com` | `kasir` | Kasir POS, Riwayat Transaksi |
+| **Pelanggan** | *Daftar baru* | *(Email pelanggan)* | *(Password dibuat user)* | Portal Pelanggan & Pelacakan Order |
+
+> **Catatan Pengujian Email OTP:**  
+> Untuk melihat email OTP reset password yang dikirimkan secara lokal, buka **Mailpit** bawaan Laragon di browser: [`http://localhost:8025`](http://localhost:8025).
+
+---
+
+## 📂 Struktur Direktori Utama
+
+```
+food-app-laravel/
+├── app/
+│   ├── Http/
+│   │   ├── Controllers/
+│   │   │   ├── AuthController.php            # Login dual portal & customer register
+│   │   │   ├── BranchController.php          # Modul cabang & Google Maps iframe
+│   │   │   ├── CustomerController.php        # Portal dashboard pelanggan
+│   │   │   ├── DashboardController.php       # Dashboard analitik admin
+│   │   │   ├── ForgotPasswordController.php  # Request, verify OTP, & reset password
+│   │   │   ├── KasirController.php           # Kasir POS & struk transaksi
+│   │   │   ├── LandingController.php         # Landing page publik
+│   │   │   ├── ProdukController.php          # CRUD produk, upload foto & rentang harga
+│   │   │   └── UserController.php            # Manajemen staf & pengguna
+│   │   └── Middleware/                       # Auth & Permission matrix guards
+│   ├── Mail/
+│   │   └── OtpMail.php                       # Mailable OTP reset password
+│   ├── Models/
+│   │   ├── Branch.php                        # Model cabang & accessor iframe
+│   │   ├── Order.php                         # Model transaksi pesanan
+│   │   ├── Product.php                       # Model produk, rentang harga, & foto
+│   │   └── User.php                          # Model user, role & customer helper
+│   └── Services/
+│       └── ActivityLogService.php            # Pencatatan audit trail aktivitas
+├── database/
+│   ├── migrations/                           # Skema database & tabel OTP
+│   └── seeders/
+│       ├── DatabaseSeeder.php                # Master seeder
+│       └── NeonBoxProductSeeder.php          # Seeder produk neon box & rentang harga
+├── public/
+│   ├── images/                               # Aset visual hero neon box
+│   └── uploads/products/                     # Direktori upload foto produk asli
+├── resources/
+│   └── views/
+│       ├── auth/                             # View portal login, register, OTP
+│       ├── branches/                         # View cabang & iframe peta
+│       ├── customer/                         # View portal dashboard pelanggan
+│       ├── emails/                           # Template HTML email OTP
+│       ├── kasir/                            # View kasir POS
+│       ├── layouts/                          # Master layout (app & guest)
+│       ├── produk/                           # View kelola produk & upload foto
+│       └── landing.blade.php                 # Landing page resmi Kaligraph Design
+└── routes/
+    └── web.php                               # Definisi seluruh endpoint & route
+```
+
+---
+
+## 📄 Lisensi
+
+Proyek ini dilisensikan di bawah [MIT License](LICENSE).  
+© 2026 **Kaligraph Design**. Hak Cipta Dilindungi Undang-Undang.
