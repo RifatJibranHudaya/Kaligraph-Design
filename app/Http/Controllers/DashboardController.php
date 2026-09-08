@@ -3,11 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Models\ActivityLog;
-use App\Models\Operational;
+use App\Models\Category;
 use App\Models\Order;
+use App\Models\Payment;
 use App\Models\Product;
-use App\Models\Production;
-use App\Models\StockRecord;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -26,38 +25,21 @@ class DashboardController extends Controller
             $ordersQuery->where('branch_id', $activeBranchId);
         }
 
-        $totalOmset = (clone $ordersQuery)->sum('total');
         $totalOrders = (clone $ordersQuery)->count();
         $totalProducts = Product::where('is_active', true)->count();
+        $totalCategories = Category::where('is_active', true)->count();
 
-        // Production costs
-        $prodQuery = Production::query();
-        if ($activeBranchId) {
-            $prodQuery->where('branch_id', $activeBranchId);
-        }
-        $totalProductionCost = $prodQuery->sum('harga');
+        // Order status counts
+        $ordersOrder      = (clone $ordersQuery)->where('status', 'order')->count();
+        $ordersOnProgress = (clone $ordersQuery)->where('status', 'on_progress')->count();
+        $ordersSelesai    = (clone $ordersQuery)->where('status', 'selesai')->count();
+        $ordersCancelled  = (clone $ordersQuery)->where('status', 'cancelled')->count();
 
-        // Operational costs
-        $totalOperationalCost = Operational::sum('harga');
-        $totalPengeluaran = $totalProductionCost + $totalOperationalCost;
+        // Total payments received
+        $totalPembayaran = Payment::sum('jumlah');
 
-        // Daily sales breakdown for chart (Last 7 days)
-        $dailySales = (clone $ordersQuery)
-            ->select(DB::raw('DATE(created_at) as date'), DB::raw('SUM(total) as total_sales'))
-            ->where('created_at', '>=', now()->subDays(7))
-            ->groupBy('date')
-            ->orderBy('date', 'ASC')
-            ->pluck('total_sales', 'date')
-            ->toArray();
-
-        // Category breakdown
-        $categoryBreakdown = (clone $ordersQuery)
-            ->select('kategori', DB::raw('COUNT(*) as count'), DB::raw('SUM(total) as total'))
-            ->groupBy('kategori')
-            ->get();
-
-        // Stock Records overview (latest 5)
-        $recentStockRecords = StockRecord::with('user')
+        // Recent orders (latest 5)
+        $recentOrders = Order::with(['user', 'branch', 'payments'])
             ->when($activeBranchId, fn($q) => $q->where('branch_id', $activeBranchId))
             ->latest('id')
             ->take(5)
@@ -67,13 +49,15 @@ class DashboardController extends Controller
         $recentLogs = ActivityLog::latest('id')->take(5)->get();
 
         return view('dashboard', compact(
-            'totalOmset',
             'totalOrders',
             'totalProducts',
-            'totalPengeluaran',
-            'dailySales',
-            'categoryBreakdown',
-            'recentStockRecords',
+            'totalCategories',
+            'ordersOrder',
+            'ordersOnProgress',
+            'ordersSelesai',
+            'ordersCancelled',
+            'totalPembayaran',
+            'recentOrders',
             'recentLogs'
         ));
     }

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Category;
 use App\Models\Product;
 use App\Services\ActivityLogService;
 use Illuminate\Http\Request;
@@ -12,14 +13,16 @@ class ProdukController extends Controller
 {
     public function index()
     {
-        $products = Product::ordered()->get();
-        return view('produk.index', compact('products'));
+        $products = Product::with('category')->ordered()->get();
+        $categories = Category::ordered()->get();
+        return view('produk.index', compact('products', 'categories'));
     }
 
     public function store(Request $request)
     {
         $validated = $request->validate([
             'nama'        => 'required|string|max:100',
+            'category_id' => 'nullable|exists:categories,id',
             'harga_min'   => 'required|numeric|min:0',
             'harga_max'   => 'nullable|numeric|min:0',
             'deskripsi'   => 'nullable|string',
@@ -58,6 +61,7 @@ class ProdukController extends Controller
     {
         $validated = $request->validate([
             'nama'        => 'required|string|max:100',
+            'category_id' => 'nullable|exists:categories,id',
             'harga_min'   => 'required|numeric|min:0',
             'harga_max'   => 'nullable|numeric|min:0',
             'deskripsi'   => 'nullable|string',

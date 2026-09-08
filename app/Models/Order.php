@@ -9,7 +9,22 @@ class Order extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['user_id', 'branch_id', 'kategori', 'total', 'keterangan'];
+    const STATUS_ORDER       = 'order';
+    const STATUS_ON_PROGRESS = 'on_progress';
+    const STATUS_SELESAI     = 'selesai';
+    const STATUS_CANCELLED   = 'cancelled';
+
+    const STATUSES = [
+        self::STATUS_ORDER       => 'Order',
+        self::STATUS_ON_PROGRESS => 'On Progress',
+        self::STATUS_SELESAI     => 'Selesai',
+        self::STATUS_CANCELLED   => 'Cancelled',
+    ];
+
+    protected $fillable = [
+        'user_id', 'branch_id', 'kategori', 'total', 'keterangan',
+        'status', 'nama_pelanggan', 'no_hp', 'alamat',
+    ];
 
     protected $casts = [
         'total' => 'integer',
@@ -28,5 +43,61 @@ class Order extends Model
     public function items()
     {
         return $this->hasMany(OrderItem::class);
+    }
+
+    public function payments()
+    {
+        return $this->hasMany(Payment::class);
+    }
+
+    /**
+     * Total amount already paid.
+     */
+    public function getTotalDibayarAttribute(): int
+    {
+        return (int) $this->payments()->sum('jumlah');
+    }
+
+    /**
+     * Remaining balance.
+     */
+    public function getSisaTagihanAttribute(): int
+    {
+        return max(0, $this->total - $this->total_dibayar);
+    }
+
+    /**
+     * Status badge color helper.
+     */
+    public function getStatusBadgeAttribute(): string
+    {
+        return match ($this->status) {
+            self::STATUS_ORDER       => 'badge-primary',
+            self::STATUS_ON_PROGRESS => 'badge-warning',
+            self::STATUS_SELESAI     => 'badge-success',
+            self::STATUS_CANCELLED   => 'badge-danger',
+            default                  => 'badge-primary',
+        };
+    }
+
+    public function getStatusBadgeClassAttribute(): string
+    {
+        return $this->getStatusBadgeAttribute();
+    }
+
+    /**
+     * Status label for display.
+     */
+    public function getStatusLabelAttribute(): string
+    {
+        return self::STATUSES[$this->status] ?? ucfirst($this->status);
+    }
+
+    /**
+     * Scope: filter by status.
+     */
+    public function scopeStatus($query, string $status)
+    {
+        return $query->where('status', $status);
     }
 }

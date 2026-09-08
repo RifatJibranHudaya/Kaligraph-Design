@@ -61,9 +61,9 @@ class DatabaseSeeder extends Seeder
             ]
         );
 
-        // 3. Create Sample Products
-        // Run NeonBoxProductSeeder for full product data
-        $this->call(NeonBoxProductSeeder::class);
+        // 3. Create Sample Categories & Products
+        $this->call(CategoryAndProductSeeder::class);
+        $this->call(PortfolioSeeder::class);
 
         // 4. Create Initial Home Content
         HomeContent::firstOrCreate(

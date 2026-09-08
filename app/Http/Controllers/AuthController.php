@@ -179,7 +179,7 @@ class AuthController extends Controller
             'email'     => strtolower(trim($validated['email'])),
             'phone'     => $validated['phone'],
             'password'  => Hash::make($validated['password']),
-            'level'     => 'kasir',
+            'level'     => 'customer',
             'user_type' => 'customer',
         ]);
 

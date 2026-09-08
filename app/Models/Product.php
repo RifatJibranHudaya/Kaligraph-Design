@@ -10,6 +10,7 @@ class Product extends Model
     use HasFactory;
 
     protected $fillable = [
+        'category_id',
         'nama',
         'foto',
         'emoji',
@@ -20,6 +21,11 @@ class Product extends Model
         'is_active',
         'urutan',
     ];
+
+    public function category()
+    {
+        return $this->belongsTo(Category::class);
+    }
 
     protected $casts = [
         'harga_min'     => 'integer',

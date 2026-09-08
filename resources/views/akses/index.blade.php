@@ -1,25 +1,54 @@
 @extends('layouts.app')
 
-@section('title', 'Matriks Kelola Hak Akses Modul')
+@section('title', 'Hak Akses Admin & Staf')
 
 @section('content')
+<!-- Sub-Navigation Header -->
+<div style="display:flex; gap:10px; margin-bottom:20px; flex-wrap:wrap;">
+  <a href="{{ route('users.index') }}" class="btn btn-secondary" style="font-weight:700;">
+    👥 Admin & Staf
+  </a>
+  <a href="{{ route('pelanggan.index') }}" class="btn btn-secondary" style="font-weight:700;">
+    🛍️ Data Pelanggan
+  </a>
+  <a href="{{ route('akses.index') }}" class="btn btn-primary" style="font-weight:700;">
+    🛡️ Hak Akses Admin & Staf
+  </a>
+  <a href="{{ route('akses.pelanggan') }}" class="btn btn-secondary" style="font-weight:700;">
+    🛍️ Hak Akses Level Pelanggan
+  </a>
+</div>
+
 <div class="card">
   <div class="card-header">
-    <h3 class="card-title">🔐 Pengaturan Hak Akses Pengguna (Permissions Matrix)</h3>
+    <div>
+      <h3 class="card-title">🛡️ Pengaturan Hak Akses Admin & Staf (Permissions Matrix)</h3>
+      <div style="font-size:12px; color:var(--text-muted); margin-top:2px;">
+        Konfigurasi hak akses modul operasional, kasir, katalog produk, dan data transaksi untuk setiap akun staf.
+      </div>
+    </div>
   </div>
 
-  @if($users->isEmpty())
+  @if($staffUsers->isEmpty())
     <div style="text-align:center; color:var(--text-muted); padding:40px;">
-      Tidak ada pengguna selain Superadmin untuk dikonfigurasi hak aksesnya.
+      Tidak ada akun staf / admin selain Superadmin untuk dikonfigurasi hak aksesnya.
     </div>
   @else
-    @foreach($users as $user)
-      <div style="border: 1px solid var(--border-color); border-radius: 12px; padding: 20px; margin-bottom: 24px; background: var(--bg-main);">
-        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom: 16px;">
+    @foreach($staffUsers as $user)
+      <div style="border:1px solid var(--border-color); border-radius:14px; padding:20px; margin-bottom:24px; background:var(--bg-main);">
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:16px; flex-wrap:wrap; gap:10px;">
+          <div style="display:flex; align-items:center; gap:12px;">
+            <div style="width:40px; height:40px; border-radius:10px; background:linear-gradient(135deg, #2563eb, #7c3aed); color:#fff; display:flex; align-items:center; justify-content:center; font-weight:800;">
+              {{ strtoupper(substr($user->username, 0, 1)) }}
+            </div>
+            <div>
+              <h4 style="font-size:16px; font-weight:700; margin:0;">{{ $user->username }}</h4>
+              <div style="font-size:12px; color:var(--text-muted);">{{ $user->email ?: 'Tanpa email' }}</div>
+            </div>
+          </div>
           <div>
-            <h4 style="font-size:16px; font-weight:700;">👤 {{ $user->username }}</h4>
-            <span class="badge {{ \App\Helpers\FormatHelper::levelBadgeClass($user->level) }}" style="margin-top:4px;">
-              {{ strtoupper($user->level) }}
+            <span class="badge {{ \App\Helpers\FormatHelper::levelBadgeClass($user->level) }}">
+              {{ $user->levelLabel() }}
             </span>
           </div>
         </div>
@@ -29,14 +58,14 @@
           @method('PUT')
 
           <div class="table-responsive">
-            <table class="table" style="background:var(--bg-card); border-radius:8px;">
+            <table class="table" style="background:var(--bg-card); border-radius:10px;">
               <thead>
                 <tr>
                   <th>Fitur Modul</th>
-                  <th style="text-align:center;">Lihat (Read)</th>
-                  <th style="text-align:center;">Tambah (Create)</th>
-                  <th style="text-align:center;">Edit (Update)</th>
-                  <th style="text-align:center;">Hapus (Delete)</th>
+                  <th style="text-align:center; width:110px;">Lihat (Read)</th>
+                  <th style="text-align:center; width:110px;">Tambah (Create)</th>
+                  <th style="text-align:center; width:110px;">Edit (Update)</th>
+                  <th style="text-align:center; width:110px;">Hapus (Delete)</th>
                 </tr>
               </thead>
               <tbody>

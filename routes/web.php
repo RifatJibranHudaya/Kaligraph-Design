@@ -3,17 +3,19 @@
 use App\Http\Controllers\ActivityLogController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\BranchController;
+use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\ForgotPasswordController;
 use App\Http\Controllers\HomeManagerController;
 use App\Http\Controllers\KasirController;
 use App\Http\Controllers\LandingController;
-use App\Http\Controllers\OperasionalController;
+use App\Http\Controllers\PaymentController;
+use App\Http\Controllers\PelangganController;
 use App\Http\Controllers\PermissionController;
+use App\Http\Controllers\PortfolioController;
 use App\Http\Controllers\ProdukController;
-use App\Http\Controllers\ProduksiController;
-use App\Http\Controllers\StokController;
+use App\Http\Controllers\StatusOrderController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
@@ -25,6 +27,14 @@ use Illuminate\Support\Facades\Route;
 
 // Public Landing Page
 Route::get('/', [LandingController::class, 'index'])->name('home');
+
+// Public Catalog Pages
+Route::get('/katalog', [LandingController::class, 'categories'])->name('katalog');
+Route::get('/katalog/{slug}', [LandingController::class, 'productsByCategory'])->name('katalog.kategori');
+Route::get('/katalog/{slug}/{product}', [LandingController::class, 'productDetail'])->name('katalog.detail');
+
+// Public Portfolio Page
+Route::get('/portofolio', [LandingController::class, 'portfolio'])->name('portofolio');
 
 // Auth Routes (Guest only)
 Route::middleware('guest')->group(function () {
@@ -83,31 +93,39 @@ Route::middleware('auth')->group(function () {
         Route::post('/{product}/toggle', [ProdukController::class, 'toggleActive'])->name('toggle');
     });
 
-    // Stok
-    Route::prefix('stok')->name('stok.')->middleware('permission:stok')->group(function () {
-        Route::get('/', [StokController::class, 'index'])->name('index');
-        Route::post('/', [StokController::class, 'store'])->name('store');
-        Route::delete('/{stock}', [StokController::class, 'destroy'])->name('destroy');
+    // Kategori Produk
+    Route::prefix('kategori')->name('kategori.')->middleware('permission:kategori')->group(function () {
+        Route::get('/', [CategoryController::class, 'index'])->name('index');
+        Route::post('/', [CategoryController::class, 'store'])->name('store');
+        Route::put('/{category}', [CategoryController::class, 'update'])->name('update');
+        Route::delete('/{category}', [CategoryController::class, 'destroy'])->name('destroy');
+        Route::post('/{category}/toggle', [CategoryController::class, 'toggleActive'])->name('toggle');
     });
 
-    // Produksi
-    Route::prefix('produksi')->name('produksi.')->middleware('permission:produksi')->group(function () {
-        Route::get('/', [ProduksiController::class, 'index'])->name('index');
-        Route::post('/', [ProduksiController::class, 'store'])->name('store');
-        Route::get('/{produksi}', [ProduksiController::class, 'show'])->name('show');
-        Route::put('/{produksi}', [ProduksiController::class, 'update'])->name('update');
-        Route::delete('/{produksi}', [ProduksiController::class, 'destroy'])->name('destroy');
+    // Portofolio
+    Route::prefix('portfolio')->name('portfolio.')->middleware('permission:portfolio')->group(function () {
+        Route::get('/', [PortfolioController::class, 'index'])->name('index');
+        Route::post('/', [PortfolioController::class, 'store'])->name('store');
+        Route::put('/{portfolio}', [PortfolioController::class, 'update'])->name('update');
+        Route::delete('/{portfolio}', [PortfolioController::class, 'destroy'])->name('destroy');
+        Route::post('/{portfolio}/toggle', [PortfolioController::class, 'toggleActive'])->name('toggle');
     });
 
-    // Operasional
-    Route::prefix('operasional')->name('operasional.')->middleware('permission:operasional')->group(function () {
-        Route::get('/', [OperasionalController::class, 'index'])->name('index');
-        Route::post('/', [OperasionalController::class, 'store'])->name('store');
-        Route::put('/{operasional}', [OperasionalController::class, 'update'])->name('update');
-        Route::delete('/{operasional}', [OperasionalController::class, 'destroy'])->name('destroy');
+    // Data Pembayaran
+    Route::prefix('pembayaran')->name('pembayaran.')->middleware('permission:pembayaran')->group(function () {
+        Route::get('/', [PaymentController::class, 'index'])->name('index');
+        Route::post('/', [PaymentController::class, 'store'])->name('store');
+        Route::delete('/{payment}', [PaymentController::class, 'destroy'])->name('destroy');
     });
 
-    // Users Management
+    // Status Pengerjaan Order
+    Route::prefix('status-order')->name('status_order.')->middleware('permission:status_order')->group(function () {
+        Route::get('/', [StatusOrderController::class, 'index'])->name('index');
+        Route::post('/', [StatusOrderController::class, 'store'])->name('store');
+        Route::put('/{order}/status', [StatusOrderController::class, 'updateStatus'])->name('update_status');
+    });
+
+    // Users Management (Staf & Internal)
     Route::prefix('users')->name('users.')->middleware('permission:users')->group(function () {
         Route::get('/', [UserController::class, 'index'])->name('index');
         Route::post('/', [UserController::class, 'store'])->name('store');
@@ -115,9 +133,20 @@ Route::middleware('auth')->group(function () {
         Route::delete('/{user}', [UserController::class, 'destroy'])->name('destroy');
     });
 
+    // Pelanggan Management (Khusus Akun Customer)
+    Route::prefix('pelanggan')->name('pelanggan.')->middleware('permission:users')->group(function () {
+        Route::get('/', [PelangganController::class, 'index'])->name('index');
+        Route::post('/', [PelangganController::class, 'store'])->name('store');
+        Route::put('/{pelanggan}', [PelangganController::class, 'update'])->name('update');
+        Route::delete('/{pelanggan}', [PelangganController::class, 'destroy'])->name('destroy');
+        Route::get('/{pelanggan}/orders', [PelangganController::class, 'orders'])->name('orders');
+    });
+
     // Permissions Matrix
     Route::prefix('akses')->name('akses.')->middleware('permission:akses')->group(function () {
         Route::get('/', [PermissionController::class, 'index'])->name('index');
+        Route::get('/pelanggan', [PermissionController::class, 'pelanggan'])->name('pelanggan');
+        Route::put('/pelanggan', [PermissionController::class, 'updatePelangganLevel'])->name('pelanggan.update');
         Route::put('/{user}', [PermissionController::class, 'update'])->name('update');
     });
 

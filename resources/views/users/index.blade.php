@@ -3,6 +3,22 @@
 @section('title', 'Manajemen Pengguna & Staf')
 
 @section('content')
+<!-- Sub-Navigation Header -->
+<div style="display:flex; gap:10px; margin-bottom:20px; flex-wrap:wrap;">
+  <a href="{{ route('users.index') }}" class="btn btn-primary" style="font-weight:700;">
+    👥 Admin & Staf
+  </a>
+  <a href="{{ route('pelanggan.index') }}" class="btn btn-secondary" style="font-weight:700;">
+    🛍️ Data Pelanggan
+  </a>
+  <a href="{{ route('akses.index') }}" class="btn btn-secondary" style="font-weight:700;">
+    🛡️ Hak Akses Admin & Staf
+  </a>
+  <a href="{{ route('akses.pelanggan') }}" class="btn btn-secondary" style="font-weight:700;">
+    🛍️ Hak Akses Level Pelanggan
+  </a>
+</div>
+
 <div class="grid grid-2">
   <!-- Form Tambah User -->
   <div class="card">

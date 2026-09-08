@@ -49,6 +49,7 @@ class FormatHelper
             'owner'      => 'bg-purple text-white',
             'admin'      => 'bg-primary text-white',
             'kasir'      => 'bg-success text-white',
+            'customer'   => 'bg-info text-white',
             default      => 'bg-secondary text-white',
         };
     }

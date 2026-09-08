@@ -1,18 +1,19 @@
-# 💡 Kaligraph Design — Sistem Manajemen & POS Neon Box / Signage
+# 💡 Kaligraph Design — Sistem Manajemen & Katalog Reklame / Neon Box
 
 <p align="center">
   <img src="public/images/neon_box_hero.jpg" alt="Kaligraph Design Banner" width="100%" style="border-radius: 16px; max-height: 400px; object-fit: cover;">
 </p>
 
 <p align="center">
-  <strong>Solusi Digital Manajemen Bisnis Neon Box, Huruf Timbul & Signage Custom Terintegrasi</strong><br>
-  Dibangun dengan framework <strong>Laravel 10</strong>, <strong>MySQL</strong>, dan arsitektur UI bertema <em>Electric Neon Modern</em>.
+  <strong>Solusi Digital Manajemen Bisnis Advertising, Neon Box, Huruf Timbul, Portofolio & Bengkel Las Konstruksi Terintegrasi</strong><br>
+  Dibangun dengan framework <strong>Laravel 10</strong>, <strong>MySQL</strong>, <strong>DataTables</strong>, dan antarmuka UI bertema <em>Electric Neon Modern & Hero Global Style Navigation</em>.
 </p>
 
 <p align="center">
   <img src="https://img.shields.io/badge/Laravel-10.x-FF2D20?style=for-the-badge&logo=laravel&logoColor=white" alt="Laravel 10">
   <img src="https://img.shields.io/badge/PHP-8.1+-777BB4?style=for-the-badge&logo=php&logoColor=white" alt="PHP 8.1+">
   <img src="https://img.shields.io/badge/MySQL-8.0+-4479A1?style=for-the-badge&logo=mysql&logoColor=white" alt="MySQL">
+  <img src="https://img.shields.io/badge/DataTables-1.13.7-0075FF?style=for-the-badge&logo=jquery&logoColor=white" alt="DataTables">
   <img src="https://img.shields.io/badge/License-MIT-green?style=for-the-badge" alt="MIT License">
 </p>
 
@@ -20,84 +21,108 @@
 
 ## 📖 Tentang Kaligraph Design
 
-**Kaligraph Design** adalah aplikasi web komprehensif yang dirancang khusus untuk operasional bisnis manufaktur dan penjualan **Neon Box, Huruf Timbul, LED Signage, dan Reklame Visual**.
+**Kaligraph Design** adalah aplikasi web komprehensif yang dirancang khusus untuk operasional bisnis jasa advertising visual, reklame, neon box, huruf timbul (*channel letter*), pylon sign, serta produk bengkel las konstruksi (kanopi, pagar minimalis, rak custom, dsb).
 
-Aplikasi ini menggabungkan dua ekosistem dalam satu platform:
-1. **Frontend Publik & Portal Pelanggan**: Showcase produk berfoto, rentang harga, lokasi showroom dengan peta interaktif Google Maps (Embed Iframe), dan portal khusus pelanggan untuk memantau status pengerjaan pesanan.
-2. **Backend Admin & Sistem POS**: Manajemen pesanan kasir, antrean produksi workshop, pencatatan stok material akrilik/LED, operasional harian, manajemen multi-cabang/showroom, dan kontrol hak akses berbasis matriks izin (Permission Matrix).
+Aplikasi ini mengintegrasikan fungsi inti yang lengkap:
+1. **Frontend Publik & Katalog Interaktif**:
+   - Beranda modern dengan navigasi *Hero Global Style Side Drawer* menurun ke bawah.
+   - Katalog publik berbasis kategori layanan advertising dan detail spesifikasi produk.
+   - Galeri portofolio hasil karya dan proyek terpasang dengan filter kategori interaktif.
+   - Portal mandiri khusus pelanggan untuk pemesanan online, upload bukti bayar, dan pelacakan status pengerjaan.
+2. **Backend Admin & Order Tracking System**:
+   - Manajemen master produk, kategori, dan portofolio proyek lengkap dengan live upload foto.
+   - Pelacakan alur status pengerjaan pesanan (*Order Baru* ➔ *On Progress* ➔ *Selesai* ➔ *Cancelled*).
+   - Pencatatan pembayaran uang muka (DP) dan pelunasan dengan verifikasi bukti transfer/nota.
+   - Point of Sale (POS) / Kasir instan dengan pencetakan struk transaksi.
+   - Sub-modul **Manajemen User** terpisah: *Admin & Staf* dan *Data Pelanggan*.
+   - Sub-modul **Kelola Hak Akses**: *Matriks Akses Staf* dan *Hak Akses Terpusat Level Pelanggan* (*Role-Based Permissions*).
+   - Manajemen multi-cabang/showroom dengan Google Maps iframe interaktif dan Audit Log Aktivitas.
 
 ---
 
 ## ✨ Fitur-Fitur Utama
 
-### 1. 🌐 Landing Page Modern (Showcase Neon Box)
-- **Hero Section Dinamis**: Menampilkan identitas visual neon box beresolusi tinggi dengan tipografi modern dan CTA order WhatsApp.
-- **Katalog Produk Real-Time**: Menampilkan foto produk asli, deskripsi spesifikasi material, dan **rentang harga** (*contoh: Rp 350.000 - Rp 750.000*).
-- **Lokasi & Showroom dengan Iframe Maps**: Setiap cabang dilengkapi peta interaktif Google Maps yang di-embed langsung via kode `<iframe>`.
-- **Floating WhatsApp Button**: Tombol chat WhatsApp mengambang dengan efek *pulse animation* untuk konsultasi instan.
+### 1. 🌐 Beranda Publik & Navigasi Side Drawer (`/`)
+- **Hero Banner Dinamis**: Visual neon box resolusi tinggi dengan tipografi modern dan tombol CTA WhatsApp konsultasi instan.
+- **Hero Global Style Side Drawer (Navigasi Samping Menurun)**: Navigasi offcanvas samping dengan backdrop blur, penomoran urut dinamis (01-08), dan penataan rute yang konsisten di semua halaman.
+- **Showcase Kategori Layanan**: Kartu kategori interaktif lengkap dengan foto cover dan jumlah produk tersedia.
+- **Showroom & Lokasi Interaktif**: Integrasi embed Google Maps responsif pada masing-masing cabang.
+- **Floating WhatsApp CTA**: Tombol mengambang dengan efek *pulse glow animation*.
 
-### 2. 👥 Pemisahan Jalur Login (Dual Login System)
-- **Portal Pilihan (`/login`)**: Halaman pemilih visual (*Saya Pelanggan* vs *Saya Staff/Admin*).
-- **Portal Pelanggan (`/login/customer` & `/register/customer`)**:
-  - Registrasi & login mandiri untuk pelanggan.
-  - Akses ke **Dashboard Pelanggan (`/customer/dashboard`)** untuk melihat riwayat order, status pengerjaan, dan katalog.
-- **Login Staff / Admin (`/login/admin`)**:
-  - Login khusus internal (Superadmin, Owner, Admin, Kasir).
-  - Terhubung langsung ke dashboard manajemen POS & workshop.
+### 2. 📂 Katalog & Detail Produk
+- **Katalog Semua Kategori (`/katalog`)**: Menampilkan seluruh kategori advertising & bengkel las yang aktif.
+- **Katalog per Kategori (`/katalog/{slug}`)**: Menampilkan daftar produk spesifik dalam kategori terpilih.
+- **Detail Produk & Konsultasi (`/katalog/{slug}/{product}`)**:
+  - Foto resolusi tinggi, rentang estimasi harga (*Rp Min - Rp Max*), dan spesifikasi bahan.
+  - Nilai tambah (Survey lokasi gratis, Garansi resmi modul LED, Pengiriman kurir/kargo).
+  - Tombol CTA WhatsApp dengan pesan pemesanan otomatis terformat.
+  - Rekomendasi produk terkait dalam kategori yang sama.
 
-### 3. 🔐 Forgot Password via OTP Email
-- **Request OTP (`/forgot-password`)**: Masukkan email terdaftar untuk meminta kode OTP 6 digit.
-- **Template Email HTML Elegan (`OtpMail`)**: Email otomatis dengan desain branding resmi Kaligraph Design.
-- **Verifikasi OTP Interaktif (`/forgot-password/verify`)**:
-  - 6 kotak digit otomatis berpindah (*auto-advance*) dan mendukung *copy-paste*.
-  - **Countdown Timer 10 Menit**.
-  - Tombol kirim ulang OTP (*Resend OTP*).
-- **Reset Password (`/forgot-password/reset`)**: Form pembaruan kata sandi baru yang aman.
+### 3. 🖼️ Galeri Portofolio Proyek (`/portofolio` & `/portfolio`)
+- **Halaman Publik Portofolio (`/portofolio`)**:
+  - Galeri hasil karya proyek neon box, signage, huruf timbul, dan konstruksi reklame.
+  - Filter tab kategori proyek interaktif tanpa reload halaman.
+  - Informasi nama proyek, nama klien, lokasi pengerjaan, dan tahun pembuatan.
+- **Kelola Portofolio Admin (`/portfolio`)**:
+  - CRUD portofolio proyek lengkap dengan upload gambar (JPG, PNG, WEBP max 3MB).
+  - Integrasi DataTables, modal edit responsif, dan toggle status tampil di website.
 
-### 4. 📦 Modul Kelola Produk Signage (`/produk`)
-- **Upload Foto Produk**: Upload gambar produk (JPG, PNG, WEBP, SVG) dengan *Live Preview*.
-- **Rentang Harga (Price Range)**: Pengaturan *Harga Minimum* dan *Harga Maksimum*.
-- **Manajemen Status**: Toggle aktif/non-aktifkan produk dari katalog dan kasir.
-- **Modal Edit Produk**: Pengeditan instan tanpa refresh halaman.
+### 4. 📋 Modul Status Pengerjaan Order (`/status-order`)
+- **Alur Status Workflow Terpadu**:
+  - `📥 Order`: Pesanan baru masuk / menunggu konfirmasi spesifikasi & DP.
+  - `⚙️ On Progress`: Sedang dalam proses desain, cutting rangka, las, atau perakitan LED.
+  - `✅ Selesai`: Pekerjaan telah selesai diproduksi, terpasang di lokasi, atau siap kirim.
+  - `❌ Cancelled`: Pesanan dibatalkan.
+- **Filter Tab Cepat & Pencarian**: Filter pesanan per status dengan indikator status pembayaran (*Lunas*, *DP*, *Belum Bayar*).
 
-### 5. 📍 Modul Cabang & Lokasi Showroom (`/branches`)
-- **Embed Iframe Google Maps**: Input kode `<iframe>` resmi dari Google Maps atau link embed.
-- **Preview Peta Admin**: Menampilkan pratinjau peta langsung di panel admin cabang.
-- **Integrasi Landing Page**: Peta otomatis tampil responsif di halaman publik.
+### 5. 💳 Modul Data Pembayaran & DP (`/pembayaran`)
+- Pencatatan transaksi pembayaran per ID order (*Transfer Bank / QRIS*, *Tunai / Cash*, *Uang Muka / DP*).
+- Upload bukti transfer / nota pembayaran dengan preview modal cepat.
+- Filter riwayat pembayaran berdasarkan nomor pesanan dan metode pembayaran.
 
-### 6. 🛒 Kasir POS (Point of Sale) (`/kasir`)
-- Antarmuka kasir cepat berbasis kartu produk dengan thumbnail foto.
-- Keranjang belanja interaktif (tambah qty, hapus item, hitung total otomatis).
-- Pilihan kategori pesanan (*Dine-in*, *Takeaway*, *Online Order* / *Custom Project*).
-- Cetak struk / nota pesanan instan.
+### 6. 👥 Sub-Modul Manajemen User & Data Pelanggan
+- **Admin & Staf (`/users`)**: Kelola akun pengguna internal (Superadmin, Owner, Admin, Kasir) dengan cabang penugasan.
+- **Data Pelanggan (`/pelanggan`)**:
+  - Manajemen khusus akun pelanggan terdaftar (otomatis dipisahkan dari staf).
+  - Ringkasan total pesanan dan total nilai transaksi per pelanggan.
+  - Tombol pintas chat WhatsApp langsung (`wa.me`) ke nomor kontak pelanggan.
+  - Form pendaftaran pelanggan baru dan modal edit data akun.
 
-### 7. 🏭 Manajemen Produksi & Stok (`/produksi` & `/stok`)
-- Pelacakan alur pengerjaan pesanan signage (*Menunggu*, *Proses Desain*, *Cutting & Rangka*, *Perakitan LED*, *Selesai*).
-- Pencatatan stok bahan baku (plat akrilik, trafo LED, kabel, pipa galvanis, stiker vinyl).
+### 7. 🔐 Sub-Modul Kelola Hak Akses Terpadu
+- **Hak Akses Admin & Staf (`/akses`)**: Matriks izin CRUD (Read, Create, Update, Delete) per modul untuk setiap staf/karyawan.
+- **Hak Akses Level Pelanggan (`/akses/pelanggan`)**:
+  - Pengaturan izin fitur portal pelanggan terpusat per **Level / Role Pelanggan** (berlaku untuk semua pelanggan secara global tanpa perlu mencentang satu per satu).
+  - Kontrol fitur portal: *Buat Pesanan Online*, *Tracking Progres Pengerjaan*, *Upload Bukti Pembayaran*, *Lihat Katalog & Estimasi*, *Riwayat Pesanan*, dan *Cetak Faktur/Nota*.
+  - Tombol preset cepat: `✅ Izinkan Semua`, `⚡ Standar Portal`, dan `👁️ Hanya Lihat`.
 
-### 8. 🛡️ Pengguna, Hak Akses Matriks & Log Aktivitas
-- **Manajemen Pengguna (`/users`)**: Kelola akun staff, level role, dan penempatan cabang.
-- **Matriks Akses (`/akses`)**: Konfigurasi izin CRUD per fitur untuk setiap role secara fleksibel.
-- **Log Aktivitas (`/activity-log`)**: Pencatatan audit trail semua tindakan login, CRUD produk, order, dan cabang.
+### 8. ⚡ DataTables & Pagination Responsif
+- Integrasi **jQuery DataTables** + **Bootstrap 5** di seluruh tabel modul admin (Produk, Kategori, Portofolio, Pelanggan, Activity Log).
+- Pencarian instan, sorting multi-kolom, dropdown jumlah entri (10, 25, 50, 100, Semua), dan penomoran halaman ringan.
+
+### 9. 🛡️ Dual Login Portal & OTP Password Recovery
+- **Portal Pemilihan Login (`/login`)**: Pilihan masuk sebagai Pelanggan atau Staff/Admin.
+- **Portal Pelanggan (`/login/customer` & `/register/customer`)**: Registrasi mandiri pelanggan (otomatis berstatus `level = 'customer'`).
+- **Login Staff Internal (`/login/admin`)**: Login multi-role untuk Superadmin, Owner, Admin, dan Kasir.
+- **Lupa Password via OTP Email (`/forgot-password`)**: Alur reset kata sandi dengan 6-digit kode OTP email (kedaluwarsa 10 menit).
 
 ---
 
 ## 🛠️ Kebutuhan Sistem
 
-- **PHP**: Versi 8.1 atau lebih tinggi
+- **PHP**: Versi 8.1 atau lebih tinggi (ekstensi `pdo_mysql`, `mbstring`, `fileinfo`, `openssl`)
 - **Database**: MySQL 8.0+ / MariaDB 10.4+
 - **Web Server**: Apache / Nginx (atau Laragon / XAMPP)
 - **Composer**: Versi 2.x
-- **Mail Catcher (Lokal)**: Mailpit (tersedia otomatis di Laragon pada port 1025 / UI 8025)
+- **Mail Catcher (Pengujian Lokal)**: Mailpit / Mailtrap (port SMTP 1025 / Web UI 8025)
 
 ---
 
-## 🚀 Panduan Instalasi & Menjalankan Proyek
+## 🚀 Panduan Instalasi & Setup
 
 ### 1. Clone Repositori
 ```bash
 git clone https://github.com/RifatJibranHudaya/Kaligraph-Design.git
-cd food-app-laravel
+cd KaligraphAdvertasing-app-laravel
 ```
 
 ### 2. Install Dependensi PHP
@@ -110,15 +135,15 @@ Salin file `.env.example` menjadi `.env`:
 ```bash
 cp .env.example .env
 ```
-Sesuaikan konfigurasi database dan mail di `.env`:
+Sesuaikan konfigurasi database dan mail pada file `.env`:
 ```env
 APP_NAME="Kaligraph Design"
-APP_URL=http://localhost/food-app-laravel/public
+APP_URL=http://localhost:8000
 
 DB_CONNECTION=mysql
 DB_HOST=127.0.0.1
 DB_PORT=3306
-DB_DATABASE=food_sales_laravel
+DB_DATABASE=kaligraph_advertising
 DB_USERNAME=root
 DB_PASSWORD=
 
@@ -131,88 +156,169 @@ MAIL_FROM_ADDRESS="noreply@kaligraphdesign.com"
 MAIL_FROM_NAME="Kaligraph Design"
 ```
 
-### 4. Generate Application Key
+### 4. Generate Application Key & Link Storage
 ```bash
 php artisan key:generate
 ```
 
-### 5. Jalankan Migrasi & Seeder Database
+### 5. Jalankan Migrasi & Database Seeder
+Perintah berikut akan membuat seluruh skema tabel, akun default, kategori, produk reklame, portofolio, dan izin role:
 ```bash
 php artisan migrate --seed
 ```
 
 ### 6. Jalankan Server Aplikasi
-Jika menggunakan Laragon, aplikasi dapat langsung diakses melalui:
-```
-http://localhost/food-app-laravel/public/
-```
-Atau menggunakan artisan serve bawaan:
 ```bash
 php artisan serve
 ```
+Akses aplikasi melalui browser di: `http://localhost:8000`
 
 ---
 
 ## 🔑 Kredensial Akun Default
 
-| Role / Level | Username | Email | Password | Hak Akses Utama |
+| Peran (Role) | Username | Email | Password | Hak Akses Utama |
 | :--- | :--- | :--- | :--- | :--- |
-| **Superadmin** | `admin` | `admin@kaligraphdesign.com` | `admin` | Seluruh Modul & Manajemen Sistem |
-| **Owner** | `owner` | `owner@kaligraphdesign.com` | `owner` | Laporan, Multi-Cabang, POS, Produksi |
-| **Kasir / Staff** | `kasir` | `kasir@kaligraphdesign.com` | `kasir` | Kasir POS, Riwayat Transaksi |
-| **Pelanggan** | *Daftar baru* | *(Email pelanggan)* | *(Password dibuat user)* | Portal Pelanggan & Pelacakan Order |
+| **Superadmin** | `admin` | `admin@kaligraphdesign.com` | `admin` | Akses penuh seluruh modul dan konfigurasi sistem |
+| **Owner** | `owner` | `owner@kaligraphdesign.com` | `owner` | Manajemen cabang, laporan analitik, order, pembayaran |
+| **Kasir** | `kasir` | `kasir@kaligraphdesign.com` | `kasir` | Kasir POS, pencatatan transaksi kasir |
+| **Pelanggan** | *Daftar mandiri* | *(Email pelanggan)* | *(Password terdaftar)* | Dashboard pelanggan, order online, tracking progres |
 
-> **Catatan Pengujian Email OTP:**  
-> Untuk melihat email OTP reset password yang dikirimkan secara lokal, buka **Mailpit** bawaan Laragon di browser: [`http://localhost:8025`](http://localhost:8025).
+> 💡 **Pengujian Email OTP Reset Password:**  
+> Jika menggunakan Laragon, email OTP verifikasi dapat dilihat secara real-time melalui Mailpit di browser: [`http://localhost:8025`](http://localhost:8025).
 
 ---
 
-## 📂 Struktur Direktori Utama
+## 🧭 Daftar Rute Utama (Route Sitemap)
+
+### Publik & Katalog
+| Method | URI | Deskripsi |
+| :--- | :--- | :--- |
+| `GET` | `/` | Landing page beranda & showcase kategori |
+| `GET` | `/katalog` | Daftar seluruh kategori produk reklame |
+| `GET` | `/katalog/{slug}` | Daftar produk berdasarkan kategori |
+| `GET` | `/katalog/{slug}/{product}` | Detail produk, spesifikasi & order WhatsApp |
+| `GET` | `/portofolio` | Galeri portofolio hasil karya dan filter proyek |
+| `GET` | `/login` | Pilihan portal login (Pelanggan / Staff) |
+| `GET` | `/login/customer` | Login portal pelanggan |
+| `GET` | `/login/admin` | Login staff & admin |
+| `GET` | `/register/customer` | Registrasi akun pelanggan baru |
+| `GET` | `/forgot-password` | Formulir request OTP reset password |
+
+### Portal Pelanggan (`auth` & role `customer`)
+| Method | URI | Deskripsi |
+| :--- | :--- | :--- |
+| `GET` | `/customer/dashboard` | Dashboard riwayat order & tracking pelanggan |
+
+### Admin & Staff Internal (`auth` & permission guards)
+| Method | URI | Deskripsi |
+| :--- | :--- | :--- |
+| `GET` | `/dashboard` | Dashboard analitik pesanan, omset, dan ringkasan |
+| `GET` | `/kasir` | Point of Sale (POS) & cetak nota transaksi |
+| `GET` | `/produk` | Master data produk, rentang harga & foto |
+| `GET` | `/kategori` | Master data kategori produk & cover |
+| `GET` | `/portfolio` | CRUD data portofolio hasil karya proyek |
+| `GET` | `/status-order` | Tracking & alur status pengerjaan pesanan |
+| `PUT` | `/status-order/{order}/status` | Update status pengerjaan order |
+| `GET` | `/pembayaran` | Manajemen pembayaran, DP & bukti transfer |
+| `GET` | `/users` | Sub-modul manajemen akun Admin & Staf |
+| `GET` | `/pelanggan` | Sub-modul manajemen akun Data Pelanggan |
+| `GET` | `/akses` | Sub-modul matriks hak akses Admin & Staf |
+| `GET` | `/akses/pelanggan` | Sub-modul hak akses Level Pelanggan (Global) |
+| `PUT` | `/akses/pelanggan` | Update izin fitur Level Pelanggan |
+| `GET` | `/branches` | Manajemen cabang showroom & Google Maps |
+| `GET` | `/activity-log` | Audit trail riwayat aktivitas sistem |
+| `GET` | `/home-manager` | Kelola konten teks & banner landing page |
+
+---
+
+## 🧪 Pengujian Otomatis (Automated Testing)
+
+Aplikasi dilengkapi test suite komprehensif yang memvalidasi seluruh rute publik, katalog, portofolio, autentikasi pelanggan/staf, CRUD admin, pembaruan status order, dan sistem hak akses role:
+
+```bash
+php artisan test
+```
+
+Hasil pengujian otomatis: **19 passed (50 assertions)** tanpa kendala.
+
+---
+
+## 📂 Struktur Direktori
 
 ```
-food-app-laravel/
 ├── app/
+│   ├── Helpers/
+│   │   └── FormatHelper.php                  # Helper format Rupiah, tanggal Indo, badge
 │   ├── Http/
 │   │   ├── Controllers/
-│   │   │   ├── AuthController.php            # Login dual portal & customer register
-│   │   │   ├── BranchController.php          # Modul cabang & Google Maps iframe
-│   │   │   ├── CustomerController.php        # Portal dashboard pelanggan
-│   │   │   ├── DashboardController.php       # Dashboard analitik admin
-│   │   │   ├── ForgotPasswordController.php  # Request, verify OTP, & reset password
-│   │   │   ├── KasirController.php           # Kasir POS & struk transaksi
-│   │   │   ├── LandingController.php         # Landing page publik
-│   │   │   ├── ProdukController.php          # CRUD produk, upload foto & rentang harga
-│   │   │   └── UserController.php            # Manajemen staf & pengguna
-│   │   └── Middleware/                       # Auth & Permission matrix guards
-│   ├── Mail/
-│   │   └── OtpMail.php                       # Mailable OTP reset password
+│   │   │   ├── AuthController.php            # Login dual portal & register customer
+│   │   │   ├── BranchController.php          # Manajemen showroom & Google Maps iframe
+│   │   │   ├── CategoryController.php        # Admin CRUD Kategori produk
+│   │   │   ├── CustomerController.php        # Dashboard portal pelanggan
+│   │   │   ├── DashboardController.php       # Dashboard analitik & ringkasan status
+│   │   │   ├── ForgotPasswordController.php  # OTP verification & password reset
+│   │   │   ├── HomeManagerController.php     # Kelola konten landing page
+│   │   │   ├── KasirController.php           # Kasir POS & cetak nota transaksi
+│   │   │   ├── LandingController.php         # Landing page publik, katalog & portofolio
+│   │   │   ├── PaymentController.php         # Manajemen pembayaran & DP
+│   │   │   ├── PelangganController.php       # Sub-modul manajemen data pelanggan
+│   │   │   ├── PermissionController.php      # Matriks hak akses staf & level pelanggan
+│   │   │   ├── PortfolioController.php       # Admin CRUD data portofolio proyek
+│   │   │   ├── ProdukController.php          # CRUD produk, upload gambar & rentang harga
+│   │   │   ├── StatusOrderController.php     # Tracking alur status pengerjaan pesanan
+│   │   │   └── UserController.php            # Manajemen akun staf & admin internal
+│   │   └── Middleware/                       # CheckRole & CheckPermission guards
 │   ├── Models/
-│   │   ├── Branch.php                        # Model cabang & accessor iframe
-│   │   ├── Order.php                         # Model transaksi pesanan
-│   │   ├── Product.php                       # Model produk, rentang harga, & foto
-│   │   └── User.php                          # Model user, role & customer helper
+│   │   ├── ActivityLog.php                   # Model pencatatan log audit
+│   │   ├── Branch.php                        # Model showroom cabang & maps iframe
+│   │   ├── Category.php                      # Model kategori produk & slug
+│   │   ├── Order.php                         # Model pesanan & status constants/badges
+│   │   ├── Payment.php                       # Model pembayaran & bukti transfer
+│   │   ├── Portfolio.php                     # Model portofolio proyek & foto
+│   │   ├── Product.php                       # Model produk & rentang harga
+│   │   ├── RolePermission.php                # Model izin berbasis role / level pelanggan
+│   │   ├── User.php                          # Model user & helper hak akses
+│   │   └── UserPermission.php                # Model izin hak akses per akun staf
 │   └── Services/
-│       └── ActivityLogService.php            # Pencatatan audit trail aktivitas
+│       └── ActivityLogService.php            # Service audit logging aktivitas
 ├── database/
-│   ├── migrations/                           # Skema database & tabel OTP
+│   ├── migrations/                           # Skema migrasi tabel database
 │   └── seeders/
-│       ├── DatabaseSeeder.php                # Master seeder
-│       └── NeonBoxProductSeeder.php          # Seeder produk neon box & rentang harga
+│       ├── DatabaseSeeder.php                # Master database seeder
+│       ├── CategoryAndProductSeeder.php      # Seeder kategori & master produk reklame
+│       └── PortfolioSeeder.php               # Seeder data awal portofolio proyek
 ├── public/
-│   ├── images/                               # Aset visual hero neon box
-│   └── uploads/products/                     # Direktori upload foto produk asli
+│   ├── images/                               # Aset hero & banner visual
+│   └── uploads/                              # Direktori upload berkas dinamis
+│       ├── categories/                       # Upload cover kategori
+│       ├── payments/                         # Upload bukti transfer pembayaran
+│       ├── portfolios/                       # Upload foto hasil karya portofolio
+│       └── products/                         # Upload foto produk
 ├── resources/
 │   └── views/
-│       ├── auth/                             # View portal login, register, OTP
-│       ├── branches/                         # View cabang & iframe peta
-│       ├── customer/                         # View portal dashboard pelanggan
-│       ├── emails/                           # Template HTML email OTP
-│       ├── kasir/                            # View kasir POS
-│       ├── layouts/                          # Master layout (app & guest)
-│       ├── produk/                           # View kelola produk & upload foto
-│       └── landing.blade.php                 # Landing page resmi Kaligraph Design
-└── routes/
-    └── web.php                               # Definisi seluruh endpoint & route
+│       ├── activity_log/                     # View audit trail log aktivitas
+│       ├── akses/                            # View hak akses staf & level pelanggan
+│       ├── auth/                             # View login portal, register, OTP
+│       ├── branches/                         # View manajemen showroom & maps
+│       ├── customer/                         # View dashboard portal pelanggan
+│       ├── dashboard.blade.php               # View dashboard analitik admin
+│       ├── katalog/                          # View katalog publik (kategori, produk, detail)
+│       ├── kategori/                         # View admin kelola kategori
+│       ├── layouts/                          # Master layout app & guest
+│       ├── pelanggan/                        # View admin sub-modul data pelanggan
+│       ├── pembayaran/                       # View admin data pembayaran
+│       ├── portfolio/                        # View admin kelola portofolio
+│       ├── portofolio.blade.php              # View galeri portofolio publik
+│       ├── produk/                           # View admin kelola produk
+│       ├── status-order/                     # View admin tracking status order
+│       ├── users/                            # View admin manajemen staf & admin
+│       └── landing.blade.php                 # Landing page beranda
+├── routes/
+│   └── web.php                               # Definisi seluruh endpoint & rute aplikasi
+└── tests/
+    └── Feature/
+        └── CatalogAndAdminTest.php           # Test suite katalog, portofolio & admin
 ```
 
 ---

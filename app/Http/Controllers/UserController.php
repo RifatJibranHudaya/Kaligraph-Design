@@ -12,7 +12,13 @@ class UserController extends Controller
 {
     public function index()
     {
-        $users = User::with('branch')->latest('id')->paginate(15);
+        $users = User::with('branch')
+            ->where(function ($q) {
+                $q->whereNull('user_type')->orWhere('user_type', 'admin');
+            })
+            ->where('level', '!=', 'customer')
+            ->latest('id')
+            ->paginate(15);
         $branches = Branch::all();
         return view('users.index', compact('users', 'branches'));
     }

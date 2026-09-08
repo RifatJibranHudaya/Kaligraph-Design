@@ -99,6 +99,17 @@ class User extends Authenticatable
             default  => 'can_read',
         };
 
+        // For customer users, check role-based permissions first
+        if ($this->isCustomer() || $this->level === 'customer') {
+            $rolePerm = RolePermission::where('role', 'customer')
+                ->where('feature', $feature)
+                ->first();
+
+            if ($rolePerm) {
+                return (bool) $rolePerm->{$col};
+            }
+        }
+
         return $this->permissions()
             ->where('feature', $feature)
             ->where($col, true)
@@ -114,6 +125,8 @@ class User extends Authenticatable
             'owner'          => '👑 Owner',
             'admin'          => '🛡️ Admin',
             'admin_cadangan' => '🔵 Admin Cadangan',
+            'kasir'          => '💼 Kasir',
+            'customer'       => '🛍️ Pelanggan',
             default          => $this->level,
         };
     }
@@ -125,6 +138,8 @@ class User extends Authenticatable
             'owner'          => 'badge-owner',
             'admin'          => 'badge-admin',
             'admin_cadangan' => 'badge-cadangan',
+            'kasir'          => 'badge-kasir',
+            'customer'       => 'badge-customer',
             default          => 'badge-default',
         };
     }

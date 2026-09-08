@@ -11,6 +11,10 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
   
+  <!-- DataTables CSS -->
+  <link rel="stylesheet" href="https://cdn.datatables.net/1.13.7/css/dataTables.bootstrap5.min.css">
+  <link rel="stylesheet" href="https://cdn.datatables.net/responsive/2.5.0/css/responsive.bootstrap5.min.css">
+  
   <style>
     :root {
       --bg-main: #f8fafc;
@@ -149,6 +153,91 @@
       font-size: 18px;
       width: 24px;
       text-align: center;
+    }
+
+    /* Submenu Dropdown */
+    .menu-group {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .menu-group-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 10px 14px;
+      color: #94a3b8;
+      border-radius: 8px;
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+      user-select: none;
+      transition: all 0.2s;
+    }
+
+    .menu-group-header:hover, .menu-group.open .menu-group-header {
+      background-color: rgba(255, 255, 255, 0.05);
+      color: #f1f5f9;
+    }
+
+    .menu-group.active .menu-group-header {
+      color: #60a5fa;
+    }
+
+    .menu-group-left {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .menu-group-arrow {
+      font-size: 10px;
+      transition: transform 0.25s ease;
+      color: #64748b;
+    }
+
+    .menu-group.open .menu-group-arrow {
+      transform: rotate(180deg);
+      color: #60a5fa;
+    }
+
+    .submenu-list {
+      list-style: none;
+      padding: 4px 0 6px 36px;
+      margin: 0;
+      display: none;
+      flex-direction: column;
+      gap: 3px;
+      border-left: 2px solid rgba(255, 255, 255, 0.08);
+      margin-left: 24px;
+    }
+
+    .menu-group.open .submenu-list {
+      display: flex;
+    }
+
+    .submenu-item {
+      margin: 0;
+      padding: 0;
+    }
+
+    .submenu-link {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 7px 12px;
+      color: #94a3b8;
+      text-decoration: none;
+      border-radius: 6px;
+      font-size: 13px;
+      font-weight: 500;
+      transition: all 0.2s;
+    }
+
+    .submenu-link:hover, .submenu-link.active {
+      background-color: rgba(37, 99, 235, 0.18);
+      color: #60a5fa;
+      font-weight: 600;
     }
 
     .sidebar-user {
@@ -426,6 +515,12 @@
     .badge-warning { background: #fef3c7; color: #92400e; }
     .badge-danger  { background: #fee2e2; color: #991b1b; }
     .badge-purple  { background: #f3e8ff; color: #6b21a8; }
+    .badge-customer { background: #e0f2fe; color: #0369a1; border: 1px solid #bae6fd; }
+    .badge-superadmin { background: #fee2e2; color: #991b1b; font-weight: 700; }
+    .badge-owner { background: #f3e8ff; color: #6b21a8; font-weight: 700; }
+    .badge-admin { background: #dbeafe; color: #1e40af; font-weight: 700; }
+    .badge-kasir { background: #d1fae5; color: #065f46; font-weight: 700; }
+    .badge-cadangan { background: #e0e7ff; color: #3730a3; font-weight: 700; }
 
     /* Alert / Flash */
     .alert {
@@ -451,6 +546,133 @@
     .grid-3 { grid-template-columns: repeat(3, 1fr); }
     .grid-4 { grid-template-columns: repeat(4, 1fr); }
 
+    /* ─── DataTables Custom Styling ─── */
+    .dataTables_wrapper {
+      width: 100%;
+      position: relative;
+      clear: both;
+      padding: 4px 0;
+    }
+
+    .dataTables_wrapper .dataTables_length {
+      float: left;
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--text-muted);
+      margin-bottom: 16px;
+    }
+
+    .dataTables_wrapper .dataTables_length label {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .dataTables_wrapper .dataTables_length select {
+      padding: 6px 12px;
+      border-radius: 8px;
+      border: 1px solid var(--border-color);
+      background-color: var(--bg-main);
+      color: var(--text-main);
+      font-weight: 700;
+      font-size: 13px;
+      outline: none;
+      cursor: pointer;
+    }
+
+    .dataTables_wrapper .dataTables_filter {
+      float: right;
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--text-muted);
+      margin-bottom: 16px;
+    }
+
+    .dataTables_wrapper .dataTables_filter label {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .dataTables_wrapper .dataTables_filter input {
+      padding: 7px 14px;
+      border-radius: 8px;
+      border: 1px solid var(--border-color);
+      background-color: var(--bg-main);
+      color: var(--text-main);
+      font-size: 13px;
+      outline: none;
+      transition: border-color 0.2s, box-shadow 0.2s;
+      min-width: 220px;
+    }
+
+    .dataTables_wrapper .dataTables_filter input:focus {
+      border-color: var(--primary);
+      box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.15);
+    }
+
+    .dataTables_wrapper .dataTables_info {
+      float: left;
+      padding-top: 16px;
+      font-size: 13px;
+      color: var(--text-muted);
+      font-weight: 500;
+    }
+
+    .dataTables_wrapper .dataTables_paginate {
+      float: right;
+      padding-top: 14px;
+      display: flex;
+      gap: 4px;
+      align-items: center;
+      flex-wrap: wrap;
+    }
+
+    .dataTables_wrapper .dataTables_paginate .paginate_button {
+      padding: 6px 12px;
+      border-radius: 8px;
+      border: 1px solid var(--border-color) !important;
+      background: var(--bg-main) !important;
+      color: var(--text-main) !important;
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-width: 34px;
+      transition: all 0.2s;
+    }
+
+    .dataTables_wrapper .dataTables_paginate .paginate_button:hover {
+      background: var(--border-color) !important;
+      color: var(--text-main) !important;
+    }
+
+    .dataTables_wrapper .dataTables_paginate .paginate_button.current,
+    .dataTables_wrapper .dataTables_paginate .paginate_button.current:hover {
+      background: var(--primary) !important;
+      color: #fff !important;
+      border-color: var(--primary) !important;
+      box-shadow: 0 2px 6px rgba(37, 99, 235, 0.3);
+    }
+
+    .dataTables_wrapper .dataTables_paginate .paginate_button.disabled,
+    .dataTables_wrapper .dataTables_paginate .paginate_button.disabled:hover {
+      opacity: 0.4;
+      cursor: not-allowed;
+      background: var(--bg-main) !important;
+    }
+
+    table.dataTable thead th {
+      border-bottom: 2px solid var(--border-color) !important;
+    }
+
+    table.dataTable.no-footer {
+      border-bottom: 1px solid var(--border-color) !important;
+    }
+
     /* Responsive */
     @media (max-width: 1024px) {
       .grid-4 { grid-template-columns: repeat(2, 1fr); }
@@ -463,6 +685,25 @@
       .main-wrapper { margin-left: 0; }
       .toggle-sidebar-btn { display: block; }
       .grid-2, .grid-4 { grid-template-columns: 1fr; }
+
+      .dataTables_wrapper .dataTables_length,
+      .dataTables_wrapper .dataTables_filter,
+      .dataTables_wrapper .dataTables_info,
+      .dataTables_wrapper .dataTables_paginate {
+        float: none !important;
+        width: 100% !important;
+        justify-content: center;
+        text-align: center;
+        margin-left: 0;
+        margin-right: 0;
+      }
+      .dataTables_wrapper .dataTables_filter input {
+        width: 100%;
+        min-width: auto;
+      }
+      .dataTables_wrapper .dataTables_paginate {
+        justify-content: center;
+      }
     }
   </style>
   @yield('styles')
@@ -491,7 +732,7 @@
       </a>
       @endif
 
-      <div class="menu-header">Operasional</div>
+      <div class="menu-header">Produk & Katalog</div>
 
       @if(auth()->user()->hasPermission('produk'))
       <a href="{{ route('produk.index') }}" class="menu-item {{ request()->routeIs('produk.*') ? 'active' : '' }}">
@@ -499,36 +740,82 @@
       </a>
       @endif
 
-      @if(auth()->user()->hasPermission('stok'))
-      <a href="{{ route('stok.index') }}" class="menu-item {{ request()->routeIs('stok.*') ? 'active' : '' }}">
-        <span class="icon">📦</span> Kelola Stok
+      @if(auth()->user()->hasPermission('kategori'))
+      <a href="{{ route('kategori.index') }}" class="menu-item {{ request()->routeIs('kategori.*') ? 'active' : '' }}">
+        <span class="icon">📂</span> Kelola Kategori
       </a>
       @endif
 
-      @if(auth()->user()->hasPermission('produksi'))
-      <a href="{{ route('produksi.index') }}" class="menu-item {{ request()->routeIs('produksi.*') ? 'active' : '' }}">
-        <span class="icon">🏭</span> Produksi
+      @if(auth()->user()->hasPermission('portfolio'))
+      <a href="{{ route('portfolio.index') }}" class="menu-item {{ request()->routeIs('portfolio.*') ? 'active' : '' }}">
+        <span class="icon">🖼️</span> Kelola Portofolio
       </a>
       @endif
 
-      @if(auth()->user()->hasPermission('operasional'))
-      <a href="{{ route('operasional.index') }}" class="menu-item {{ request()->routeIs('operasional.*') ? 'active' : '' }}">
-        <span class="icon">🛠️</span> Operasional
+      <div class="menu-header">Manajemen Order</div>
+
+      @if(auth()->user()->hasPermission('status_order'))
+      <a href="{{ route('status_order.index') }}" class="menu-item {{ request()->routeIs('status_order.*') ? 'active' : '' }}">
+        <span class="icon">📋</span> Status Pengerjaan
+      </a>
+      @endif
+
+      @if(auth()->user()->hasPermission('pembayaran'))
+      <a href="{{ route('pembayaran.index') }}" class="menu-item {{ request()->routeIs('pembayaran.*') ? 'active' : '' }}">
+        <span class="icon">💳</span> Data Pembayaran
       </a>
       @endif
 
       <div class="menu-header">Pengaturan & Admin</div>
 
       @if(auth()->user()->hasPermission('users'))
-      <a href="{{ route('users.index') }}" class="menu-item {{ request()->routeIs('users.*') ? 'active' : '' }}">
-        <span class="icon">👥</span> Users
-      </a>
+      <!-- Sub-Modul Manajemen User -->
+      <div class="menu-group {{ request()->routeIs('users.*', 'pelanggan.*') ? 'active open' : '' }}">
+        <div class="menu-group-header" onclick="toggleSubmenu(this)">
+          <div class="menu-group-left">
+            <span class="icon">👥</span>
+            <span>Manajemen User</span>
+          </div>
+          <span class="menu-group-arrow">▼</span>
+        </div>
+        <ul class="submenu-list">
+          <li class="submenu-item">
+            <a href="{{ route('users.index') }}" class="submenu-link {{ request()->routeIs('users.*') ? 'active' : '' }}">
+              <span>🛡️</span> Admin & Staf
+            </a>
+          </li>
+          <li class="submenu-item">
+            <a href="{{ route('pelanggan.index') }}" class="submenu-link {{ request()->routeIs('pelanggan.*') ? 'active' : '' }}">
+              <span>🛍️</span> Pelanggan
+            </a>
+          </li>
+        </ul>
+      </div>
       @endif
 
       @if(auth()->user()->hasPermission('akses'))
-      <a href="{{ route('akses.index') }}" class="menu-item {{ request()->routeIs('akses.*') ? 'active' : '' }}">
-        <span class="icon">🔐</span> Kelola Akses
-      </a>
+      <!-- Sub-Modul Kelola Akses -->
+      <div class="menu-group {{ request()->routeIs('akses.*') ? 'active open' : '' }}">
+        <div class="menu-group-header" onclick="toggleSubmenu(this)">
+          <div class="menu-group-left">
+            <span class="icon">🔐</span>
+            <span>Kelola Akses</span>
+          </div>
+          <span class="menu-group-arrow">▼</span>
+        </div>
+        <ul class="submenu-list">
+          <li class="submenu-item">
+            <a href="{{ route('akses.index') }}" class="submenu-link {{ request()->routeIs('akses.index') && !request()->routeIs('akses.pelanggan*') ? 'active' : '' }}">
+              <span>🛡️</span> Admin & Staf
+            </a>
+          </li>
+          <li class="submenu-item">
+            <a href="{{ route('akses.pelanggan') }}" class="submenu-link {{ request()->routeIs('akses.pelanggan*') ? 'active' : '' }}">
+              <span>🛍️</span> Pelanggan
+            </a>
+          </li>
+        </ul>
+      </div>
       @endif
 
       @if(auth()->user()->isOwner())
@@ -631,9 +918,22 @@
     </main>
   </div>
 
+  <!-- jQuery & DataTables JS -->
+  <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+  <script src="https://cdn.datatables.net/1.13.7/js/jquery.dataTables.min.js"></script>
+  <script src="https://cdn.datatables.net/1.13.7/js/dataTables.bootstrap5.min.js"></script>
+  <script src="https://cdn.datatables.net/responsive/2.5.0/js/dataTables.responsive.min.js"></script>
+
   <script>
     function toggleSidebar() {
       document.getElementById('sidebar').classList.toggle('open');
+    }
+
+    function toggleSubmenu(header) {
+      const group = header.closest('.menu-group');
+      if (group) {
+        group.classList.toggle('open');
+      }
     }
 
     function toggleTheme() {
@@ -649,6 +949,31 @@
     const savedTheme = localStorage.getItem('theme') || 'light';
     document.documentElement.setAttribute('data-theme', savedTheme);
     document.getElementById('themeBtn').textContent = savedTheme === 'dark' ? '☀️' : '🌙';
+
+    // Global default DataTables config
+    if (typeof $.fn.dataTable !== 'undefined') {
+      $.extend(true, $.fn.dataTable.defaults, {
+        responsive: true,
+        pageLength: 25,
+        lengthMenu: [[10, 25, 50, 100, -1], [10, 25, 50, 100, "Semua"]],
+        language: {
+          search: "Cari:",
+          searchPlaceholder: "Ketik untuk mencari...",
+          lengthMenu: "Tampilkan _MENU_ data",
+          info: "Menampilkan _START_ - _END_ dari _TOTAL_ data",
+          infoEmpty: "Menampilkan 0 data",
+          infoFiltered: "(difilter dari _MAX_ total data)",
+          zeroRecords: "Tidak ada data yang cocok ditemukan",
+          emptyTable: "Belum ada data tersedia",
+          paginate: {
+            first: "«",
+            previous: "‹",
+            next: "›",
+            last: "»"
+          }
+        }
+      });
+    }
   </script>
 
   @yield('scripts')
