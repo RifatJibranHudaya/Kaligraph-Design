@@ -1021,7 +1021,7 @@
 
   <div style="flex:1; display:flex; flex-direction:column; justify-content:space-between; min-height:90vh;">
     <div class="hero-content" style="padding-top: 80px; padding-bottom: 60px; flex: 1; display: flex; flex-direction: column; justify-content: center;">
-      @php $hero = $homeContents->get('hero')?->first(); @endphp
+      @php $heroData = $homeContents->get('hero'); $hero = $heroData && count($heroData) > 0 ? $heroData[0] : null; @endphp
       <div class="hero-badge">
         ⚡ {{ $hero->subtitle ?? 'Spesialis Neon Box & Signage Custom' }}
       </div>
