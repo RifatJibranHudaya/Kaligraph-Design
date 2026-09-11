@@ -94,12 +94,14 @@ class User extends Authenticatable
     {
         if ($this->isSuperadmin()) return true;
 
-        $col = match ($action) {
-            'create' => 'can_create',
-            'update' => 'can_update',
-            'delete' => 'can_delete',
-            default  => 'can_read',
-        };
+        $col = 'can_read';
+        if ($action === 'create') {
+            $col = 'can_create';
+        } elseif ($action === 'update') {
+            $col = 'can_update';
+        } elseif ($action === 'delete') {
+            $col = 'can_delete';
+        }
 
         // For customer users, check role-based permissions first
         if ($this->isCustomer() || $this->level === 'customer') {
@@ -122,28 +124,42 @@ class User extends Authenticatable
 
     public function levelLabel(): string
     {
-        return match ($this->level) {
-            'superadmin'     => '⭐ Superadmin',
-            'owner'          => '👑 Owner',
-            'admin'          => '🛡️ Admin',
-            'admin_cadangan' => '🔵 Admin Cadangan',
-            'kasir'          => '💼 Kasir',
-            'customer'       => '🛍️ Pelanggan',
-            default          => $this->level,
-        };
+        switch ($this->level) {
+            case 'superadmin':
+                return '⭐ Superadmin';
+            case 'owner':
+                return '👑 Owner';
+            case 'admin':
+                return '🛡️ Admin';
+            case 'admin_cadangan':
+                return '🔵 Admin Cadangan';
+            case 'kasir':
+                return '💼 Kasir';
+            case 'customer':
+                return '🛍️ Pelanggan';
+            default:
+                return $this->level;
+        }
     }
 
     public function levelBadgeClass(): string
     {
-        return match ($this->level) {
-            'superadmin'     => 'badge-superadmin',
-            'owner'          => 'badge-owner',
-            'admin'          => 'badge-admin',
-            'admin_cadangan' => 'badge-cadangan',
-            'kasir'          => 'badge-kasir',
-            'customer'       => 'badge-customer',
-            default          => 'badge-default',
-        };
+        switch ($this->level) {
+            case 'superadmin':
+                return 'badge-superadmin';
+            case 'owner':
+                return 'badge-owner';
+            case 'admin':
+                return 'badge-admin';
+            case 'admin_cadangan':
+                return 'badge-cadangan';
+            case 'kasir':
+                return 'badge-kasir';
+            case 'customer':
+                return 'badge-customer';
+            default:
+                return 'badge-default';
+        }
     }
 
     public function initial(): string

@@ -296,7 +296,8 @@
 
         <!-- Tombol Aksi -->
         <div style="display:flex; flex-direction:column; gap:10px;">
-          <a href="{{ route('pembayaran.nota', $allPayments->first()?->id ?? '#') }}" target="_blank" class="btn btn-secondary" style="justify-content:center;">
+          @php $firstPayment = $allPayments && count($allPayments) > 0 ? $allPayments[0] : null; @endphp
+          <a href="{{ $firstPayment ? route('pembayaran.nota', $firstPayment->id) : '#' }}" target="_blank" class="btn btn-secondary" style="justify-content:center;">
             🖨️ Cetak Nota
           </a>
           <button type="button" class="btn btn-primary" onclick="document.getElementById('sendWaModal').style.display='flex'" style="justify-content:center;">

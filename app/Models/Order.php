@@ -71,13 +71,18 @@ class Order extends Model
      */
     public function getStatusBadgeAttribute(): string
     {
-        return match ($this->status) {
-            self::STATUS_ORDER       => 'badge-primary',
-            self::STATUS_ON_PROGRESS => 'badge-warning',
-            self::STATUS_SELESAI     => 'badge-success',
-            self::STATUS_CANCELLED   => 'badge-danger',
-            default                  => 'badge-primary',
-        };
+        switch ($this->status) {
+            case self::STATUS_ORDER:
+                return 'badge-primary';
+            case self::STATUS_ON_PROGRESS:
+                return 'badge-warning';
+            case self::STATUS_SELESAI:
+                return 'badge-success';
+            case self::STATUS_CANCELLED:
+                return 'badge-danger';
+            default:
+                return 'badge-primary';
+        }
     }
 
     public function getStatusBadgeClassAttribute(): string

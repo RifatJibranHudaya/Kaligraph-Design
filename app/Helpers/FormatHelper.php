@@ -44,14 +44,21 @@ class FormatHelper
      */
     public static function levelBadgeClass(string $level): string
     {
-        return match (strtolower($level)) {
-            'superadmin' => 'bg-danger text-white',
-            'owner'      => 'bg-purple text-white',
-            'admin'      => 'bg-primary text-white',
-            'kasir'      => 'bg-success text-white',
-            'customer'   => 'bg-info text-white',
-            default      => 'bg-secondary text-white',
-        };
+        $level = strtolower($level);
+        switch ($level) {
+            case 'superadmin':
+                return 'bg-danger text-white';
+            case 'owner':
+                return 'bg-purple text-white';
+            case 'admin':
+                return 'bg-primary text-white';
+            case 'kasir':
+                return 'bg-success text-white';
+            case 'customer':
+                return 'bg-info text-white';
+            default:
+                return 'bg-secondary text-white';
+        }
     }
 
     /**
