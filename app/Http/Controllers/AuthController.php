@@ -124,7 +124,8 @@ class AuthController extends Controller
 
         ActivityLogService::log('login_customer', 'auth', 'Customer logged in: ' . $user->username);
 
-        return redirect()->intended(route('customer.dashboard'))->with('success', 'Selamat datang di Portal Pelanggan, ' . ($user->username ?? 'Pelanggan') . '!');
+        $usernameDisplay = $user->username ?: 'Pelanggan';
+        return redirect()->intended(route('customer.dashboard'))->with('success', 'Selamat datang di Portal Pelanggan, ' . $usernameDisplay . '!');
     }
 
     /**

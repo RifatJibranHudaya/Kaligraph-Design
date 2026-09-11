@@ -141,8 +141,8 @@ class StatusOrderController extends Controller
             $results[] = [
                 'type'   => 'Pelanggan Terdaftar',
                 'nama'   => $c->username,
-                'no_hp'  => $c->phone ?? '',
-                'email'  => $c->email ?? '',
+                'no_hp'  => $c->phone ?: '',
+                'email'  => $c->email ?: '',
                 'alamat' => '',
             ];
         }
@@ -151,9 +151,9 @@ class StatusOrderController extends Controller
             $results[] = [
                 'type'   => 'Riwayat Pesanan',
                 'nama'   => $po->nama_pelanggan,
-                'no_hp'  => $po->no_hp ?? '',
+                'no_hp'  => $po->no_hp ?: '',
                 'email'  => '',
-                'alamat' => $po->alamat ?? '',
+                'alamat' => $po->alamat ?: '',
             ];
         }
 

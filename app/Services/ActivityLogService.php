@@ -22,7 +22,7 @@ class ActivityLogService
             'module'      => $module,
             'target_id'   => $targetId,
             'description' => $description,
-            'ip_address'  => Request::ip() ?? '0.0.0.0',
+            'ip_address'  => Request::ip() ?: '0.0.0.0',
             'created_at'  => now(),
         ]);
     }

@@ -46,11 +46,11 @@ class OperasionalController extends Controller
             'user_id'       => $user->id,
             'nama_alat'     => $validated['nama_alat'],
             'harga'         => $validated['harga'],
-            'tempat_beli'   => $validated['tempat_beli'] ?? null,
-            'merk'          => $validated['merk'] ?? null,
-            'periode_ganti' => $validated['periode_ganti'] ?? null,
+            'tempat_beli'   => isset($validated['tempat_beli']) ? $validated['tempat_beli'] : null,
+            'merk'          => isset($validated['merk']) ? $validated['merk'] : null,
+            'periode_ganti' => isset($validated['periode_ganti']) ? $validated['periode_ganti'] : null,
             'tanggal_beli'  => $validated['tanggal_beli'],
-            'keterangan'    => $validated['keterangan'] ?? null,
+            'keterangan'    => isset($validated['keterangan']) ? $validated['keterangan'] : null,
         ]);
 
         ActivityLogService::log(

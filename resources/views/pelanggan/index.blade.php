@@ -70,7 +70,8 @@
         <tbody>
           @forelse($customers as $c)
             @php
-              $cleanPhone = preg_replace('/[^0-9]/', '', $c->phone ?? '');
+              $phoneVal = $c->phone ?: '';
+              $cleanPhone = preg_replace('/[^0-9]/', '', $phoneVal);
               if (str_starts_with($cleanPhone, '0')) {
                 $cleanPhone = '62' . substr($cleanPhone, 1);
               }
@@ -98,9 +99,9 @@
               </td>
               <td>
                 <span class="badge badge-primary" style="font-size:11px;">
-                  {{ $c->orders_count ?? 0 }} Pesanan
+                  {{ $c->orders_count ?: 0 }} Pesanan
                 </span>
-                @if(($c->orders_sum_total ?? 0) > 0)
+                @if(($c->orders_sum_total ?: 0) > 0)
                   <div style="font-size:11px; font-weight:700; color:var(--primary); margin-top:2px;">
                     {{ \App\Helpers\FormatHelper::rupiah($c->orders_sum_total) }}
                   </div>

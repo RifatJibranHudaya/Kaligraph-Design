@@ -91,7 +91,7 @@ class PermissionController extends Controller
         $permissions = $request->input('permissions', []);
 
         foreach ($this->features as $featureKey => $featureName) {
-            $perms = $permissions[$featureKey] ?? [];
+            $perms = isset($permissions[$featureKey]) ? $permissions[$featureKey] : [];
 
             UserPermission::updateOrCreate(
                 [
@@ -125,7 +125,7 @@ class PermissionController extends Controller
         $permissions = $request->input('permissions', []);
 
         foreach ($this->customerFeatures as $featureKey => $featureInfo) {
-            $perms = $permissions[$featureKey] ?? [];
+            $perms = isset($permissions[$featureKey]) ? $permissions[$featureKey] : [];
 
             RolePermission::updateOrCreate(
                 [

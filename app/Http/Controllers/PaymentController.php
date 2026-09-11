@@ -165,9 +165,12 @@ class PaymentController extends Controller
         $notaText .= "📋 *Detail Order*\n";
         $notaText .= "━━━━━━━━━━━━━━━━━━━━\n";
         $notaText .= "Nama Pelanggan: {$order->nama_pelanggan}\n";
-        $notaText .= "No. HP: {$order->no_hp ?? '-'}\n";
-        $notaText .= "Kategori: {$order->kategori ?? '-'}\n";
-        $notaText .= "Alamat: {$order->alamat ?? '-'}\n\n";
+        $noHpVal = $order->no_hp ?: '-';
+        $kategoriVal = $order->kategori ?: '-';
+        $alamatVal = $order->alamat ?: '-';
+        $notaText .= "No. HP: {$noHpVal}\n";
+        $notaText .= "Kategori: {$kategoriVal}\n";
+        $notaText .= "Alamat: {$alamatVal}\n\n";
         
         $notaText .= "💰 *Rincian Pembayaran*\n";
         $notaText .= "━━━━━━━━━━━━━━━━━━━━\n";
@@ -195,8 +198,10 @@ class PaymentController extends Controller
             'selesai' => 'Selesai',
             'cancelled' => 'Dibatalkan',
         ];
-        $notaText .= "Status: *" . ($statusLabels[$order->status] ?? $order->status) . "*\n";
-        $notaText .= "Keterangan: {$order->keterangan ?? '-'}\n\n";
+        $statusLabel = isset($statusLabels[$order->status]) ? $statusLabels[$order->status] : $order->status;
+        $notaText .= "Status: *{$statusLabel}*\n";
+        $keteranganVal = $order->keterangan ?: '-';
+        $notaText .= "Keterangan: {$keteranganVal}\n\n";
 
         // Tambahkan pesan tambahan jika ada
         if (!empty($validated['pesan_tambahan'])) {
