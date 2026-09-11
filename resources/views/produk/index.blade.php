@@ -1,13 +1,13 @@
 @extends('layouts.app')
 
-@section('title', 'Kelola Produk & Signage')
+@section('title', 'Kelola Produk')
 
 @section('content')
 <div class="grid grid-2">
   <!-- Form Tambah Produk -->
   <div class="card">
     <div class="card-header">
-      <h3 class="card-title">Tambah Produk Signage Baru</h3>
+      <h3 class="card-title">Tambah Produk</h3>
     </div>
     <form method="POST" action="{{ route('produk.store') }}" enctype="multipart/form-data">
       @csrf

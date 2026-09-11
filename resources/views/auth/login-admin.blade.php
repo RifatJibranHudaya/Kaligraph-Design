@@ -93,22 +93,9 @@
     color: var(--text-main);
   }
 
-  .input-wrapper {
-    position: relative;
-  }
-
-  .input-icon {
-    position: absolute;
-    left: 16px;
-    top: 50%;
-    transform: translateY(-50%);
-    font-size: 16px;
-    color: var(--text-muted);
-  }
-
   .form-control {
     width: 100%;
-    padding: 12px 16px 12px 44px;
+    padding: 12px 16px;
     border-radius: 12px;
     border: 1px solid var(--border-color);
     background: var(--bg-main);
@@ -226,18 +213,12 @@
       @csrf
       <div class="form-group">
         <label class="form-label">Username atau Email Admin</label>
-        <div class="input-wrapper">
-          <span class="input-icon">👤</span>
-          <input type="text" name="username" class="form-control" placeholder="Masukkan username / email" value="{{ old('username') }}" required autofocus>
-        </div>
+        <input type="text" name="username" class="form-control" placeholder="Masukkan username / email" value="{{ old('username') }}" required autofocus>
       </div>
 
       <div class="form-group">
         <label class="form-label">Password</label>
-        <div class="input-wrapper">
-          <span class="input-icon">🔒</span>
-          <input type="password" name="password" class="form-control" placeholder="Masukkan password" required>
-        </div>
+        <input type="password" name="password" class="form-control" placeholder="Masukkan password" required>
       </div>
 
       <div class="auth-links-row">

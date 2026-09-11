@@ -93,22 +93,9 @@
     color: var(--text-main);
   }
 
-  .input-wrapper {
-    position: relative;
-  }
-
-  .input-icon {
-    position: absolute;
-    left: 16px;
-    top: 50%;
-    transform: translateY(-50%);
-    font-size: 16px;
-    color: var(--text-muted);
-  }
-
   .form-control {
     width: 100%;
-    padding: 12px 16px 12px 44px;
+    padding: 12px 16px;
     border-radius: 12px;
     border: 1px solid var(--border-color);
     background: var(--bg-main);
@@ -226,18 +213,12 @@
       @csrf
       <div class="form-group">
         <label class="form-label">Email atau Username</label>
-        <div class="input-wrapper">
-          <span class="input-icon">✉️</span>
-          <input type="text" name="email" class="form-control" placeholder="contoh: nama@email.com" value="{{ old('email') }}" required autofocus>
-        </div>
+        <input type="text" name="email" class="form-control" placeholder="contoh: nama@email.com" value="{{ old('email') }}" required autofocus>
       </div>
 
       <div class="form-group">
         <label class="form-label">Kata Sandi</label>
-        <div class="input-wrapper">
-          <span class="input-icon">🔒</span>
-          <input type="password" name="password" class="form-control" placeholder="Masukkan kata sandi" required>
-        </div>
+        <input type="password" name="password" class="form-control" placeholder="Masukkan kata sandi" required>
       </div>
 
       <div class="auth-links-row">

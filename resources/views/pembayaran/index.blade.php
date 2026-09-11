@@ -123,11 +123,16 @@
                 @endif
               </td>
               <td>
-                <form method="POST" action="{{ route('pembayaran.destroy', $pay->id) }}" onsubmit="return confirm('Hapus data pembayaran ini?')">
-                  @csrf
-                  @method('DELETE')
-                  <button type="submit" class="btn btn-sm btn-danger">🗑️</button>
-                </form>
+                <div style="display:flex; gap:6px; align-items:center;">
+                  <a href="{{ route('pembayaran.nota', $pay->id) }}" target="_blank" class="btn btn-sm btn-secondary" style="font-size:11px; padding:4px 8px; white-space:nowrap;" title="Cetak Nota Pembayaran">
+                    🖨️ Nota
+                  </a>
+                  <form method="POST" action="{{ route('pembayaran.destroy', $pay->id) }}" onsubmit="return confirm('Hapus data pembayaran ini?')">
+                    @csrf
+                    @method('DELETE')
+                    <button type="submit" class="btn btn-sm btn-danger" style="padding:4px 8px;" title="Hapus Pembayaran">🗑️</button>
+                  </form>
+                </div>
               </td>
             </tr>
           @empty

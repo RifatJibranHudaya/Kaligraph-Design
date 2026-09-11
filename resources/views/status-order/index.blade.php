@@ -211,11 +211,6 @@
               <a href="{{ route('pembayaran.index', ['order_id' => $ord->id]) }}" class="btn btn-sm btn-secondary" style="font-size:11px;">
                 Catat Bayar
               </a>
-              @if(Route::has('kasir.receipt'))
-                <a href="{{ route('kasir.receipt', $ord->id) }}" target="_blank" class="btn btn-sm btn-secondary" style="font-size:11px;">
-                Nota / Resi
-                </a>
-              @endif
             </div>
           </td>
         </tr>
@@ -243,19 +238,40 @@
     </div>
     <form method="POST" action="{{ route('status_order.store') }}">
       @csrf
-      <div class="form-group">
-        <label class="form-label">Nama Pelanggan *</label>
-        <input type="text" name="nama_pelanggan" class="form-control" placeholder="cth. Bpk. Hendra - Toko Sentosa" required>
+      
+      <!-- Nama Pelanggan with AJAX Auto Complete -->
+      <div class="form-group" style="position:relative;">
+        <label class="form-label" style="display:flex; justify-content:space-between; align-items:center;">
+          <span>Nama Pelanggan *</span>
+          <span style="font-size:11px; font-weight:normal; color:var(--primary); display:inline-flex; align-items:center; gap:4px;">
+            ⚡ Auto-complete Data Pelanggan
+          </span>
+        </label>
+        <div style="position:relative;">
+          <input type="text" name="nama_pelanggan" id="order_nama_pelanggan" class="form-control" placeholder="Ketik nama atau no HP pelanggan..." autocomplete="off" required>
+          <div id="cust_search_spinner" style="display:none; position:absolute; right:12px; top:50%; transform:translateY(-50%); font-size:11px; color:var(--primary); font-weight:600;">
+            ⏳ Mencari...
+          </div>
+        </div>
+
+        <!-- Autocomplete Suggestions Box -->
+        <div id="cust_autocomplete_box" style="display:none; position:absolute; top:100%; left:0; right:0; background:var(--bg-card); border:1px solid var(--border-color); border-radius:12px; box-shadow:0 12px 30px rgba(0,0,0,0.18); z-index:10000; max-height:220px; overflow-y:auto; margin-top:4px;">
+        </div>
       </div>
 
       <div class="grid grid-2">
         <div class="form-group">
           <label class="form-label">Nomor WhatsApp / HP</label>
-          <input type="text" name="no_hp" class="form-control" placeholder="cth. 081234567890">
+          <input type="text" name="no_hp" id="order_no_hp" class="form-control" placeholder="cth. 081234567890">
         </div>
         <div class="form-group">
           <label class="form-label">Kategori Pekerjaan</label>
-          <input type="text" name="kategori" class="form-control" placeholder="cth. Neon Box, Kanopi, Huruf Timbul">
+          <select name="kategori" class="form-control">
+            <option value="">-- Pilih Kategori Pekerjaan --</option>
+            @foreach($categories as $cat)
+              <option value="{{ $cat->nama }}">{{ $cat->emoji ?: '📂' }} {{ $cat->nama }}</option>
+            @endforeach
+          </select>
         </div>
       </div>
 
@@ -266,7 +282,7 @@
 
       <div class="form-group">
         <label class="form-label">Alamat / Lokasi Pemasangan</label>
-        <textarea name="alamat" class="form-control" rows="2" placeholder="Alamat lengkap tujuan kirim atau survey lokasi..."></textarea>
+        <textarea name="alamat" id="order_alamat" class="form-control" rows="2" placeholder="Alamat lengkap tujuan kirim atau survey lokasi..."></textarea>
       </div>
 
       <div class="form-group">
@@ -281,5 +297,136 @@
     </form>
   </div>
 </div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  const inputNama = document.getElementById('order_nama_pelanggan');
+  const inputNoHp = document.getElementById('order_no_hp');
+  const inputAlamat = document.getElementById('order_alamat');
+  const autocompleteBox = document.getElementById('cust_autocomplete_box');
+  const spinner = document.getElementById('cust_search_spinner');
+
+  let debounceTimer = null;
+
+  if (inputNama && autocompleteBox) {
+    inputNama.addEventListener('input', function() {
+      const query = this.value.trim();
+      clearTimeout(debounceTimer);
+
+      if (query.length < 2) {
+        autocompleteBox.style.display = 'none';
+        autocompleteBox.innerHTML = '';
+        if (spinner) spinner.style.display = 'none';
+        return;
+      }
+
+      if (spinner) spinner.style.display = 'block';
+
+      debounceTimer = setTimeout(() => {
+        fetch(`{{ route('status_order.search_pelanggan') }}?q=${encodeURIComponent(query)}`, {
+          headers: {
+            'X-Requested-With': 'XMLHttpRequest',
+            'Accept': 'application/json'
+          }
+        })
+        .then(res => res.json())
+        .then(data => {
+          if (spinner) spinner.style.display = 'none';
+          if (!data || data.length === 0) {
+            autocompleteBox.innerHTML = `
+              <div style="padding:12px 16px; font-size:12px; color:var(--text-muted); text-align:center;">
+                Tidak ada data pelanggan yang cocok. Anda dapat langsung mengetik nama baru.
+              </div>
+            `;
+            autocompleteBox.style.display = 'block';
+            return;
+          }
+
+          let html = '';
+          data.forEach((item, index) => {
+            const isReg = item.type === 'Pelanggan Terdaftar';
+            const badgeBg = isReg ? 'rgba(99, 102, 241, 0.15)' : 'rgba(245, 158, 11, 0.15)';
+            const badgeColor = isReg ? 'var(--primary)' : 'var(--warning)';
+
+            html += `
+              <div class="cust-autocomplete-item" 
+                   data-index="${index}" 
+                   style="padding:10px 14px; cursor:pointer; border-bottom:1px solid var(--border-color); display:flex; justify-content:space-between; align-items:center; transition:background 0.15s;"
+                   onmouseover="this.style.background='var(--bg-hover, rgba(99, 102, 241, 0.08))'"
+                   onmouseout="this.style.background='transparent'">
+                <div>
+                  <div style="font-weight:700; font-size:13px; color:var(--text-main); display:flex; align-items:center; gap:6px;">
+                    <span>👤 ${escapeHtml(item.nama)}</span>
+                  </div>
+                  <div style="font-size:11px; color:var(--text-muted); margin-top:2px; display:flex; gap:10px; flex-wrap:wrap;">
+                    ${item.no_hp ? `<span>📞 ${escapeHtml(item.no_hp)}</span>` : ''}
+                    ${item.email ? `<span>✉️ ${escapeHtml(item.email)}</span>` : ''}
+                    ${item.alamat ? `<span>📍 ${escapeHtml(item.alamat)}</span>` : ''}
+                  </div>
+                </div>
+                <span style="font-size:10px; font-weight:700; padding:2px 8px; border-radius:6px; background:${badgeBg}; color:${badgeColor}; white-space:nowrap;">
+                  ${escapeHtml(item.type)}
+                </span>
+              </div>
+            `;
+          });
+
+          autocompleteBox.innerHTML = html;
+          autocompleteBox.style.display = 'block';
+
+          // Attach click listeners to generated items
+          const items = autocompleteBox.querySelectorAll('.cust-autocomplete-item');
+          items.forEach(el => {
+            el.addEventListener('click', function() {
+              const idx = this.getAttribute('data-index');
+              const selected = data[idx];
+              if (selected) {
+                inputNama.value = selected.nama;
+                if (selected.no_hp && inputNoHp) {
+                  inputNoHp.value = selected.no_hp;
+                }
+                if (selected.alamat && inputAlamat) {
+                  inputAlamat.value = selected.alamat;
+                }
+              }
+              autocompleteBox.style.display = 'none';
+            });
+          });
+        })
+        .catch(err => {
+          if (spinner) spinner.style.display = 'none';
+          console.error('Error fetching customers:', err);
+        });
+      }, 250);
+    });
+
+    // Close suggestions box on outside click
+    document.addEventListener('click', function(e) {
+      if (!inputNama.contains(e.target) && !autocompleteBox.contains(e.target)) {
+        autocompleteBox.style.display = 'none';
+      }
+    });
+
+    // Close on Escape key
+    inputNama.addEventListener('keydown', function(e) {
+      if (e.key === 'Escape') {
+        autocompleteBox.style.display = 'none';
+      }
+    });
+  }
+
+  function escapeHtml(text) {
+    if (!text) return '';
+    const map = {
+      '&': '&amp;',
+      '<': '&lt;',
+      '>': '&gt;',
+      '"': '&quot;',
+      "'": '&#039;'
+    };
+    return text.toString().replace(/[&<>"']/g, m => map[m]);
+  }
+});
+</script>
 
 @endsection

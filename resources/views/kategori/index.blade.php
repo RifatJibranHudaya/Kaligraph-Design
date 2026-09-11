@@ -16,15 +16,9 @@
         <input type="text" name="nama" class="form-control" placeholder="cth. Neon Box Akrilik & LED" value="{{ old('nama') }}" required>
       </div>
 
-      <div class="grid grid-2">
-        <div class="form-group">
-          <label class="form-label">Emoji / Ikon</label>
-          <input type="text" name="emoji" class="form-control" placeholder="cth. 💡 atau 🔤" value="{{ old('emoji') }}">
-        </div>
-        <div class="form-group">
-          <label class="form-label">Nomor Urutan</label>
-          <input type="number" name="urutan" class="form-control" placeholder="cth. 1" value="{{ old('urutan') }}">
-        </div>
+      <div class="form-group">
+        <label class="form-label">Nomor Urutan</label>
+        <input type="number" name="urutan" class="form-control" placeholder="cth. 1" value="{{ old('urutan') }}">
       </div>
 
       <div class="form-group">
@@ -99,7 +93,7 @@
               </td>
               <td>
                 <div style="display:flex; gap:6px;">
-                  <button type="button" class="btn btn-sm btn-secondary" onclick="openEditCatModal({{ $cat->id }}, '{{ addslashes($cat->nama) }}', '{{ addslashes($cat->emoji ?? '') }}', {{ $cat->urutan ?? 0 }}, '{{ addslashes($cat->deskripsi ?? '') }}', '{{ $cat->foto_url ?? '' }}', {{ $cat->is_active ? 'true' : 'false' }})">
+                  <button type="button" class="btn btn-sm btn-secondary" onclick="openEditCatModal({{ $cat->id }}, '{{ addslashes($cat->nama) }}', {{ $cat->urutan ?? 0 }}, '{{ addslashes($cat->deskripsi ?? '') }}', '{{ $cat->foto_url ?? '' }}', {{ $cat->is_active ? 'true' : 'false' }})">
                     ✏️
                   </button>
                   <form method="POST" action="{{ route('kategori.destroy', $cat->id) }}" onsubmit="return confirm('Hapus kategori {{ $cat->nama }}?')">
@@ -138,15 +132,9 @@
         <input type="text" name="nama" id="edit_cat_nama" class="form-control" required>
       </div>
 
-      <div class="grid grid-2">
-        <div class="form-group">
-          <label class="form-label">Emoji / Ikon</label>
-          <input type="text" name="emoji" id="edit_cat_emoji" class="form-control">
-        </div>
-        <div class="form-group">
-          <label class="form-label">Nomor Urutan</label>
-          <input type="number" name="urutan" id="edit_cat_urutan" class="form-control">
-        </div>
+      <div class="form-group">
+        <label class="form-label">Nomor Urutan</label>
+        <input type="number" name="urutan" id="edit_cat_urutan" class="form-control">
       </div>
 
       <div class="form-group">
@@ -205,10 +193,9 @@ function previewCatImage(input, targetImgId) {
   }
 }
 
-function openEditCatModal(id, nama, emoji, urutan, deskripsi, fotoUrl, isActive) {
+function openEditCatModal(id, nama, urutan, deskripsi, fotoUrl, isActive) {
   document.getElementById('editCatForm').action = "{{ url('kategori') }}/" + id;
   document.getElementById('edit_cat_nama').value = nama;
-  document.getElementById('edit_cat_emoji').value = emoji;
   document.getElementById('edit_cat_urutan').value = urutan;
   document.getElementById('edit_cat_deskripsi').value = deskripsi;
   document.getElementById('edit_cat_is_active').checked = isActive;

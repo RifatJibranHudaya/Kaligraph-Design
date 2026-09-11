@@ -8,13 +8,13 @@ use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\ForgotPasswordController;
 use App\Http\Controllers\HomeManagerController;
-use App\Http\Controllers\KasirController;
 use App\Http\Controllers\LandingController;
 use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\PelangganController;
 use App\Http\Controllers\PermissionController;
 use App\Http\Controllers\PortfolioController;
 use App\Http\Controllers\ProdukController;
+use App\Http\Controllers\SettingController;
 use App\Http\Controllers\StatusOrderController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
@@ -35,6 +35,7 @@ Route::get('/katalog/{slug}/{product}', [LandingController::class, 'productDetai
 
 // Public Portfolio Page
 Route::get('/portofolio', [LandingController::class, 'portfolio'])->name('portofolio');
+
 
 // Auth Routes (Guest only)
 Route::middleware('guest')->group(function () {
@@ -76,14 +77,6 @@ Route::middleware('auth')->group(function () {
     // Admin Dashboard
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
 
-    // Kasir POS
-    Route::prefix('kasir')->name('kasir.')->middleware('permission:kasir')->group(function () {
-        Route::get('/', [KasirController::class, 'index'])->name('index');
-        Route::post('/', [KasirController::class, 'store'])->name('store');
-        Route::get('/receipt/{order}', [KasirController::class, 'receipt'])->name('receipt');
-        Route::get('/history', [KasirController::class, 'history'])->name('history');
-    });
-
     // Produk
     Route::prefix('produk')->name('produk.')->middleware('permission:produk')->group(function () {
         Route::get('/', [ProdukController::class, 'index'])->name('index');
@@ -115,6 +108,7 @@ Route::middleware('auth')->group(function () {
     Route::prefix('pembayaran')->name('pembayaran.')->middleware('permission:pembayaran')->group(function () {
         Route::get('/', [PaymentController::class, 'index'])->name('index');
         Route::post('/', [PaymentController::class, 'store'])->name('store');
+        Route::get('/{payment}/nota', [PaymentController::class, 'nota'])->name('nota');
         Route::delete('/{payment}', [PaymentController::class, 'destroy'])->name('destroy');
     });
 
@@ -122,6 +116,7 @@ Route::middleware('auth')->group(function () {
     Route::prefix('status-order')->name('status_order.')->middleware('permission:status_order')->group(function () {
         Route::get('/', [StatusOrderController::class, 'index'])->name('index');
         Route::post('/', [StatusOrderController::class, 'store'])->name('store');
+        Route::get('/search-pelanggan', [StatusOrderController::class, 'searchPelanggan'])->name('search_pelanggan');
         Route::put('/{order}/status', [StatusOrderController::class, 'updateStatus'])->name('update_status');
     });
 
@@ -171,5 +166,11 @@ Route::middleware('auth')->group(function () {
     Route::prefix('activity-log')->name('activity_log.')->middleware('permission:activity_log')->group(function () {
         Route::get('/', [ActivityLogController::class, 'index'])->name('index');
         Route::post('/clear', [ActivityLogController::class, 'clear'])->name('clear');
+    });
+
+    // WhatsApp Contact Settings
+    Route::prefix('settings')->name('settings.')->middleware('role:superadmin,owner,admin')->group(function () {
+        Route::get('/whatsapp', [SettingController::class, 'whatsapp'])->name('whatsapp');
+        Route::post('/whatsapp', [SettingController::class, 'updateWhatsapp'])->name('whatsapp.update');
     });
 });

@@ -15,7 +15,7 @@ class CustomerController extends Controller
      */
     public function index()
     {
-        $user = Auth::user();
+        $user = Auth::guard('customer')->user() ?: Auth::guard('web')->user();
         
         // Fetch customer's orders
         $orders = Order::where('user_id', $user->id)

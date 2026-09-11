@@ -6,23 +6,23 @@
 <!-- Sub-Navigation Header -->
 <div style="display:flex; gap:10px; margin-bottom:20px; flex-wrap:wrap;">
   <a href="{{ route('users.index') }}" class="btn btn-secondary" style="font-weight:700;">
-    👥 Admin & Staf
+    Admin & Staf
   </a>
   <a href="{{ route('pelanggan.index') }}" class="btn btn-secondary" style="font-weight:700;">
-    🛍️ Data Pelanggan
+    Data Pelanggan
   </a>
   <a href="{{ route('akses.index') }}" class="btn btn-primary" style="font-weight:700;">
-    🛡️ Hak Akses Admin & Staf
+    Hak Akses Admin & Staf
   </a>
   <a href="{{ route('akses.pelanggan') }}" class="btn btn-secondary" style="font-weight:700;">
-    🛍️ Hak Akses Level Pelanggan
+    Hak Akses Level Pelanggan
   </a>
 </div>
 
 <div class="card">
   <div class="card-header">
     <div>
-      <h3 class="card-title">🛡️ Pengaturan Hak Akses Admin & Staf (Permissions Matrix)</h3>
+      <h3 class="card-title">Pengaturan Hak Akses Admin & Staf (Permissions Matrix)</h3>
       <div style="font-size:12px; color:var(--text-muted); margin-top:2px;">
         Konfigurasi hak akses modul operasional, kasir, katalog produk, dan data transaksi untuk setiap akun staf.
       </div>

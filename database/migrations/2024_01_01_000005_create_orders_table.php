@@ -12,7 +12,7 @@ return new class extends Migration
             $table->id();
             $table->foreignId('user_id')->nullable()->constrained('users')->nullOnDelete();
             $table->foreignId('branch_id')->nullable()->constrained('branches')->nullOnDelete();
-            $table->enum('kategori', ['offline', 'shopeefood', 'gofood'])->default('offline');
+            $table->string('kategori', 100)->nullable();
             $table->decimal('total', 12, 0)->default(0);
             $table->text('keterangan')->nullable();
             $table->timestamps();

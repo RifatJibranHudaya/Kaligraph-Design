@@ -726,12 +726,6 @@
         <span class="icon">📊</span> Dashboard
       </a>
 
-      @if(auth()->user()->hasPermission('kasir'))
-      <a href="{{ route('kasir.index') }}" class="menu-item {{ request()->routeIs('kasir.*') ? 'active' : '' }}">
-        <span class="icon">🧾</span> Kasir / Order
-      </a>
-      @endif
-
       <div class="menu-header">Produk & Katalog</div>
 
       @if(auth()->user()->hasPermission('produk'))
@@ -833,6 +827,12 @@
       @if(auth()->user()->hasPermission('activity_log'))
       <a href="{{ route('activity_log.index') }}" class="menu-item {{ request()->routeIs('activity_log.*') ? 'active' : '' }}">
         <span class="icon">📜</span> Log Aktivitas
+      </a>
+      @endif
+
+      @if(auth()->user()->isAdmin())
+      <a href="{{ route('settings.whatsapp') }}" class="menu-item {{ request()->routeIs('settings.whatsapp*') ? 'active' : '' }}">
+        <span class="icon">💬</span> Pengaturan Kontak WA
       </a>
       @endif
 

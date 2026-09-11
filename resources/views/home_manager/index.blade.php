@@ -7,7 +7,7 @@
   <!-- Form Tambah Section Landing Page -->
   <div class="card">
     <div class="card-header">
-      <h3 class="card-title">🌐 Tambah / Edit Konten Section</h3>
+      <h3 class="card-title">Tambah / Edit Konten Section</h3>
     </div>
     <form method="POST" action="{{ route('home_manager.store') }}">
       @csrf
@@ -36,15 +36,9 @@
         <textarea name="content" class="form-control" rows="3" placeholder="Isi deskripsi konten..."></textarea>
       </div>
 
-      <div class="grid grid-2">
-        <div class="form-group">
-          <label class="form-label">Icon / Emoji</label>
-          <input type="text" name="icon" class="form-control" placeholder="cth. 🍱">
-        </div>
-        <div class="form-group">
-          <label class="form-label">Urutan Tampil</label>
-          <input type="number" name="order_index" class="form-control" placeholder="1" min="1">
-        </div>
+      <div class="form-group">
+        <label class="form-label">Urutan Tampil</label>
+        <input type="number" name="order_index" class="form-control" placeholder="1" min="1">
       </div>
 
       <div class="form-group">
@@ -60,7 +54,7 @@
   <!-- Daftar Konten Section -->
   <div class="card">
     <div class="card-header">
-      <h3 class="card-title">🖥️ Daftar Section Landing Page</h3>
+      <h3 class="card-title">Daftar Section Landing Page</h3>
     </div>
 
     @forelse($sections as $secName => $items)

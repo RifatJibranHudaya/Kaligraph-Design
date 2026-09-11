@@ -91,4 +91,29 @@ class PaymentController extends Controller
 
         return back()->with('success', "Data pembayaran berhasil dihapus.");
     }
+
+    /**
+     * Display printable payment receipt / invoice nota.
+     */
+    public function nota(Payment $payment)
+    {
+        $payment->load(['order.branch', 'order.user', 'order.payments', 'user']);
+        $order = $payment->order;
+
+        $allPayments = $order ? $order->payments()->orderBy('id')->get() : collect([$payment]);
+        $totalPaid = $order ? $order->total_dibayar : $payment->jumlah;
+        $orderTotal = $order ? (int) $order->total : (int) $payment->jumlah;
+        $sisaTagihan = max(0, $orderTotal - $totalPaid);
+        $isLunas = $sisaTagihan <= 0;
+
+        return view('pembayaran.nota', compact(
+            'payment',
+            'order',
+            'allPayments',
+            'totalPaid',
+            'orderTotal',
+            'sisaTagihan',
+            'isLunas'
+        ));
+    }
 }

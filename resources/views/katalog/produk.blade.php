@@ -660,7 +660,7 @@
       <div>📍 <strong>Workshop & Showroom</strong></div>
       <div>Melayani Demak, Semarang, Surabaya & sekitarnya. Pengiriman ke seluruh Indonesia.</div>
     </div>
-    <a href="https://wa.me/6281234567890?text=Halo%20Kaligraph%20Design%2C%20saya%20ingin%20konsultasi%20pesanan" target="_blank" class="drawer-wa-cta">
+    <a href="{{ \App\Helpers\FormatHelper::whatsappUrl('Halo Kaligraph Design, saya ingin konsultasi pesanan') }}" target="_blank" class="drawer-wa-cta">
       <span>💬</span>
       <span>Chat WhatsApp Sekarang</span>
     </a>
@@ -722,7 +722,7 @@
         <div style="font-size:48px; margin-bottom:16px;">🔍</div>
         <h3>Belum ada produk dalam kategori ini</h3>
         <p style="margin-top:8px;">Silakan hubungi kami via WhatsApp untuk konsultasi produk custom sesuai kebutuhan Anda.</p>
-        <a href="https://wa.me/6281234567890?text=Halo%20Kaligraph%20Design%2C%20saya%20ingin%20tanya%20produk%20kategori%20{{ urlencode($category->nama) }}" target="_blank" class="btn btn-primary" style="margin-top:16px; display:inline-flex;">
+        <a href="{{ \App\Helpers\FormatHelper::whatsappUrl('Halo Kaligraph Design, saya ingin tanya produk kategori ' . $category->nama) }}" target="_blank" class="btn btn-primary" style="margin-top:16px; display:inline-flex;">
           💬 Konsultasi Produk Ini
         </a>
       </div>

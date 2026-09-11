@@ -163,16 +163,22 @@ class CatalogAndAdminTest extends TestCase
 
     public function test_order_creation_and_status_update(): void
     {
-        $order = Order::create([
-            'nama_pelanggan' => 'Budi Test',
-            'no_hp' => '08123456789',
-            'status' => 'order',
-            'user_id' => $this->admin->id,
-            'branch_id' => $this->admin->branch_id,
-            'total' => 500000,
+        $responsePost = $this->actingAs($this->admin)->post('/status-order', [
+            'nama_pelanggan' => 'Budi Advertising Test',
+            'no_hp'          => '08123456789',
+            'alamat'         => 'Jl. Test No. 123',
+            'kategori'       => 'Neon Box Acrylic',
+            'total'          => 750000,
+            'keterangan'     => 'Pesanan reklame neon box LED',
         ]);
 
-        $this->assertDatabaseHas('orders', ['id' => $order->id]);
+        $responsePost->assertRedirect();
+        $this->assertDatabaseHas('orders', [
+            'nama_pelanggan' => 'Budi Advertising Test',
+            'kategori'       => 'Neon Box Acrylic',
+        ]);
+
+        $order = Order::where('nama_pelanggan', 'Budi Advertising Test')->first();
 
         $response = $this->actingAs($this->admin)->put('/status-order/' . $order->id . '/status', [
             'status' => 'on_progress',
@@ -247,5 +253,54 @@ class CatalogAndAdminTest extends TestCase
             'feature' => 'cust_create_order',
             'can_create' => true,
         ]);
+    }
+
+    public function test_ajax_search_pelanggan_autocomplete(): void
+    {
+        $uniqueUser = 'auto_' . time() . '_' . rand(100, 999);
+        User::create([
+            'username'  => $uniqueUser,
+            'email'     => $uniqueUser . '@example.com',
+            'phone'     => '089988776655',
+            'password'  => bcrypt('password'),
+            'level'     => 'customer',
+            'user_type' => 'customer',
+        ]);
+
+        $response = $this->actingAs($this->admin)->getJson('/status-order/search-pelanggan?q=' . $uniqueUser);
+        $response->assertStatus(200);
+        $response->assertJsonFragment([
+            'nama'  => $uniqueUser,
+            'no_hp' => '089988776655',
+        ]);
+    }
+
+    public function test_pembayaran_nota_accessible(): void
+    {
+        $order = Order::create([
+            'nama_pelanggan' => 'Pelanggan Nota Test',
+            'no_hp'          => '081122334455',
+            'alamat'         => 'Jl. Nota No. 5, Demak',
+            'kategori'       => 'Neon Box',
+            'total'          => 1200000,
+            'status'         => 'order',
+            'user_id'        => $this->admin->id,
+            'branch_id'      => $this->admin->branch_id,
+        ]);
+
+        $payment = Payment::create([
+            'order_id'      => $order->id,
+            'user_id'       => $this->admin->id,
+            'jumlah'        => 600000,
+            'metode'        => 'transfer',
+            'tanggal_bayar' => now()->toDateString(),
+            'keterangan'    => 'DP 50% via BCA',
+        ]);
+
+        $response = $this->actingAs($this->admin)->get('/pembayaran/' . $payment->id . '/nota');
+        $response->assertStatus(200);
+        $response->assertSee('Bukti Pembayaran');
+        $response->assertSee('Pelanggan Nota Test');
+        $response->assertSee('600.000');
     }
 }

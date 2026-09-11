@@ -107,7 +107,6 @@ Menu navigasi admin diorganisir dalam hierarki sub-menu pohon (`<ul>` dan `<li>`
 ```mermaid
 graph TD
     A[Sidebar Admin Kaligraph Design] --> B[📊 Dashboard]
-    A --> C[🧾 Kasir / Order POS]
     A --> D[💡 Produk & Katalog]
     D --> D1[Kelola Produk]
     D --> D2[Kelola Kategori]

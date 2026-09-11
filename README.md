@@ -33,7 +33,6 @@ Aplikasi ini mengintegrasikan fungsi inti yang lengkap:
    - Manajemen master produk, kategori, dan portofolio proyek lengkap dengan live upload foto.
    - Pelacakan alur status pengerjaan pesanan (*Order Baru* ➔ *On Progress* ➔ *Selesai* ➔ *Cancelled*).
    - Pencatatan pembayaran uang muka (DP) dan pelunasan dengan verifikasi bukti transfer/nota.
-   - Point of Sale (POS) / Kasir instan dengan pencetakan struk transaksi.
    - Sub-modul **Manajemen User** terpisah: *Admin & Staf* dan *Data Pelanggan*.
    - Sub-modul **Kelola Hak Akses**: *Matriks Akses Staf* dan *Hak Akses Terpusat Level Pelanggan* (*Role-Based Permissions*).
    - Manajemen multi-cabang/showroom dengan Google Maps iframe interaktif dan Audit Log Aktivitas.
@@ -73,10 +72,12 @@ Aplikasi ini mengintegrasikan fungsi inti yang lengkap:
   - `⚙️ On Progress`: Sedang dalam proses desain, cutting rangka, las, atau perakitan LED.
   - `✅ Selesai`: Pekerjaan telah selesai diproduksi, terpasang di lokasi, atau siap kirim.
   - `❌ Cancelled`: Pesanan dibatalkan.
+- **Form Order Baru & AJAX Autocomplete**: Pencarian instan data pelanggan terdaftar & riwayat pesanan terdahulu secara real-time dengan auto-fill nama, nomor telepon/WhatsApp, dan alamat pengiriman.
 - **Filter Tab Cepat & Pencarian**: Filter pesanan per status dengan indikator status pembayaran (*Lunas*, *DP*, *Belum Bayar*).
 
 ### 5. 💳 Modul Data Pembayaran & DP (`/pembayaran`)
 - Pencatatan transaksi pembayaran per ID order (*Transfer Bank / QRIS*, *Tunai / Cash*, *Uang Muka / DP*).
+- **Cetak Nota & Bukti Pembayaran (`/pembayaran/{payment}/nota`)**: Cetak faktur / struk tanda terima pembayaran resmi dengan header cabang, rincian pesanan, status pelunasan, dan format cetak thermal/kertas siap print.
 - Upload bukti transfer / nota pembayaran dengan preview modal cepat.
 - Filter riwayat pembayaran berdasarkan nomor pesanan dan metode pembayaran.
 
@@ -214,13 +215,16 @@ Akses aplikasi melalui browser di: `http://localhost:8000`
 | Method | URI | Deskripsi |
 | :--- | :--- | :--- |
 | `GET` | `/dashboard` | Dashboard analitik pesanan, omset, dan ringkasan |
-| `GET` | `/kasir` | Point of Sale (POS) & cetak nota transaksi |
 | `GET` | `/produk` | Master data produk, rentang harga & foto |
 | `GET` | `/kategori` | Master data kategori produk & cover |
 | `GET` | `/portfolio` | CRUD data portofolio hasil karya proyek |
 | `GET` | `/status-order` | Tracking & alur status pengerjaan pesanan |
+| `POST` | `/status-order` | Simpan pesanan / order baru |
+| `GET` | `/status-order/search-pelanggan` | API AJAX autocomplete pencarian pelanggan |
 | `PUT` | `/status-order/{order}/status` | Update status pengerjaan order |
 | `GET` | `/pembayaran` | Manajemen pembayaran, DP & bukti transfer |
+| `POST` | `/pembayaran` | Simpan pencatatan pembayaran baru |
+| `GET` | `/pembayaran/{payment}/nota` | Cetak nota / bukti pembayaran transaksi |
 | `GET` | `/users` | Sub-modul manajemen akun Admin & Staf |
 | `GET` | `/pelanggan` | Sub-modul manajemen akun Data Pelanggan |
 | `GET` | `/akses` | Sub-modul matriks hak akses Admin & Staf |
@@ -234,13 +238,13 @@ Akses aplikasi melalui browser di: `http://localhost:8000`
 
 ## 🧪 Pengujian Otomatis (Automated Testing)
 
-Aplikasi dilengkapi test suite komprehensif yang memvalidasi seluruh rute publik, katalog, portofolio, autentikasi pelanggan/staf, CRUD admin, pembaruan status order, dan sistem hak akses role:
+Aplikasi dilengkapi test suite komprehensif yang memvalidasi seluruh rute publik, katalog, portofolio, autentikasi pelanggan/staf, CRUD admin, pembaruan status order, cetak nota pembayaran, dan sistem hak akses role:
 
 ```bash
 php artisan test
 ```
 
-Hasil pengujian otomatis: **19 passed (50 assertions)** tanpa kendala.
+Hasil pengujian otomatis: **21 passed (58 assertions)** tanpa kendala.
 
 ---
 
@@ -259,7 +263,6 @@ Hasil pengujian otomatis: **19 passed (50 assertions)** tanpa kendala.
 │   │   │   ├── DashboardController.php       # Dashboard analitik & ringkasan status
 │   │   │   ├── ForgotPasswordController.php  # OTP verification & password reset
 │   │   │   ├── HomeManagerController.php     # Kelola konten landing page
-│   │   │   ├── KasirController.php           # Kasir POS & cetak nota transaksi
 │   │   │   ├── LandingController.php         # Landing page publik, katalog & portofolio
 │   │   │   ├── PaymentController.php         # Manajemen pembayaran & DP
 │   │   │   ├── PelangganController.php       # Sub-modul manajemen data pelanggan

@@ -655,7 +655,7 @@
       <div>📍 <strong>Workshop & Showroom</strong></div>
       <div>Melayani Demak, Semarang, Surabaya & sekitarnya. Pengiriman ke seluruh Indonesia.</div>
     </div>
-    <a href="https://wa.me/6281234567890?text=Halo%20Kaligraph%20Design%2C%20saya%20ingin%20konsultasi%20pesanan" target="_blank" class="drawer-wa-cta">
+    <a href="{{ \App\Helpers\FormatHelper::whatsappUrl('Halo Kaligraph Design, saya ingin konsultasi pesanan') }}" target="_blank" class="drawer-wa-cta">
       <span>💬</span>
       <span>Chat WhatsApp Sekarang</span>
     </a>
@@ -730,7 +730,7 @@
       <!-- WhatsApp CTA -->
       @php
         $waMsg = "Halo Kaligraph Design, saya tertarik untuk memesan / konsultasi produk: *" . $product->nama . "* (" . $product->harga_display . "). Mohon info estimasi dan proses pemesanannya.";
-        $waUrl = "https://wa.me/6281234567890?text=" . urlencode($waMsg);
+        $waUrl = \App\Helpers\FormatHelper::whatsappUrl($waMsg);
       @endphp
       <a href="{{ $waUrl }}" target="_blank" class="order-btn-wa">
         <span style="font-size:22px;">💬</span>

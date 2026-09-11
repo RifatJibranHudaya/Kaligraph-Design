@@ -6,16 +6,16 @@
 <!-- Sub-Navigation Header -->
 <div style="display:flex; gap:10px; margin-bottom:20px; flex-wrap:wrap;">
   <a href="{{ route('users.index') }}" class="btn btn-primary" style="font-weight:700;">
-    👥 Admin & Staf
+    Admin & Staf
   </a>
   <a href="{{ route('pelanggan.index') }}" class="btn btn-secondary" style="font-weight:700;">
-    🛍️ Data Pelanggan
+    Data Pelanggan
   </a>
   <a href="{{ route('akses.index') }}" class="btn btn-secondary" style="font-weight:700;">
-    🛡️ Hak Akses Admin & Staf
+    Hak Akses Admin & Staf
   </a>
   <a href="{{ route('akses.pelanggan') }}" class="btn btn-secondary" style="font-weight:700;">
-    🛍️ Hak Akses Level Pelanggan
+    Hak Akses Level Pelanggan
   </a>
 </div>
 
@@ -23,7 +23,7 @@
   <!-- Form Tambah User -->
   <div class="card">
     <div class="card-header">
-      <h3 class="card-title">👤 Tambah Pengguna Baru</h3>
+      <h3 class="card-title">Tambah Pengguna Baru</h3>
     </div>
     <form method="POST" action="{{ route('users.store') }}">
       @csrf
@@ -76,7 +76,7 @@
   <!-- Daftar Users -->
   <div class="card">
     <div class="card-header">
-      <h3 class="card-title">👥 Daftar Pengguna Terdaftar</h3>
+      <h3 class="card-title">Daftar Pengguna Terdaftar</h3>
     </div>
     <div class="table-responsive">
       <table class="table">

@@ -93,22 +93,9 @@
     color: var(--text-main);
   }
 
-  .input-wrapper {
-    position: relative;
-  }
-
-  .input-icon {
-    position: absolute;
-    left: 16px;
-    top: 50%;
-    transform: translateY(-50%);
-    font-size: 16px;
-    color: var(--text-muted);
-  }
-
   .form-control {
     width: 100%;
-    padding: 11px 16px 11px 44px;
+    padding: 11px 16px;
     border-radius: 12px;
     border: 1px solid var(--border-color);
     background: var(--bg-main);
@@ -190,42 +177,27 @@
       @csrf
       <div class="form-group">
         <label class="form-label">Nama Lengkap / Perusahaan</label>
-        <div class="input-wrapper">
-          <span class="input-icon">👤</span>
-          <input type="text" name="name" class="form-control" placeholder="contoh: Rahmat Hidayat / PT ABC" value="{{ old('name') }}" required autofocus>
-        </div>
+        <input type="text" name="name" class="form-control" placeholder="contoh: Rahmat Hidayat / PT ABC" value="{{ old('name') }}" required autofocus>
       </div>
 
       <div class="form-group">
         <label class="form-label">Alamat Email</label>
-        <div class="input-wrapper">
-          <span class="input-icon">✉️</span>
-          <input type="email" name="email" class="form-control" placeholder="contoh: nama@email.com" value="{{ old('email') }}" required>
-        </div>
+        <input type="email" name="email" class="form-control" placeholder="contoh: nama@email.com" value="{{ old('email') }}" required>
       </div>
 
       <div class="form-group">
         <label class="form-label">Nomor WhatsApp / HP</label>
-        <div class="input-wrapper">
-          <span class="input-icon">📱</span>
-          <input type="text" name="phone" class="form-control" placeholder="contoh: 081234567890" value="{{ old('phone') }}" required>
-        </div>
+        <input type="text" name="phone" class="form-control" placeholder="contoh: 081234567890" value="{{ old('phone') }}" required>
       </div>
 
       <div class="form-group">
         <label class="form-label">Kata Sandi (Min. 6 Karakter)</label>
-        <div class="input-wrapper">
-          <span class="input-icon">🔒</span>
-          <input type="password" name="password" class="form-control" placeholder="Buat kata sandi baru" required>
-        </div>
+        <input type="password" name="password" class="form-control" placeholder="Buat kata sandi baru" required>
       </div>
 
       <div class="form-group">
         <label class="form-label">Konfirmasi Kata Sandi</label>
-        <div class="input-wrapper">
-          <span class="input-icon">🔑</span>
-          <input type="password" name="password_confirmation" class="form-control" placeholder="Ulangi kata sandi" required>
-        </div>
+        <input type="password" name="password_confirmation" class="form-control" placeholder="Ulangi kata sandi" required>
       </div>
 
       <button type="submit" class="btn-submit">Daftar Sekarang ➔</button>

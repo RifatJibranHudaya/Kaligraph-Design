@@ -881,7 +881,7 @@
 @section('content')
 
 <!-- WhatsApp Float Button -->
-<a href="https://wa.me/6281234567890?text=Halo%20Kaligraph%20Design%2C%20saya%20ingin%20memesan%20neon%20box" target="_blank" class="wa-float" title="Chat WhatsApp">
+<a href="{{ \App\Helpers\FormatHelper::whatsappUrl('Halo Kaligraph Design, saya ingin memesan neon box') }}" target="_blank" class="wa-float" title="Chat WhatsApp">
   💬
 </a>
 
@@ -1007,7 +1007,7 @@
       <div>📍 <strong>Workshop & Showroom</strong></div>
       <div>Melayani Demak, Semarang, Surabaya & sekitarnya. Pengiriman ke seluruh Indonesia.</div>
     </div>
-    <a href="https://wa.me/6281234567890?text=Halo%20Kaligraph%20Design%2C%20saya%20ingin%20konsultasi%20pesanan" target="_blank" class="drawer-wa-cta">
+    <a href="{{ \App\Helpers\FormatHelper::whatsappUrl('Halo Kaligraph Design, saya ingin konsultasi pesanan') }}" target="_blank" class="drawer-wa-cta">
       <span>💬</span>
       <span>Chat WhatsApp Sekarang</span>
     </a>
@@ -1034,7 +1034,7 @@
       </p>
       <div class="hero-btns">
         <a href="{{ route('katalog') }}" class="btn-hero-primary">📂 Lihat Kategori & Katalog</a>
-        <a href="https://wa.me/6281234567890?text=Halo%2C%20saya%20mau%20konsultasi%20pesanan" target="_blank" class="btn-hero-wa">💬 Konsultasi via WhatsApp</a>
+        <a href="{{ \App\Helpers\FormatHelper::whatsappUrl('Halo, saya mau konsultasi pesanan') }}" target="_blank" class="btn-hero-wa">💬 Konsultasi via WhatsApp</a>
       </div>
     </div>
 
@@ -1178,7 +1178,7 @@
 <section class="cta-section">
   <h2>Siap Memesan Neon Box Custom?</h2>
   <p>Hubungi tim kami sekarang dan dapatkan konsultasi gratis + estimasi harga terbaik untuk kebutuhan bisnis Anda.</p>
-  <a href="https://wa.me/6287777994896?text=Halo%20Kaligraph%20Design%2C%20saya%20ingin%20konsultasi%20neon%20box" target="_blank" class="btn-hero-wa" style="margin: 0 auto; font-size:18px; padding:18px 40px;">
+  <a href="{{ \App\Helpers\FormatHelper::whatsappUrl('Halo Kaligraph Design, saya ingin konsultasi neon box') }}" target="_blank" class="btn-hero-wa" style="margin: 0 auto; font-size:18px; padding:18px 40px;">
     💬 Chat WhatsApp Sekarang
   </a>
 </section>
@@ -1188,9 +1188,9 @@
   <div class="footer-brand">💡 Kaligraph Design</div>
   <p>© {{ date('Y') }} <strong>Kaligraph Design</strong>. Spesialis Neon Box & Signage Custom Indonesia.</p>
   <div style="display: flex; gap: 16px; font-size: 13px;">
-    <a href="{{ route('login.customer') }}" style="color:#60a5fa; text-decoration:none;">Portal Pelanggan</a>
-    <a href="{{ route('login.admin') }}" style="color:#94a3b8; text-decoration:none;">Login Staff / Admin</a>
-    <a href="{{ route('password.request') }}" style="color:#94a3b8; text-decoration:none;">Lupa Password?</a>
+    <a href="https://www.instagram.com/kafaxgraf?utm_source=ig_web_button_share_sheet&stkn=ZDNlZDc0MzIxNw==" style="color:#60a5fa; text-decoration:none;">Instagram</a>
+    <a href="https://www.facebook.com/people/Kafa-X-Graf-Adv/61555941644272/" style="color:#94a3b8; text-decoration:none;">Facebook</a>
+    <a href="" style="color:#94a3b8; text-decoration:none;">Email</a>
   </div>
 </footer>
 

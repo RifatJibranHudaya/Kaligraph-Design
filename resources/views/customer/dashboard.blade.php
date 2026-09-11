@@ -359,7 +359,7 @@
     <p class="welcome-subtitle">
       Selamat datang di pusat layanan pelanggan Kaligraph Design. Anda dapat melihat riwayat pengerjaan pesanan neon box Anda atau melakukan konsultasi proyek baru.
     </p>
-    <a href="https://wa.me/6281234567890?text=Halo%20Kaligraph%20Design%2C%20saya%20pelanggan%20({{ $user->username }})%20ingin%20konsultasi%20pesanan%20neon%20box" target="_blank" class="btn-cta-wa">
+    <a href="{{ \App\Helpers\FormatHelper::whatsappUrl('Halo Kaligraph Design, saya pelanggan (' . $user->username . ') ingin konsultasi pesanan neon box') }}" target="_blank" class="btn-cta-wa">
       💬 Konsultasi & Pesan Custom via WhatsApp
     </a>
   </div>
@@ -441,7 +441,7 @@
           <div class="product-mini-name">{{ $prod->nama }}</div>
           <div class="product-mini-price">{{ $prod->harga_display }}</div>
           <div class="product-mini-desc">{{ $prod->deskripsi ?: 'Produk neon box berkualitas tinggi' }}</div>
-          <a href="https://wa.me/6281234567890?text=Halo%20Kaligraph%20Design%2C%20saya%20tertarik%20dengan%20produk%20*{{ urlencode($prod->nama) }}*" target="_blank" class="btn-order-wa">
+          <a href="{{ \App\Helpers\FormatHelper::whatsappUrl('Halo Kaligraph Design, saya tertarik dengan produk *' . $prod->nama . '*') }}" target="_blank" class="btn-order-wa">
             💬 Pesan Sekarang
           </a>
         </div>

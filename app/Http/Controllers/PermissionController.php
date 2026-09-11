@@ -11,7 +11,6 @@ use Illuminate\Http\Request;
 class PermissionController extends Controller
 {
     protected array $features = [
-        'kasir'        => 'Kasir (POS)',
         'produk'       => 'Kelola Produk',
         'kategori'     => 'Kelola Kategori',
         'portfolio'    => 'Kelola Portofolio',

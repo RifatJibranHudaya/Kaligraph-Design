@@ -629,7 +629,7 @@
       <div>📍 <strong>Workshop & Showroom</strong></div>
       <div>Melayani Demak, Semarang, Surabaya & sekitarnya. Pengiriman ke seluruh Indonesia.</div>
     </div>
-    <a href="https://wa.me/6281234567890?text=Halo%20Kaligraph%20Design%2C%20saya%20ingin%20konsultasi%20pesanan" target="_blank" class="drawer-wa-cta">
+    <a href="{{ \App\Helpers\FormatHelper::whatsappUrl('Halo Kaligraph Design, saya ingin konsultasi kategori produk') }}" target="_blank" class="drawer-wa-cta">
       <span>💬</span>
       <span>Chat WhatsApp Sekarang</span>
     </a>

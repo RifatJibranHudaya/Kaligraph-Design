@@ -92,7 +92,7 @@
                   <img src="{{ $p->foto_url }}" alt="{{ $p->nama }}" style="width:52px; height:52px; object-fit:cover; border-radius:10px; border:1px solid var(--border-color);">
                 @else
                   <div style="width:52px; height:52px; border-radius:10px; background:linear-gradient(135deg, var(--primary-light), #ede9fe); display:flex; align-items:center; justify-content:center; font-size:22px;">
-                    🖼️
+                    
                   </div>
                 @endif
               </td>
@@ -152,7 +152,7 @@
 <div id="editPortfolioModal" style="display:none; position:fixed; inset:0; background:rgba(0,0,0,0.6); z-index:9999; align-items:center; justify-content:center; padding:20px;">
   <div class="card" style="width:100%; max-width:540px; background:var(--bg-card); margin:0; border-radius:20px; box-shadow:0 25px 50px -12px rgba(0,0,0,0.25); max-height:90vh; overflow-y:auto;">
     <div class="card-header">
-      <h3 class="card-title">✏️ Edit Portofolio</h3>
+      <h3 class="card-title">Edit Portofolio</h3>
       <button type="button" onclick="closeEditPortfolioModal()" style="background:none; border:none; font-size:20px; cursor:pointer; color:var(--text-main);">✕</button>
     </div>
     <form id="editPortfolioForm" method="POST" action="" enctype="multipart/form-data">

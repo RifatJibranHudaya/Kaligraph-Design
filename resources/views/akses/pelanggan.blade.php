@@ -6,23 +6,23 @@
 <!-- Sub-Navigation Header -->
 <div style="display:flex; gap:10px; margin-bottom:20px; flex-wrap:wrap;">
   <a href="{{ route('users.index') }}" class="btn btn-secondary" style="font-weight:700;">
-    👥 Admin & Staf
+    Admin & Staf
   </a>
   <a href="{{ route('pelanggan.index') }}" class="btn btn-secondary" style="font-weight:700;">
-    🛍️ Data Pelanggan
+    Data Pelanggan
   </a>
   <a href="{{ route('akses.index') }}" class="btn btn-secondary" style="font-weight:700;">
-    🛡️ Hak Akses Admin & Staf
+    Hak Akses Admin & Staf
   </a>
   <a href="{{ route('akses.pelanggan') }}" class="btn btn-primary" style="font-weight:700;">
-    🛍️ Hak Akses Level Pelanggan
+    Hak Akses Level Pelanggan
   </a>
 </div>
 
 <div class="card">
   <div class="card-header" style="flex-wrap:wrap; gap:12px;">
     <div>
-      <h3 class="card-title">🛍️ Pengaturan Hak Akses Level Pelanggan (Semua Pelanggan)</h3>
+      <h3 class="card-title">Pengaturan Hak Akses Level Pelanggan (Semua Pelanggan)</h3>
       <div style="font-size:12px; color:var(--text-muted); margin-top:2px;">
         Konfigurasi izin fitur portal yang berlaku untuk <strong>seluruh akun pelanggan terdaftar ({{ $customerCount }} pelanggan)</strong> serta pendaftar baru.
       </div>
@@ -42,7 +42,7 @@
   </div>
 
   <div style="padding:16px 20px; background:linear-gradient(135deg, rgba(37,99,235,0.06), rgba(16,185,129,0.06)); border-radius:12px; margin-bottom:24px; border:1px solid rgba(37,99,235,0.15); display:flex; align-items:center; gap:12px;">
-    <span style="font-size:24px;">💡</span>
+    <span style="font-size:24px;"></span>
     <div style="font-size:13px; color:var(--text-main); line-height:1.5;">
       <strong>Pengaturan Terpusat:</strong> Anda tidak perlu mencentang izin satu per satu untuk setiap pelanggan. Mengubah pengaturan di bawah ini akan langsung mengontrol akses fitur untuk seluruh akun pelanggan di portal.
     </div>

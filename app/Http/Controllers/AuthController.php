@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Session;
+use Illuminate\Support\Str;
 
 class AuthController extends Controller
 {
@@ -16,12 +17,6 @@ class AuthController extends Controller
      */
     public function showLogin()
     {
-        if (Auth::check()) {
-            if (Auth::user()->isCustomer()) {
-                return redirect()->route('customer.dashboard');
-            }
-            return redirect()->route('dashboard');
-        }
         return view('auth.login');
     }
 
@@ -30,7 +25,7 @@ class AuthController extends Controller
      */
     public function showAdminLogin()
     {
-        if (Auth::check()) {
+        if (Auth::guard('web')->check()) {
             return redirect()->route('dashboard');
         }
         return view('auth.login-admin');
@@ -68,8 +63,7 @@ class AuthController extends Controller
             ])->onlyInput('username');
         }
 
-        Auth::login($user, $remember);
-        $request->session()->regenerate();
+        Auth::guard('web')->login($user, $remember);
 
         if ($user->branch_id) {
             Session::put('active_branch_id', $user->branch_id);
@@ -85,11 +79,8 @@ class AuthController extends Controller
      */
     public function showCustomerLogin()
     {
-        if (Auth::check()) {
-            if (Auth::user()->isCustomer()) {
-                return redirect()->route('customer.dashboard');
-            }
-            return redirect()->route('dashboard');
+        if (Auth::guard('customer')->check()) {
+            return redirect()->route('customer.dashboard');
         }
         return view('auth.login-customer');
     }
@@ -120,15 +111,18 @@ class AuthController extends Controller
             ])->onlyInput('email');
         }
 
-        Auth::login($user, $remember);
-        $request->session()->regenerate();
-
-        ActivityLogService::log('login_customer', 'auth', 'Customer logged in: ' . $user->username);
-
         if (!$user->isCustomer()) {
-            // If an admin logs in here, redirect them to admin dashboard
+            // If an admin logs in here, log them into web guard and redirect to admin dashboard
+            Auth::guard('web')->login($user, $remember);
+            if ($user->branch_id) {
+                Session::put('active_branch_id', $user->branch_id);
+            }
             return redirect()->intended(route('dashboard'))->with('success', 'Selamat datang kembali, ' . $user->username . '!');
         }
+
+        Auth::guard('customer')->login($user, $remember);
+
+        ActivityLogService::log('login_customer', 'auth', 'Customer logged in: ' . $user->username);
 
         return redirect()->intended(route('customer.dashboard'))->with('success', 'Selamat datang di Portal Pelanggan, ' . ($user->username ?? 'Pelanggan') . '!');
     }
@@ -138,7 +132,7 @@ class AuthController extends Controller
      */
     public function showCustomerRegister()
     {
-        if (Auth::check()) {
+        if (Auth::guard('customer')->check()) {
             return redirect()->route('customer.dashboard');
         }
         return view('auth.register-customer');
@@ -183,8 +177,7 @@ class AuthController extends Controller
             'user_type' => 'customer',
         ]);
 
-        Auth::login($user);
-        $request->session()->regenerate();
+        Auth::guard('customer')->login($user);
 
         ActivityLogService::log('register_customer', 'auth', "New customer registered: {$user->username} ({$user->email})");
 
@@ -192,20 +185,29 @@ class AuthController extends Controller
     }
 
     /**
-     * Logout user.
+     * Logout Admin / Staff user.
      */
     public function logout(Request $request)
     {
-        if (Auth::check()) {
-            ActivityLogService::log('logout', 'auth', 'User logged out: ' . Auth::user()->username);
+        if (Auth::guard('web')->check()) {
+            ActivityLogService::log('logout', 'auth', 'Admin/Staff logged out: ' . Auth::guard('web')->user()->username);
+            Auth::guard('web')->logout();
         }
 
-        Auth::logout();
+        return redirect()->route('login.admin')->with('success', 'Anda telah berhasil keluar.');
+    }
 
-        $request->session()->invalidate();
-        $request->session()->regenerateToken();
+    /**
+     * Logout Customer user.
+     */
+    public function customerLogout(Request $request)
+    {
+        if (Auth::guard('customer')->check()) {
+            ActivityLogService::log('logout_customer', 'auth', 'Customer logged out: ' . Auth::guard('customer')->user()->username);
+            Auth::guard('customer')->logout();
+        }
 
-        return redirect()->route('login')->with('success', 'Anda telah berhasil keluar.');
+        return redirect()->route('login.customer')->with('success', 'Anda telah berhasil keluar dari Portal Pelanggan.');
     }
 
     /**
@@ -217,8 +219,8 @@ class AuthController extends Controller
             'branch_id' => 'nullable|exists:branches,id',
         ]);
 
-        $user = Auth::user();
-        if (!$user->isOwner()) {
+        $user = Auth::guard('web')->user();
+        if (!$user || !$user->isOwner()) {
             return back()->with('error', 'Hanya Owner/Superadmin yang dapat mengubah cabang aktif.');
         }
 

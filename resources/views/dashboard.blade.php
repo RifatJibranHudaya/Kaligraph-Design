@@ -14,7 +14,6 @@
         </div>
       </div>
       <div style="width:48px; height:48px; border-radius:12px; background:#dbeafe; display:flex; align-items:center; justify-content:center; font-size:24px;">
-        📋
       </div>
     </div>
   </div>
@@ -28,7 +27,6 @@
         </div>
       </div>
       <div style="width:48px; height:48px; border-radius:12px; background:#d1fae5; display:flex; align-items:center; justify-content:center; font-size:24px;">
-        💰
       </div>
     </div>
   </div>
@@ -42,7 +40,6 @@
         </div>
       </div>
       <div style="width:48px; height:48px; border-radius:12px; background:#ede9fe; display:flex; align-items:center; justify-content:center; font-size:24px;">
-        📂
       </div>
     </div>
   </div>
@@ -56,7 +53,6 @@
         </div>
       </div>
       <div style="width:48px; height:48px; border-radius:12px; background:#e0f2fe; display:flex; align-items:center; justify-content:center; font-size:24px;">
-        💡
       </div>
     </div>
   </div>
@@ -65,27 +61,27 @@
 <!-- Order Status Overview Progress Bar -->
 <div class="card" style="margin-bottom:24px;">
   <div class="card-header">
-    <h3 class="card-title">📊 Status Alur Pengerjaan Pesanan</h3>
+    <h3 class="card-title">Status Alur Pengerjaan Pesanan</h3>
     <a href="{{ route('status_order.index') }}" class="btn btn-sm btn-secondary">Kelola Status ➔</a>
   </div>
   <div class="grid grid-4" style="gap:16px;">
     <div style="background:#fef3c7; border:1px solid #fde68a; border-radius:12px; padding:16px;">
-      <div style="font-size:12px; font-weight:700; color:#92400e;">📥 ORDER BARU</div>
+      <div style="font-size:12px; font-weight:700; color:#92400e;">ORDER BARU</div>
       <div style="font-size:22px; font-weight:800; color:#92400e; margin-top:4px;">{{ $ordersOrder }}</div>
       <div style="font-size:11px; color:#b45309; margin-top:2px;">Menunggu konfirmasi / DP</div>
     </div>
     <div style="background:#dbeafe; border:1px solid #bfdbfe; border-radius:12px; padding:16px;">
-      <div style="font-size:12px; font-weight:700; color:#1e40af;">⚙️ ON PROGRESS</div>
+      <div style="font-size:12px; font-weight:700; color:#1e40af;">ON PROGRESS</div>
       <div style="font-size:22px; font-weight:800; color:#1e40af; margin-top:4px;">{{ $ordersOnProgress }}</div>
       <div style="font-size:11px; color:#2563eb; margin-top:2px;">Sedang tahap produksi / las</div>
     </div>
     <div style="background:#d1fae5; border:1px solid #a7f3d0; border-radius:12px; padding:16px;">
-      <div style="font-size:12px; font-weight:700; color:#065f46;">✅ SELESAI</div>
+      <div style="font-size:12px; font-weight:700; color:#065f46;">SELESAI</div>
       <div style="font-size:22px; font-weight:800; color:#065f46; margin-top:4px;">{{ $ordersSelesai }}</div>
       <div style="font-size:11px; color:#059669; margin-top:2px;">Selesai terpasang / terkirim</div>
     </div>
     <div style="background:#fee2e2; border:1px solid #fecaca; border-radius:12px; padding:16px;">
-      <div style="font-size:12px; font-weight:700; color:#991b1b;">❌ CANCELLED</div>
+      <div style="font-size:12px; font-weight:700; color:#991b1b;">CANCELLED</div>
       <div style="font-size:22px; font-weight:800; color:#991b1b; margin-top:4px;">{{ $ordersCancelled }}</div>
       <div style="font-size:11px; color:#dc2626; margin-top:2px;">Dibatalkan</div>
     </div>
@@ -97,7 +93,7 @@
   <!-- Recent Orders -->
   <div class="card">
     <div class="card-header">
-      <h3 class="card-title">📋 Pesanan Terbaru</h3>
+      <h3 class="card-title">Pesanan Terbaru</h3>
       <a href="{{ route('status_order.index') }}" class="btn btn-sm btn-secondary">Lihat Semua</a>
     </div>
     <div class="table-responsive">
@@ -142,7 +138,7 @@
   <!-- Recent Activity Log -->
   <div class="card">
     <div class="card-header">
-      <h3 class="card-title">📜 Log Aktivitas Terbaru</h3>
+      <h3 class="card-title">Log Aktivitas Terbaru</h3>
       <a href="{{ route('activity_log.index') }}" class="btn btn-sm btn-secondary">Lihat Semua</a>
     </div>
     <div style="display:flex; flex-direction:column; gap:12px;">
