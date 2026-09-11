@@ -1,45 +1,30 @@
-```
+# Compiled and build artifacts
+*.pyc
+__pycache__/
+
 # Dependencies
-node_modules/
 vendor/
+node_modules/
 
-# Build artifacts
-dist/
-build/
-public/build/
-
-# PHP specific
-*.php~
-*.php.bak
-*.swp
-*.swo
+# Logs and temp files
+*.log
+*.tmp
 
 # Environment
 .env
 .env.local
-.env.*
-!.env.example
+*.env.*
 
-# Cache and temporary files
-.cache/
-*.tmp
-*.log
-!access.log
-!error.log
-
-# IDE
+# Editors
 .vscode/
 .idea/
-*.sublime-project
-*.sublime-workspace
 
-# OS
+# OS generated files
 .DS_Store
 Thumbs.db
 
 # Laravel specific
-storage/
 bootstrap/cache/
-.npm
-.yarn
-```
+storage/logs/
+storage/framework/
+public/storage/

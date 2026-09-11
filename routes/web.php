@@ -67,7 +67,7 @@ Route::middleware('guest')->group(function () {
 });
 
 // Authenticated Routes - Admin/Staff (web guard)
-Route::middleware(['auth:web'])->group(function () {
+Route::middleware(['auth:web', 'prevent.back'])->group(function () {
     Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
     Route::post('/switch-branch', [AuthController::class, 'switchBranch'])->name('switch-branch');
 
@@ -175,7 +175,7 @@ Route::middleware(['auth:web'])->group(function () {
 });
 
 // Customer Portal Routes (customer guard)
-Route::middleware(['auth:customer'])->group(function () {
+Route::middleware(['auth:customer', 'prevent.back'])->group(function () {
     Route::post('/customer/logout', [AuthController::class, 'customerLogout'])->name('customer.logout');
     Route::get('/customer/dashboard', [CustomerController::class, 'index'])->name('customer.dashboard');
     

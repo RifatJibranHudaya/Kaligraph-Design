@@ -63,7 +63,15 @@ class AuthController extends Controller
             ])->onlyInput('username');
         }
 
+        // Clear any existing customer session before logging in as admin
+        if (Auth::guard('customer')->check()) {
+            Auth::guard('customer')->logout();
+        }
+
         Auth::guard('web')->login($user, $remember);
+
+        // Regenerate session to prevent fixation attacks and clear old session data
+        $request->session()->regenerate();
 
         if ($user->branch_id) {
             Session::put('active_branch_id', $user->branch_id);
@@ -112,15 +120,30 @@ class AuthController extends Controller
         }
 
         if (!$user->isCustomer()) {
+            // Clear any existing web session before logging in as admin via customer form
+            if (Auth::guard('web')->check()) {
+                Auth::guard('web')->logout();
+            }
+            
             // If an admin logs in here, log them into web guard and redirect to admin dashboard
             Auth::guard('web')->login($user, $remember);
+            $request->session()->regenerate();
+            
             if ($user->branch_id) {
                 Session::put('active_branch_id', $user->branch_id);
             }
             return redirect()->intended(route('dashboard'))->with('success', 'Selamat datang kembali, ' . $user->username . '!');
         }
 
+        // Clear any existing web session before logging in as customer
+        if (Auth::guard('web')->check()) {
+            Auth::guard('web')->logout();
+        }
+
         Auth::guard('customer')->login($user, $remember);
+
+        // Regenerate session to prevent fixation attacks and clear old session data
+        $request->session()->regenerate();
 
         ActivityLogService::log('login_customer', 'auth', 'Customer logged in: ' . $user->username);
 
@@ -195,6 +218,10 @@ class AuthController extends Controller
             Auth::guard('web')->logout();
         }
 
+        // Invalidate session and regenerate to prevent back button issues
+        $request->session()->invalidate();
+        $request->session()->regenerateToken();
+
         return redirect()->route('home')->with('success', 'Anda telah berhasil keluar.');
     }
 
@@ -207,6 +234,10 @@ class AuthController extends Controller
             ActivityLogService::log('logout_customer', 'auth', 'Customer logged out: ' . Auth::guard('customer')->user()->username);
             Auth::guard('customer')->logout();
         }
+
+        // Invalidate session and regenerate to prevent back button issues
+        $request->session()->invalidate();
+        $request->session()->regenerateToken();
 
         return redirect()->route('home')->with('success', 'Anda telah berhasil keluar dari Portal Pelanggan.');
     }
