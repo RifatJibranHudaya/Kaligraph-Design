@@ -17,10 +17,10 @@ class CheckPermission
      */
     public function handle(Request $request, Closure $next, string $feature, string $action = 'read'): Response
     {
-        $user = $request->user();
+        $user = $request->user('web') ?? $request->user();
 
         if (!$user) {
-            return redirect()->route('login');
+            return redirect()->route('login.admin');
         }
 
         if (!$user->hasPermission($feature, $action)) {
