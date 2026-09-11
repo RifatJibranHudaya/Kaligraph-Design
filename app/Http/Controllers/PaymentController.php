@@ -116,4 +116,116 @@ class PaymentController extends Controller
             'isLunas'
         ));
     }
+
+    /**
+     * Display detail pembayaran untuk sebuah order dengan form pembayaran dan tombol kirim WA.
+     */
+    public function detailOrder(Order $order)
+    {
+        $order->load(['branch', 'user', 'items', 'payments.user']);
+        
+        $allPayments = $order->payments()->orderBy('id')->get();
+        $totalPaid = $order->total_dibayar;
+        $orderTotal = (int) $order->total;
+        $sisaTagihan = max(0, $orderTotal - $totalPaid);
+        $isLunas = $sisaTagihan <= 0;
+
+        return view('pembayaran.detail-order', compact(
+            'order',
+            'allPayments',
+            'totalPaid',
+            'orderTotal',
+            'sisaTagihan',
+            'isLunas'
+        ));
+    }
+
+    /**
+     * Kirim nota dan progress order ke WhatsApp pelanggan.
+     */
+    public function sendWhatsapp(Order $order, Request $request)
+    {
+        $validated = $request->validate([
+            'nomor_wa' => 'required|string',
+            'pesan_tambahan' => 'nullable|string|max:500',
+        ]);
+
+        // Hitung total pembayaran dan sisa tagihan
+        $totalPaid = $order->total_dibayar;
+        $orderTotal = (int) $order->total;
+        $sisaTagihan = max(0, $orderTotal - $totalPaid);
+        $isLunas = $sisaTagihan <= 0;
+
+        // Ambil semua pembayaran untuk order ini
+        $payments = $order->payments()->orderBy('id')->get();
+
+        // Format pesan nota
+        $notaText = "*NOTA PEMBAYARAN ORDER #{$order->id}*\n\n";
+        $notaText .= "━━━━━━━━━━━━━━━━━━━━\n";
+        $notaText .= "📋 *Detail Order*\n";
+        $notaText .= "━━━━━━━━━━━━━━━━━━━━\n";
+        $notaText .= "Nama Pelanggan: {$order->nama_pelanggan}\n";
+        $notaText .= "No. HP: {$order->no_hp ?? '-'}\n";
+        $notaText .= "Kategori: {$order->kategori ?? '-'}\n";
+        $notaText .= "Alamat: {$order->alamat ?? '-'}\n\n";
+        
+        $notaText .= "💰 *Rincian Pembayaran*\n";
+        $notaText .= "━━━━━━━━━━━━━━━━━━━━\n";
+        $notaText .= "Total Tagihan: Rp " . number_format($orderTotal, 0, ',', '.') . "\n";
+        $notaText .= "Total Dibayar: Rp " . number_format($totalPaid, 0, ',', '.') . "\n";
+        $notaText .= "Sisa Tagihan: Rp " . number_format($sisaTagihan, 0, ',', '.') . "\n";
+        $notaText .= "Status: *" . ($isLunas ? 'LUNAS ✅' : 'BELUM LUNAS ⏳') . "*\n\n";
+
+        if ($payments->count() > 0) {
+            $notaText .= "📝 *Riwayat Pembayaran*\n";
+            $notaText .= "━━━━━━━━━━━━━━━━━━━━\n";
+            foreach ($payments as $pay) {
+                $tanggal = $pay->tanggal_bayar ? $pay->tanggal_bayar->format('d/m/Y') : '-';
+                $notaText .= "• {$tanggal} - Rp " . number_format($pay->jumlah, 0, ',', '.');
+                $notaText .= " ({$pay->metode})\n";
+            }
+            $notaText .= "\n";
+        }
+
+        $notaText .= "🔧 *Status Pengerjaan*\n";
+        $notaText .= "━━━━━━━━━━━━━━━━━━━━\n";
+        $statusLabels = [
+            'order' => 'Order Baru',
+            'on_progress' => 'Sedang Dikerjakan',
+            'selesai' => 'Selesai',
+            'cancelled' => 'Dibatalkan',
+        ];
+        $notaText .= "Status: *" . ($statusLabels[$order->status] ?? $order->status) . "*\n";
+        $notaText .= "Keterangan: {$order->keterangan ?? '-'}\n\n";
+
+        // Tambahkan pesan tambahan jika ada
+        if (!empty($validated['pesan_tambahan'])) {
+            $notaText .= "📩 *Pesan Tambahan*\n";
+            $notaText .= "━━━━━━━━━━━━━━━━━━━━\n";
+            $notaText .= $validated['pesan_tambahan'] . "\n\n";
+        }
+
+        $notaText .= "━━━━━━━━━━━━━━━━━━━━\n";
+        $notaText .= "Terima kasih atas kepercayaan Anda!\n";
+        $notaText .= "Kaligraph Design - Professional Signage & Neon Box";
+
+        // Format nomor WA
+        $nomorWa = \App\Helpers\FormatHelper::cleanWhatsappNumber($validated['nomor_wa']);
+
+        // Buat URL WhatsApp dengan pesan yang sudah diformat
+        $waUrl = 'https://wa.me/' . $nomorWa . '?text=' . urlencode($notaText);
+
+        ActivityLogService::log(
+            'send_whatsapp_nota',
+            'pembayaran',
+            "Kirim nota Order #{$order->id} ke WA {$validated['nomor_wa']}",
+            $order->id
+        );
+
+        // Redirect ke halaman detail dengan pesan sukses dan URL WA
+        return redirect()->route('pembayaran.detail.order', $order->id)
+            ->with('success', 'Nota berhasil disiapkan!')
+            ->with('wa_url', $waUrl)
+            ->with('nomor_wa', $validated['nomor_wa']);
+    }
 }

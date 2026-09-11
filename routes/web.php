@@ -107,6 +107,8 @@ Route::middleware(['auth:web'])->group(function () {
         Route::post('/', [PaymentController::class, 'store'])->name('store');
         Route::get('/{payment}/nota', [PaymentController::class, 'nota'])->name('nota');
         Route::delete('/{payment}', [PaymentController::class, 'destroy'])->name('destroy');
+        Route::get('/order/{order}/detail', [PaymentController::class, 'detailOrder'])->name('detail.order');
+        Route::post('/order/{order}/send-whatsapp', [PaymentController::class, 'sendWhatsapp'])->name('send.whatsapp');
     });
 
     // Status Pengerjaan Order

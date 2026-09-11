@@ -208,6 +208,9 @@
           </td>
           <td>
             <div style="display:flex; flex-direction:column; gap:6px;">
+              <a href="{{ route('pembayaran.detail.order', $ord->id) }}" class="btn btn-sm btn-primary" style="font-size:11px;">
+                💳 Detail Bayar
+              </a>
               <a href="{{ route('pembayaran.index', ['order_id' => $ord->id]) }}" class="btn btn-sm btn-secondary" style="font-size:11px;">
                 Catat Bayar
               </a>
