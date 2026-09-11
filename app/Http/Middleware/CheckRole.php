@@ -16,7 +16,10 @@ class CheckRole
      */
     public function handle(Request $request, Closure $next, string ...$roles): Response
     {
-        $user = $request->user('web') ?? $request->user();
+        $user = $request->user('web');
+        if (!$user) {
+            $user = $request->user();
+        }
 
         if (!$user) {
             return redirect()->route('login.admin');

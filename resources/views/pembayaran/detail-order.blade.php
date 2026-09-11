@@ -132,8 +132,9 @@
               'selesai' => '✅ Selesai',
               'cancelled' => '❌ Dibatalkan',
             ];
+            $statusLabel = isset($statusLabels[$order->status]) ? $statusLabels[$order->status] : $order->status;
           @endphp
-          {{ $statusLabels[$order->status] ?? $order->status }}
+          {{ $statusLabel }}
         </strong>
       </div>
     </div>
@@ -348,7 +349,7 @@
             Dibayar: Rp {{ number_format($totalPaid, 0, ',', '.') }}<br>
             Sisa: Rp {{ number_format($sisaTagihan, 0, ',', '.') }}<br>
             Status: {{ $isLunas ? 'LUNAS ✅' : 'BELUM LUNAS ⏳' }}<br>
-            Progress: {{ $statusLabels[$order->status] ?? $order->status }}
+            Progress: {{ $statusLabel }}
           </div>
         </div>
 

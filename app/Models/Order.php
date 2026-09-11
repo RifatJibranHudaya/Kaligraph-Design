@@ -95,7 +95,7 @@ class Order extends Model
      */
     public function getStatusLabelAttribute(): string
     {
-        return self::STATUSES[$this->status] ?? ucfirst($this->status);
+        return isset(self::STATUSES[$this->status]) ? self::STATUSES[$this->status] : ucfirst($this->status);
     }
 
     /**

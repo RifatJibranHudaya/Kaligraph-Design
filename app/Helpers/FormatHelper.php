@@ -9,7 +9,7 @@ class FormatHelper
      */
     public static function rupiah(mixed $amount, bool $withSymbol = true): string
     {
-        $num = (float)($amount ?? 0);
+        $num = (float)($amount ?: 0);
         $formatted = number_format($num, 0, ',', '.');
         return $withSymbol ? 'Rp ' . $formatted : $formatted;
     }
