@@ -124,13 +124,28 @@ class PaymentController extends Controller
     {
         $order->load(['branch', 'user', 'items', 'payments.user']);
         
+        // Cek authorization: hanya user yang terkait dengan order ini atau admin yang bisa akses
+        $authUser = Auth::guard('customer')->user() ?: Auth::guard('web')->user();
+        
+        if (!$authUser) {
+            return redirect()->route('login.customer')->with('error', 'Silakan login terlebih dahulu.');
+        }
+        
+        // Jika customer, pastikan hanya bisa melihat ordernya sendiri
+        if ($authUser->isCustomer() && $order->user_id !== $authUser->id) {
+            return redirect()->route('customer.dashboard')->with('error', 'Anda tidak memiliki akses ke order ini.');
+        }
+        
         $allPayments = $order->payments()->orderBy('id')->get();
         $totalPaid = $order->total_dibayar;
         $orderTotal = (int) $order->total;
         $sisaTagihan = max(0, $orderTotal - $totalPaid);
         $isLunas = $sisaTagihan <= 0;
 
-        return view('pembayaran.detail-order', compact(
+        // Tentukan view berdasarkan tipe user
+        $view = $authUser->isCustomer() ? 'customer.detail-order' : 'pembayaran.detail-order';
+
+        return view($view, compact(
             'order',
             'allPayments',
             'totalPaid',
@@ -145,6 +160,18 @@ class PaymentController extends Controller
      */
     public function sendWhatsapp(Order $order, Request $request)
     {
+        // Cek authorization
+        $authUser = Auth::guard('customer')->user() ?: Auth::guard('web')->user();
+        
+        if (!$authUser) {
+            return redirect()->route('login.customer')->with('error', 'Silakan login terlebih dahulu.');
+        }
+        
+        // Jika customer, pastikan hanya bisa mengirim WA untuk ordernya sendiri
+        if ($authUser->isCustomer() && $order->user_id !== $authUser->id) {
+            return redirect()->route('customer.dashboard')->with('error', 'Anda tidak memiliki akses ke order ini.');
+        }
+
         $validated = $request->validate([
             'nomor_wa' => 'required|string',
             'pesan_tambahan' => 'nullable|string|max:500',
@@ -228,7 +255,9 @@ class PaymentController extends Controller
         );
 
         // Redirect ke halaman detail dengan pesan sukses dan URL WA
-        return redirect()->route('pembayaran.detail.order', $order->id)
+        $redirectRoute = $authUser->isCustomer() ? 'customer.order.detail' : 'pembayaran.detail.order';
+        
+        return redirect()->route($redirectRoute, $order->id)
             ->with('success', 'Nota berhasil disiapkan!')
             ->with('wa_url', $waUrl)
             ->with('nomor_wa', $validated['nomor_wa']);

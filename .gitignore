@@ -1,66 +1,45 @@
 ```
-# Compiled and build artifacts
-*.pyc
-__pycache__/
-*.o
-*.obj
-*.class
-*.so
-*.dll
-*.exe
-*.out
-
 # Dependencies
-vendor/
 node_modules/
-.env
-.env.local
-*.env.*
+vendor/
 
-# Logs and temp files
-*.log
-*.tmp
+# Build artifacts
+dist/
+build/
+public/build/
+
+# PHP specific
+*.php~
+*.php.bak
 *.swp
 *.swo
 
-# Editors
+# Environment
+.env
+.env.local
+.env.*
+!.env.example
+
+# Cache and temporary files
+.cache/
+*.tmp
+*.log
+!access.log
+!error.log
+
+# IDE
 .vscode/
 .idea/
+*.sublime-project
+*.sublime-workspace
 
-# OS generated files
+# OS
 .DS_Store
 Thumbs.db
 
-# Coverage reports
-coverage/
-htmlcov/
-.coverage
-
-# Build directories
-dist/
-build/
-target/
-.gradle/
-
-# Python specific
-*.py[cod]
-*$py.class
-*.so
-.Python
-*.egg-info/
-.eggs/
-.mypy_cache/
-.pytest_cache/
-
-# PHP specific
-*.phar
-vendor/composer/installed.json
-
 # Laravel specific
-public/storage
+storage/
 bootstrap/cache/
-storage/logs/
-storage/framework/
 .npm
 .yarn
 ```

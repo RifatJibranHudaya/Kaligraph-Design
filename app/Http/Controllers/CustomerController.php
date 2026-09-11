@@ -15,9 +15,13 @@ class CustomerController extends Controller
      */
     public function index()
     {
-        $user = Auth::guard('customer')->user() ?: Auth::guard('web')->user();
+        $user = Auth::guard('customer')->user();
         
-        // Fetch customer's orders
+        if (!$user) {
+            return redirect()->route('login.customer');
+        }
+        
+        // Fetch customer's orders - only orders belonging to this authenticated customer
         $orders = Order::where('user_id', $user->id)
             ->with(['branch', 'items.product'])
             ->latest()

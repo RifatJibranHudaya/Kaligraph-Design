@@ -195,7 +195,7 @@ class AuthController extends Controller
             Auth::guard('web')->logout();
         }
 
-        return redirect()->route('login.admin')->with('success', 'Anda telah berhasil keluar.');
+        return redirect()->route('home')->with('success', 'Anda telah berhasil keluar.');
     }
 
     /**
@@ -208,7 +208,7 @@ class AuthController extends Controller
             Auth::guard('customer')->logout();
         }
 
-        return redirect()->route('login.customer')->with('success', 'Anda telah berhasil keluar dari Portal Pelanggan.');
+        return redirect()->route('home')->with('success', 'Anda telah berhasil keluar dari Portal Pelanggan.');
     }
 
     /**
