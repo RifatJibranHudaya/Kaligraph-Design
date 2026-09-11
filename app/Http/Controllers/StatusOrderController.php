@@ -83,7 +83,37 @@ class StatusOrderController extends Controller
         ]);
 
         $validated['status'] = 'order';
-        $validated['user_id'] = auth()->id();
+        
+        // Cari user_id berdasarkan no_hp jika ada
+        $userId = null;
+        if (!empty($validated['no_hp'])) {
+            $customer = User::where(function ($query) {
+                    $query->where('user_type', 'customer')
+                          ->orWhere('level', 'customer');
+                })
+                ->where('phone', $validated['no_hp'])
+                ->first();
+            
+            if ($customer) {
+                $userId = $customer->id;
+            }
+        }
+        
+        // Jika tidak ditemukan berdasarkan no_hp, coba cari berdasarkan nama
+        if (!$userId && !empty($validated['nama_pelanggan'])) {
+            $customer = User::where(function ($query) {
+                    $query->where('user_type', 'customer')
+                          ->orWhere('level', 'customer');
+                })
+                ->where('username', $validated['nama_pelanggan'])
+                ->first();
+            
+            if ($customer) {
+                $userId = $customer->id;
+            }
+        }
+        
+        $validated['user_id'] = $userId ?? auth()->id();
 
         $order = Order::create($validated);
 
