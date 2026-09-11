@@ -59,10 +59,10 @@ class ProduksiController extends Controller
             'branch_id'  => $branchId,
             'nama_item'  => $validated['nama_item'],
             'harga'      => $validated['harga'],
-            'supplier'   => $validated['supplier'] ?? null,
-            'tempat'     => $validated['tempat'] ?? null,
+            'supplier'   => isset($validated['supplier']) ? $validated['supplier'] : null,
+            'tempat'     => isset($validated['tempat']) ? $validated['tempat'] : null,
             'tanggal'    => $validated['tanggal'],
-            'keterangan' => $validated['keterangan'] ?? null,
+            'keterangan' => isset($validated['keterangan']) ? $validated['keterangan'] : null,
         ]);
 
         ActivityLogService::log(

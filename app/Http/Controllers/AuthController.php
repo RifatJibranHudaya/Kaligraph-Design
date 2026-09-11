@@ -124,7 +124,8 @@ class AuthController extends Controller
 
         ActivityLogService::log('login_customer', 'auth', 'Customer logged in: ' . $user->username);
 
-        return redirect()->intended(route('customer.dashboard'))->with('success', 'Selamat datang di Portal Pelanggan, ' . ($user->username ?? 'Pelanggan') . '!');
+        $usernameDisplay = $user->username ?: 'Pelanggan';
+        return redirect()->intended(route('customer.dashboard'))->with('success', 'Selamat datang di Portal Pelanggan, ' . $usernameDisplay . '!');
     }
 
     /**
@@ -194,7 +195,7 @@ class AuthController extends Controller
             Auth::guard('web')->logout();
         }
 
-        return redirect()->route('login.admin')->with('success', 'Anda telah berhasil keluar.');
+        return redirect()->route('home')->with('success', 'Anda telah berhasil keluar.');
     }
 
     /**
@@ -207,7 +208,7 @@ class AuthController extends Controller
             Auth::guard('customer')->logout();
         }
 
-        return redirect()->route('login.customer')->with('success', 'Anda telah berhasil keluar dari Portal Pelanggan.');
+        return redirect()->route('home')->with('success', 'Anda telah berhasil keluar dari Portal Pelanggan.');
     }
 
     /**

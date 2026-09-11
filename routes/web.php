@@ -178,4 +178,8 @@ Route::middleware(['auth:web'])->group(function () {
 Route::middleware(['auth:customer'])->group(function () {
     Route::post('/customer/logout', [AuthController::class, 'customerLogout'])->name('customer.logout');
     Route::get('/customer/dashboard', [CustomerController::class, 'index'])->name('customer.dashboard');
+    
+    // Detail pembayaran untuk pelanggan
+    Route::get('/customer/order/{order}/detail', [PaymentController::class, 'detailOrder'])->name('customer.order.detail');
+    Route::post('/customer/order/{order}/send-whatsapp', [PaymentController::class, 'sendWhatsapp'])->name('customer.order.send.whatsapp');
 });

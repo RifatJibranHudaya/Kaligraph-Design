@@ -380,11 +380,26 @@
               <th>Cabang / Showroom</th>
               <th>Items Pesanan</th>
               <th>Total Biaya</th>
-              <th>Status</th>
+              <th>Status Pengerjaan</th>
+              <th>Status Pembayaran</th>
+              <th>Aksi</th>
             </tr>
           </thead>
           <tbody>
             @foreach($orders as $order)
+              @php
+                $dibayar = $order->total_dibayar ?? 0;
+                $total = $order->total ?? 0;
+                $sisa = max(0, $total - $dibayar);
+                $isLunas = $dibayar >= $total && $total > 0;
+                $statusLabels = [
+                  'order' => '📋 Order Baru',
+                  'on_progress' => '🔧 Sedang Dikerjakan',
+                  'selesai' => '✅ Selesai',
+                  'cancelled' => '❌ Dibatalkan',
+                ];
+                $statusLabel = isset($statusLabels[$order->status]) ? $statusLabels[$order->status] : $order->status;
+              @endphp
               <tr>
                 <td><span class="order-id-badge">#ORD-{{ str_pad($order->id, 5, '0', STR_PAD_LEFT) }}</span></td>
                 <td>{{ $order->created_at->format('d M Y, H:i') }}</td>
@@ -400,7 +415,26 @@
                   Rp {{ number_format($order->total, 0, ',', '.') }}
                 </td>
                 <td>
-                  <span class="badge-status badge-selesai">✅ Selesai</span>
+                  <span class="badge-status {{ $order->status === 'selesai' ? 'badge-selesai' : ($order->status === 'on_progress' ? 'badge-proses' : 'badge-pending') }}">
+                    {{ $statusLabel }}
+                  </span>
+                </td>
+                <td>
+                  @if($isLunas)
+                    <span class="badge-status badge-selesai">✅ Lunas</span>
+                  @elseif($dibayar > 0)
+                    <span class="badge-status badge-proses">⏳ DP</span>
+                    <div style="font-size:10px; color:var(--text-muted); margin-top:2px;">
+                      Sisa: Rp {{ number_format($sisa, 0, ',', '.') }}
+                    </div>
+                  @else
+                    <span class="badge-status badge-pending">⚠️ Belum Bayar</span>
+                  @endif
+                </td>
+                <td>
+                  <a href="{{ route('customer.order.detail', $order->id) }}" class="btn-order-wa" style="padding:6px 10px; font-size:11px;">
+                    💳 Detail & Bayar
+                  </a>
                 </td>
               </tr>
             @endforeach
