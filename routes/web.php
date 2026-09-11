@@ -66,13 +66,10 @@ Route::middleware('guest')->group(function () {
     Route::post('/forgot-password/reset', [ForgotPasswordController::class, 'resetPassword'])->name('password.reset.update');
 });
 
-// Authenticated Routes
-Route::middleware('auth')->group(function () {
+// Authenticated Routes - Admin/Staff (web guard)
+Route::middleware(['auth:web'])->group(function () {
     Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
     Route::post('/switch-branch', [AuthController::class, 'switchBranch'])->name('switch-branch');
-
-    // Customer Portal
-    Route::get('/customer/dashboard', [CustomerController::class, 'index'])->name('customer.dashboard');
 
     // Admin Dashboard
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
@@ -173,4 +170,10 @@ Route::middleware('auth')->group(function () {
         Route::get('/whatsapp', [SettingController::class, 'whatsapp'])->name('whatsapp');
         Route::post('/whatsapp', [SettingController::class, 'updateWhatsapp'])->name('whatsapp.update');
     });
+});
+
+// Customer Portal Routes (customer guard)
+Route::middleware(['auth:customer'])->group(function () {
+    Route::post('/customer/logout', [AuthController::class, 'customerLogout'])->name('customer.logout');
+    Route::get('/customer/dashboard', [CustomerController::class, 'index'])->name('customer.dashboard');
 });
