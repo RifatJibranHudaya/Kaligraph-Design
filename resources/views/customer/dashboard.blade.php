@@ -1,6 +1,6 @@
 @extends('layouts.guest')
 
-@section('title', 'Portal Pelanggan - Kaligraph Design')
+@section('title', 'Portal Pelanggan - Kafa Advertising')
 
 @section('styles')
 <style>
@@ -713,7 +713,7 @@
 <nav class="customer-navbar">
   <a href="{{ route('home') }}" class="nav-brand">
     <div class="brand-icon">💡</div>
-    <span>Kaligraph Design</span>
+    <span>Kafa Advertising</span>
   </a>
 
   <div class="nav-right-wrap">
@@ -737,7 +737,7 @@
     <div class="drawer-brand">
       <div class="drawer-brand-logo">💡</div>
       <div>
-        <div class="drawer-brand-title">Kaligraph Design</div>
+        <div class="drawer-brand-title">Kafa Advertising</div>
         <div class="drawer-brand-sub">Advertising & Reklame</div>
       </div>
     </div>
@@ -854,7 +854,7 @@
     <div class="drawer-footer-info">
       Butuh bantuan? Hubungi kami untuk konsultasi gratis.
     </div>
-    <a href="{{ \App\Helpers\FormatHelper::whatsappUrl('Halo Kaligraph Design, saya butuh bantuan') }}" target="_blank" class="drawer-wa-cta">
+    <a href="{{ \App\Helpers\FormatHelper::whatsappUrl('Halo Kafa Advertising, saya butuh bantuan') }}" target="_blank" class="drawer-wa-cta">
       💬 Hubungi via WhatsApp
     </a>
   </div>
@@ -901,12 +901,12 @@
 
   <!-- Welcome Banner -->
   <div class="welcome-banner">
-    <div class="welcome-badge">Portal Pelanggan Kaligraph Design</div>
+    <div class="welcome-badge">Portal Pelanggan Kafa Advertising</div>
     <h1 class="welcome-title">Halo, {{ $user->username }}! 👋</h1>
     <p class="welcome-subtitle">
-      Selamat datang di pusat layanan pelanggan Kaligraph Design. Anda dapat melihat riwayat pengerjaan pesanan neon box Anda atau melakukan konsultasi proyek baru.
+      Selamat datang di pusat layanan pelanggan Kafa Advertising. Anda dapat melihat riwayat pengerjaan pesanan neon box Anda atau melakukan konsultasi proyek baru.
     </p>
-    <a href="{{ \App\Helpers\FormatHelper::whatsappUrl('Halo Kaligraph Design, saya pelanggan (' . $user->username . ') ingin konsultasi pesanan neon box') }}" target="_blank" class="btn-cta-wa">
+    <a href="{{ \App\Helpers\FormatHelper::whatsappUrl('Halo Kafa Advertising, saya pelanggan (' . $user->username . ') ingin konsultasi pesanan neon box') }}" target="_blank" class="btn-cta-wa">
       💬 Konsultasi & Pesan Custom via WhatsApp
     </a>
   </div>
@@ -1022,7 +1022,7 @@
           <div class="product-mini-name">{{ $prod->nama }}</div>
           <div class="product-mini-price">{{ $prod->harga_display }}</div>
           <div class="product-mini-desc">{{ $prod->deskripsi ?: 'Produk neon box berkualitas tinggi' }}</div>
-          <a href="{{ \App\Helpers\FormatHelper::whatsappUrl('Halo Kaligraph Design, saya tertarik dengan produk *' . $prod->nama . '*') }}" target="_blank" class="btn-order-wa">
+          <a href="{{ \App\Helpers\FormatHelper::whatsappUrl('Halo Kafa Advertising, saya tertarik dengan produk *' . $prod->nama . '*') }}" target="_blank" class="btn-order-wa">
             💬 Pesan Sekarang
           </a>
         </div>

@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Nota Pembayaran #PAY-{{ str_pad($payment->id, 5, '0', STR_PAD_LEFT) }} — Kaligraph Design</title>
+  <title>Nota Pembayaran #PAY-{{ str_pad($payment->id, 5, '0', STR_PAD_LEFT) }} — Kafa Advertising</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;600;700&display=swap" rel="stylesheet">
@@ -474,7 +474,7 @@
 
     <!-- Small Terms Footer -->
     <div class="terms-text">
-      Terima kasih telah mempercayakan pengerjaan advertising Anda kepada Kaligraph Design.<br>
+      Terima kasih telah mempercayakan pengerjaan advertising Anda kepada Kafa Advertising.<br>
       Simpan bukti transaksi ini sebagai bukti pembayaran yang sah.
     </div>
   </div>

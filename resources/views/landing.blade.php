@@ -1,6 +1,6 @@
 @extends('layouts.guest')
 
-@section('title', 'Kaligraph Design - Jasa Neon Box & Signage Custom Terbaik')
+@section('title', 'Kafa Advertising - Jasa Neon Box & Signage Custom Terbaik')
 
 @section('styles')
 <style>
@@ -881,7 +881,7 @@
 @section('content')
 
 <!-- WhatsApp Float Button -->
-<a href="{{ \App\Helpers\FormatHelper::whatsappUrl('Halo Kaligraph Design, saya ingin memesan neon box') }}" target="_blank" class="wa-float" title="Chat WhatsApp">
+<a href="{{ \App\Helpers\FormatHelper::whatsappUrl('Halo Kafa Advertising, saya ingin memesan neon box') }}" target="_blank" class="wa-float" title="Chat WhatsApp">
   💬
 </a>
 
@@ -889,7 +889,7 @@
 <nav class="navbar">
   <a href="{{ route('home') }}" class="nav-brand">
     <div class="brand-logo">💡</div>
-    <span>Kaligraph Design</span>
+    <span>Kafa Advertising</span>
   </a>
 
   <div class="nav-right-wrap">
@@ -917,7 +917,7 @@
     <div class="drawer-brand">
       <div class="drawer-brand-logo">💡</div>
       <div>
-        <div class="drawer-brand-title">Kaligraph Design</div>
+        <div class="drawer-brand-title">Kafa Advertising</div>
         <div class="drawer-brand-sub">Advertising & Reklame</div>
       </div>
     </div>
@@ -1007,7 +1007,7 @@
       <div>📍 <strong>Workshop & Showroom</strong></div>
       <div>Melayani Demak, Semarang, Surabaya & sekitarnya. Pengiriman ke seluruh Indonesia.</div>
     </div>
-    <a href="{{ \App\Helpers\FormatHelper::whatsappUrl('Halo Kaligraph Design, saya ingin konsultasi pesanan') }}" target="_blank" class="drawer-wa-cta">
+    <a href="{{ \App\Helpers\FormatHelper::whatsappUrl('Halo Kafa Advertising, saya ingin konsultasi pesanan') }}" target="_blank" class="drawer-wa-cta">
       <span>💬</span>
       <span>Chat WhatsApp Sekarang</span>
     </a>
@@ -1030,7 +1030,7 @@
         Terbaik di Indonesia
       </h1>
       <p class="hero-subtitle">
-        {{ $hero->content ?? 'Kaligraph Design menghadirkan neon box akrilik, flexy, LED, huruf timbul, pylon sign, dan jasa bengkel las konstruksi berkualitas premium bergaransi.' }}
+        {{ $hero->content ?? 'Kafa Advertising menghadirkan neon box akrilik, flexy, LED, huruf timbul, pylon sign, dan jasa bengkel las konstruksi berkualitas premium bergaransi.' }}
       </p>
       <div class="hero-btns">
         <a href="{{ route('katalog') }}" class="btn-hero-primary">📂 Lihat Kategori & Katalog</a>
@@ -1106,7 +1106,7 @@
 <!-- ─── Features Section ─── -->
 <section class="features-section" id="keunggulan">
   <div class="section-badge">Keunggulan Kami</div>
-  <h2 class="section-title">Mengapa Pilih Kaligraph Design?</h2>
+  <h2 class="section-title">Mengapa Pilih Kafa Advertising?</h2>
   <p class="section-subtitle">Kami bukan sekadar produsen — kami adalah mitra branding visual bisnis Anda.</p>
 
   <div class="features-grid">
@@ -1154,7 +1154,7 @@
       <div class="branch-card">
         <div class="branch-icon-circle">🏪</div>
         <div class="branch-name">{{ $b->nama_cabang }}</div>
-        <p class="branch-addr">{{ $b->alamat ?: 'Showroom & Workshop Kaligraph Design' }}</p>
+        <p class="branch-addr">{{ $b->alamat ?: 'Showroom & Workshop Kafa Advertising' }}</p>
         
         @if($b->clean_iframe)
           <div style="border-radius:12px; overflow:hidden; margin-top:8px; box-shadow:0 4px 10px rgba(0,0,0,0.05);">
@@ -1178,15 +1178,15 @@
 <section class="cta-section">
   <h2>Siap Memesan Neon Box Custom?</h2>
   <p>Hubungi tim kami sekarang dan dapatkan konsultasi gratis + estimasi harga terbaik untuk kebutuhan bisnis Anda.</p>
-  <a href="{{ \App\Helpers\FormatHelper::whatsappUrl('Halo Kaligraph Design, saya ingin konsultasi neon box') }}" target="_blank" class="btn-hero-wa" style="margin: 0 auto; font-size:18px; padding:18px 40px;">
+  <a href="{{ \App\Helpers\FormatHelper::whatsappUrl('Halo Kafa Advertising, saya ingin konsultasi neon box') }}" target="_blank" class="btn-hero-wa" style="margin: 0 auto; font-size:18px; padding:18px 40px;">
     💬 Chat WhatsApp Sekarang
   </a>
 </section>
 
 <!-- ─── Footer ─── -->
 <footer class="footer">
-  <div class="footer-brand">💡 Kaligraph Design</div>
-  <p>© {{ date('Y') }} <strong>Kaligraph Design</strong>. Spesialis Neon Box & Signage Custom Indonesia.</p>
+  <div class="footer-brand">💡 Kafa Advertising</div>
+  <p>© {{ date('Y') }} <strong>Kafa Advertising</strong>. Spesialis Neon Box & Signage Custom Indonesia.</p>
   <div style="display: flex; gap: 16px; font-size: 13px;">
     <a href="https://www.instagram.com/kafaxgraf?utm_source=ig_web_button_share_sheet&stkn=ZDNlZDc0MzIxNw==" style="color:#60a5fa; text-decoration:none;">Instagram</a>
     <a href="https://www.facebook.com/people/Kafa-X-Graf-Adv/61555941644272/" style="color:#94a3b8; text-decoration:none;">Facebook</a>

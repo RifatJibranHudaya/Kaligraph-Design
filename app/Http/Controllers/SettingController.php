@@ -15,7 +15,7 @@ class SettingController extends Controller
     public function whatsapp()
     {
         $waNumber = Setting::get('whatsapp_number', '6281234567890');
-        $waDefaultMsg = Setting::get('whatsapp_default_message', 'Halo Kaligraph Design, saya ingin konsultasi pesanan neon box & signage.');
+        $waDefaultMsg = Setting::get('whatsapp_default_message', 'Halo Kafa Advertising, saya ingin konsultasi pesanan neon box & signage.');
         $formattedWa = FormatHelper::whatsappNumber();
 
         return view('settings.whatsapp', compact('waNumber', 'waDefaultMsg', 'formattedWa'));

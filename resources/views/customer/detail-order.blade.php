@@ -120,7 +120,7 @@
 <nav class="customer-navbar" style="display:flex;align-items:center;justify-content:space-between;padding:16px 6%;background:var(--bg-card);border-bottom:1px solid var(--border-color);position:sticky;top:0;z-index:100;box-shadow:0 2px 10px rgba(0,0,0,0.03);">
   <a href="{{ route('customer.dashboard') }}" style="display:flex;align-items:center;gap:10px;font-size:18px;font-weight:800;color:var(--primary);text-decoration:none;">
     <div style="width:36px;height:36px;background:linear-gradient(135deg,#2563eb,#7c3aed);border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:18px;">💡</div>
-    <span>Kaligraph Design</span>
+    <span>Kafa Advertising</span>
   </a>
   <div style="display:flex;align-items:center;gap:16px;">
     <a href="{{ route('customer.dashboard') }}" style="font-size:13px;font-weight:600;color:var(--text-main);text-decoration:none;">← Kembali ke Dashboard</a>

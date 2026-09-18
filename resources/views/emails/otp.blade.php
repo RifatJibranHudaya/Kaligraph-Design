@@ -92,7 +92,7 @@
   <div class="email-container">
     <div class="email-header">
       <div class="logo-icon">💡</div>
-      <h1>Kaligraph Design</h1>
+      <h1>Kafa Advertising</h1>
       <p>Spesialis Neon Box & Signage Custom</p>
     </div>
     <div class="email-body">
@@ -105,13 +105,13 @@
 
       <div class="otp-warning">
         ⏳ Kode OTP ini hanya berlaku selama <strong>10 menit</strong>.<br>
-        Jangan berikan kode ini kepada siapapun termasuk pihak Kaligraph Design.
+        Jangan berikan kode ini kepada siapapun termasuk pihak Kafa Advertising.
       </div>
 
       <p style="margin-bottom: 0; font-size: 13px;">Jika Anda tidak meminta perubahan kata sandi, abaikan email ini.</p>
     </div>
     <div class="email-footer">
-      © {{ date('Y') }} Kaligraph Design. Hak cipta dilindungi undang-undang.
+      © {{ date('Y') }} Kafa Advertising. Hak cipta dilindungi undang-undang.
     </div>
   </div>
 </body>

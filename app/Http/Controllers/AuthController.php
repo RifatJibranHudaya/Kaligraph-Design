@@ -205,7 +205,7 @@ class AuthController extends Controller
 
         ActivityLogService::log('register_customer', 'auth', "New customer registered: {$user->username} ({$user->email})");
 
-        return redirect()->route('customer.dashboard')->with('success', 'Pendaftaran berhasil! Selamat datang di Kaligraph Design.');
+        return redirect()->route('customer.dashboard')->with('success', 'Pendaftaran berhasil! Selamat datang di Kafa Advertising.');
     }
 
     /**

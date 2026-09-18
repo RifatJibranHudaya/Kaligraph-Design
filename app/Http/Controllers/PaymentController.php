@@ -239,7 +239,7 @@ class PaymentController extends Controller
 
         $notaText .= "━━━━━━━━━━━━━━━━━━━━\n";
         $notaText .= "Terima kasih atas kepercayaan Anda!\n";
-        $notaText .= "Kaligraph Design - Professional Signage & Neon Box";
+        $notaText .= "Kafa Advertising - Professional Signage & Neon Box";
 
         // Format nomor WA
         $nomorWa = \App\Helpers\FormatHelper::cleanWhatsappNumber($validated['nomor_wa']);
