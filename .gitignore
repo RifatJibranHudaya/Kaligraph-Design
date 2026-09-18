@@ -21,8 +21,6 @@ storage/framework/
 # IDE files
 .vscode/
 .idea/
-*.swp
-*.swo
 
 # OS generated files
 .DS_Store
