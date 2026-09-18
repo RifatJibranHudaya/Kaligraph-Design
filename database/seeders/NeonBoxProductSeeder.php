@@ -8,7 +8,7 @@ use Illuminate\Database\Seeder;
 class NeonBoxProductSeeder extends Seeder
 {
     /**
-     * Seed neon box products for Kaligraph Design.
+     * Seed neon box products for Kafa Advertising.
      */
     public function run(): void
     {

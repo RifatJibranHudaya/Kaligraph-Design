@@ -1,6 +1,6 @@
 @extends('layouts.guest')
 
-@section('title', $product->nama . ' - Kaligraph Design')
+@section('title', $product->nama . ' - Kafa Advertising')
 
 @section('styles')
 <style>
@@ -537,7 +537,7 @@
 <nav class="navbar">
   <a href="{{ route('home') }}" class="nav-brand">
     <div class="brand-logo">💡</div>
-    <span>Kaligraph Design</span>
+    <span>Kafa Advertising</span>
   </a>
 
   <div class="nav-right-wrap">
@@ -565,7 +565,7 @@
     <div class="drawer-brand">
       <div class="drawer-brand-logo">💡</div>
       <div>
-        <div class="drawer-brand-title">Kaligraph Design</div>
+        <div class="drawer-brand-title">Kafa Advertising</div>
         <div class="drawer-brand-sub">Advertising & Reklame</div>
       </div>
     </div>
@@ -655,7 +655,7 @@
       <div>📍 <strong>Workshop & Showroom</strong></div>
       <div>Melayani Demak, Semarang, Surabaya & sekitarnya. Pengiriman ke seluruh Indonesia.</div>
     </div>
-    <a href="{{ \App\Helpers\FormatHelper::whatsappUrl('Halo Kaligraph Design, saya ingin konsultasi pesanan') }}" target="_blank" class="drawer-wa-cta">
+    <a href="{{ \App\Helpers\FormatHelper::whatsappUrl('Halo Kafa Advertising, saya ingin konsultasi pesanan') }}" target="_blank" class="drawer-wa-cta">
       <span>💬</span>
       <span>Chat WhatsApp Sekarang</span>
     </a>
@@ -729,7 +729,7 @@
 
       <!-- WhatsApp CTA -->
       @php
-        $waMsg = "Halo Kaligraph Design, saya tertarik untuk memesan / konsultasi produk: *" . $product->nama . "* (" . $product->harga_display . "). Mohon info estimasi dan proses pemesanannya.";
+        $waMsg = "Halo Kafa Advertising, saya tertarik untuk memesan / konsultasi produk: *" . $product->nama . "* (" . $product->harga_display . "). Mohon info estimasi dan proses pemesanannya.";
         $waUrl = \App\Helpers\FormatHelper::whatsappUrl($waMsg);
       @endphp
       <a href="{{ $waUrl }}" target="_blank" class="order-btn-wa">
@@ -764,7 +764,7 @@
 
 <!-- Footer -->
 <footer class="footer">
-  <div>💡 <strong>Kaligraph Design</strong> — Spesialis Neon Box & Signage Custom</div>
+  <div>💡 <strong>Kafa Advertising</strong> — Spesialis Neon Box & Signage Custom</div>
   <p>© {{ date('Y') }} All rights reserved.</p>
 </footer>
 

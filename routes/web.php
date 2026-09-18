@@ -21,7 +21,7 @@ use Illuminate\Support\Facades\Route;
 
 /*
 |--------------------------------------------------------------------------
-| Web Routes - Kaligraph Design
+| Web Routes - Kafa Advertising
 |--------------------------------------------------------------------------
 */
 

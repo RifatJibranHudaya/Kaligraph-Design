@@ -1,6 +1,6 @@
 @extends('layouts.guest')
 
-@section('title', 'Verifikasi Kode OTP - Kaligraph Design')
+@section('title', 'Verifikasi Kode OTP - Kafa Advertising')
 
 @section('styles')
 <style>

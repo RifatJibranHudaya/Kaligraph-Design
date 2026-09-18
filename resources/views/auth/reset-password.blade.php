@@ -1,6 +1,6 @@
 @extends('layouts.guest')
 
-@section('title', 'Atur Ulang Kata Sandi - Kaligraph Design')
+@section('title', 'Atur Ulang Kata Sandi - Kafa Advertising')
 
 @section('styles')
 <style>

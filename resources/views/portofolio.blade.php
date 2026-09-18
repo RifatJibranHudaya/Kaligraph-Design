@@ -1,6 +1,6 @@
 @extends('layouts.guest')
 
-@section('title', 'Portofolio Proyek - Kaligraph Design')
+@section('title', 'Portofolio Proyek - Kafa Advertising')
 
 @section('styles')
 <style>
@@ -598,7 +598,7 @@
 <nav class="navbar">
   <a href="{{ route('home') }}" class="nav-brand">
     <div class="brand-logo">💡</div>
-    <span>Kaligraph Design</span>
+    <span>Kafa Advertising</span>
   </a>
 
   <div class="nav-right-wrap">
@@ -626,7 +626,7 @@
     <div class="drawer-brand">
       <div class="drawer-brand-logo">💡</div>
       <div>
-        <div class="drawer-brand-title">Kaligraph Design</div>
+        <div class="drawer-brand-title">Kafa Advertising</div>
         <div class="drawer-brand-sub">Advertising & Reklame</div>
       </div>
     </div>
@@ -716,7 +716,7 @@
       <div>📍 <strong>Workshop & Showroom</strong></div>
       <div>Melayani Demak, Semarang, Surabaya & sekitarnya. Pengiriman ke seluruh Indonesia.</div>
     </div>
-    <a href="{{ \App\Helpers\FormatHelper::whatsappUrl('Halo Kaligraph Design, saya ingin konsultasi pesanan dari melihat Portofolio') }}" target="_blank" class="drawer-wa-cta">
+    <a href="{{ \App\Helpers\FormatHelper::whatsappUrl('Halo Kafa Advertising, saya ingin konsultasi pesanan dari melihat Portofolio') }}" target="_blank" class="drawer-wa-cta">
       <span>💬</span>
       <span>Chat WhatsApp Sekarang</span>
     </a>
@@ -806,7 +806,7 @@
 
 <!-- Footer -->
 <footer class="footer">
-  <div>💡 <strong>Kaligraph Design</strong> — Spesialis Neon Box & Signage Custom</div>
+  <div>💡 <strong>Kafa Advertising</strong> — Spesialis Neon Box & Signage Custom</div>
   <p>© {{ date('Y') }} All rights reserved.</p>
 </footer>
 

@@ -71,7 +71,7 @@ class DatabaseSeeder extends Seeder
             [
                 'title'       => 'Solusi Neon Box Custom Terbaik',
                 'subtitle'    => 'Spesialis Neon Box & Signage Custom',
-                'content'     => 'Kaligraph Design menghadirkan neon box akrilik, flexy, LED, huruf timbul, dan signage custom berkualitas premium. Garansi terpasang, harga bersaing, layanan seluruh Indonesia.',
+                'content'     => 'Kafa Advertising menghadirkan neon box akrilik, flexy, LED, huruf timbul, dan signage custom berkualitas premium. Garansi terpasang, harga bersaing, layanan seluruh Indonesia.',
                 'icon'        => '💡',
                 'order_index' => 1,
                 'is_active'   => true,
@@ -81,7 +81,7 @@ class DatabaseSeeder extends Seeder
         HomeContent::firstOrCreate(
             ['section' => 'about'],
             [
-                'title'       => 'Tentang Kaligraph Design',
+                'title'       => 'Tentang Kafa Advertising',
                 'subtitle'    => 'Pengalaman 8+ Tahun di Industri Signage',
                 'content'     => 'Kami berkomitmen menghadirkan solusi neon box dan signage berkualitas tinggi dengan material premium, pengerjaan presisi, dan layanan purna jual terpercaya.',
                 'icon'        => '🏪',

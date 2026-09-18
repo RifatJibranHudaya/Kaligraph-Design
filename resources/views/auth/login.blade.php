@@ -1,6 +1,6 @@
 @extends('layouts.guest')
 
-@section('title', 'Pilih Jalur Masuk - Kaligraph Design')
+@section('title', 'Pilih Jalur Masuk - Kafa Advertising')
 
 @section('styles')
 <style>
@@ -228,7 +228,7 @@
   <div class="portal-wrapper">
     <div class="portal-header">
       <div class="brand-logo-badge">💡</div>
-      <h1 class="portal-title">Selamat Datang di Kaligraph Design</h1>
+      <h1 class="portal-title">Selamat Datang di Kafa Advertising</h1>
       <p class="portal-subtitle">Silakan pilih jenis akun Anda untuk melanjutkan ke layanan kami</p>
     </div>
 
@@ -258,7 +258,7 @@
         <span class="card-role-badge badge-admin">Internal Management</span>
         <h2 class="card-heading">Saya Staff / Admin</h2>
         <p class="card-description">
-          Masuk ke sistem manajemen internal Kaligraph Design untuk operasional kasir, produksi, stok, dan administrasi cabang.
+          Masuk ke sistem manajemen internal Kafa Advertising untuk operasional kasir, produksi, stok, dan administrasi cabang.
         </p>
         <div class="card-btn btn-admin">
           Masuk sebagai Admin / Staff ➔

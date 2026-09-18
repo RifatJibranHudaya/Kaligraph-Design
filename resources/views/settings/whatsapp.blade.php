@@ -212,7 +212,7 @@
   function updatePreview() {
     const rawNum = document.getElementById('whatsapp_number').value;
     const cleanNum = formatCleanNumber(rawNum);
-    const msg = document.getElementById('whatsapp_default_message').value || 'Halo Kaligraph Design, saya ingin konsultasi pesanan neon box & signage.';
+    const msg = document.getElementById('whatsapp_default_message').value || 'Halo Kafa Advertising, saya ingin konsultasi pesanan neon box & signage.';
 
     document.getElementById('previewNumberDisplay').textContent = '+' + cleanNum;
     document.getElementById('previewMsgDisplay').textContent = msg;

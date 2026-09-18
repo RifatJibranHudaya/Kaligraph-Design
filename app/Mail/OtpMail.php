@@ -30,7 +30,7 @@ class OtpMail extends Mailable
     public function envelope(): Envelope
     {
         return new Envelope(
-            subject: 'Kode Verifikasi OTP Reset Password - Kaligraph Design',
+            subject: 'Kode Verifikasi OTP Reset Password - Kafa Advertising',
         );
     }
 

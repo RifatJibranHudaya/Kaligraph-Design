@@ -31,7 +31,7 @@ return new class extends Migration
                 ],
                 [
                     'key' => 'whatsapp_default_message',
-                    'value' => 'Halo Kaligraph Design, saya ingin konsultasi pesanan neon box & signage.',
+                    'value' => 'Halo Kafa Advertising, saya ingin konsultasi pesanan neon box & signage.',
                     'group' => 'contact',
                     'description' => 'Pesan default konsultasi WhatsApp',
                     'created_at' => now(),

@@ -96,7 +96,7 @@ class FormatHelper
     public static function whatsappUrl(?string $message = null): string
     {
         $number = self::whatsappNumber();
-        $defaultMsg = \App\Models\Setting::get('whatsapp_default_message', 'Halo Kaligraph Design, saya ingin konsultasi pesanan neon box & signage.');
+        $defaultMsg = \App\Models\Setting::get('whatsapp_default_message', 'Halo Kafa Advertising, saya ingin konsultasi pesanan neon box & signage.');
         $text = $message !== null ? $message : $defaultMsg;
 
         return 'https://wa.me/' . $number . '?text=' . urlencode($text);
