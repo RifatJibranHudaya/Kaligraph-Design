@@ -178,6 +178,7 @@ Route::middleware(['auth:web', 'prevent.back'])->group(function () {
 Route::middleware(['auth:customer', 'prevent.back'])->group(function () {
     Route::post('/customer/logout', [AuthController::class, 'customerLogout'])->name('customer.logout');
     Route::get('/customer/dashboard', [CustomerController::class, 'index'])->name('customer.dashboard');
+    Route::post('/customer/profile/update', [CustomerController::class, 'updateProfile'])->name('customer.profile.update');
     
     // Detail pembayaran untuk pelanggan
     Route::get('/customer/order/{order}/detail', [PaymentController::class, 'detailOrder'])->name('customer.order.detail');
