@@ -53,7 +53,6 @@
       <table class="table" id="kategoriTable">
         <thead>
           <tr>
-            <th>Ikon</th>
             <th>Nama & Slug</th>
             <th>Jumlah Produk</th>
             <th>Status</th>
@@ -63,15 +62,6 @@
         <tbody>
           @forelse($categories as $cat)
             <tr>
-              <td style="width:60px;">
-                @if($cat->foto_url)
-                  <img src="{{ $cat->foto_url }}" alt="{{ $cat->nama }}" style="width:48px; height:48px; object-fit:cover; border-radius:10px; border:1px solid var(--border-color);">
-                @else
-                  <div style="width:48px; height:48px; border-radius:10px; background:var(--primary-light); display:flex; align-items:center; justify-content:center; font-size:22px;">
-                    {{ $cat->emoji ?: '📂' }}
-                  </div>
-                @endif
-              </td>
               <td>
                 <strong>{{ $cat->nama }}</strong>
                 <div style="font-size:11px; color:var(--text-muted); font-family:monospace;">
@@ -106,7 +96,7 @@
             </tr>
           @empty
             <tr>
-              <td colspan="5" style="text-align:center; color:var(--text-muted); padding:30px;">
+              <td colspan="4" style="text-align:center; color:var(--text-muted); padding:30px;">
                 Belum ada data kategori.
               </td>
             </tr>
@@ -172,7 +162,7 @@ $(document).ready(function() {
     order: [[1, 'asc']],
     pageLength: 10,
     columnDefs: [
-      { orderable: false, targets: [0, 3, 4] }
+      { orderable: false, targets: [2, 3] }
     ]
   });
 });
