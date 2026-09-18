@@ -353,50 +353,19 @@
   }
 
   .user-nav-actions {
-    display: flex;
-    align-items: center;
-    gap: 16px;
+    display: none;
   }
 
   .user-info-pill {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    background: var(--bg-main);
-    padding: 6px 14px;
-    border-radius: 30px;
-    border: 1px solid var(--border-color);
-    font-size: 13px;
-    font-weight: 600;
-  }
-
-  .user-avatar-circle {
-    width: 26px;
-    height: 26px;
-    background: #2563eb;
-    color: #fff;
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 12px;
-    font-weight: 800;
+    display: none;
   }
 
   .btn-nav-logout {
-    background: #fee2e2;
-    color: #991b1b;
-    border: none;
-    padding: 7px 14px;
-    border-radius: 8px;
-    font-size: 12px;
-    font-weight: 700;
-    cursor: pointer;
-    transition: background 0.2s;
+    display: none;
   }
 
-  .btn-nav-logout:hover {
-    background: #fecaca;
+  .btn-edit-profile {
+    display: none;
   }
 
   /* Portal Content */
@@ -736,24 +705,6 @@
     background: var(--primary-hover);
     transform: translateY(-1px);
   }
-
-  .btn-edit-profile {
-    background: var(--bg-main);
-    color: var(--text-main);
-    border: 1px solid var(--border-color);
-    padding: 8px 16px;
-    border-radius: 8px;
-    font-size: 12px;
-    font-weight: 700;
-    cursor: pointer;
-    transition: all 0.2s;
-  }
-
-  .btn-edit-profile:hover {
-    background: var(--primary);
-    color: #fff;
-    border-color: var(--primary);
-  }
 </style>
 @endsection
 
@@ -774,22 +725,6 @@
         <span class="line-3"></span>
       </div>
     </button>
-
-    <div class="user-nav-actions">
-      <button type="button" class="btn-edit-profile" onclick="openProfileModal()">✏️ Edit Profil</button>
-
-      <div class="user-info-pill">
-        <div class="user-avatar-circle">
-          {{ strtoupper(substr($user->username, 0, 1)) }}
-        </div>
-        <span>{{ $user->username }}</span>
-      </div>
-
-      <form method="POST" action="{{ route('customer.logout') }}">
-        @csrf
-        <button type="submit" class="btn-nav-logout" title="Keluar">⏻ Keluar</button>
-      </form>
-    </div>
   </div>
 </nav>
 
@@ -876,6 +811,43 @@
         </a>
       </li>
     </ul>
+
+    <!-- User Profile Section in Drawer -->
+    <div style="margin-top: 24px; padding-top: 24px; border-top: 1px solid rgba(255,255,255,0.08);">
+      <div class="drawer-nav-label">Akun Saya</div>
+      <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 16px; padding: 12px; background: rgba(255,255,255,0.05); border-radius: 12px;">
+        <div style="width: 40px; height: 40px; background: #2563eb; color: #fff; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 16px; font-weight: 800;">
+          {{ strtoupper(substr($user->username, 0, 1)) }}
+        </div>
+        <div style="flex: 1; min-width: 0;">
+          <div style="font-size: 14px; font-weight: 700; color: #fff; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">{{ $user->username }}</div>
+          <div style="font-size: 11px; color: #94a3b8;">Pelanggan</div>
+        </div>
+      </div>
+      <ul class="drawer-menu-list">
+        <li class="drawer-menu-item">
+          <button type="button" class="drawer-link" onclick="openProfileModal(); closeSideNav();" style="width: 100%; text-align: left; cursor: pointer;">
+            <div class="drawer-link-left">
+              <span class="drawer-link-num">08</span>
+              <span>✏️ Edit Profil</span>
+            </div>
+            <span class="drawer-link-arrow">➔</span>
+          </button>
+        </li>
+        <li class="drawer-menu-item">
+          <form method="POST" action="{{ route('customer.logout') }}" style="display: contents;">
+            @csrf
+            <button type="submit" class="drawer-link" style="width: 100%; text-align: left; cursor: pointer; background: rgba(239, 68, 68, 0.1); border-color: rgba(239, 68, 68, 0.2); color: #f87171;">
+              <div class="drawer-link-left">
+                <span class="drawer-link-num">09</span>
+                <span>⏻ Keluar</span>
+              </div>
+              <span class="drawer-link-arrow">➔</span>
+            </button>
+          </form>
+        </li>
+      </ul>
+    </div>
   </div>
 
   <div class="drawer-footer">
