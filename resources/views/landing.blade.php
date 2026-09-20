@@ -631,17 +631,194 @@
     line-height: 1.5;
   }
 
-  /* ─── Footer Region ─── */
+  /* ─── Footer Region (DESIGN2.md Spec) ─── */
   .footer-region {
-    background: #ffffff;
+    background: var(--bg-main, #ffffff);
     border-top: 1px solid var(--hairline-soft);
     padding: 64px 8% 36px;
+    font-size: 14px;
+    line-height: 1.43;
+    letter-spacing: -0.14px;
   }
+
+  .footer-top-brand {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 20px;
+    padding-bottom: 32px;
+    margin-bottom: 40px;
+    border-bottom: 1px solid var(--hairline-soft);
+  }
+
+  .footer-brand-left {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    text-decoration: none;
+  }
+
+  .footer-brand-logo {
+    width: 36px;
+    height: 36px;
+    background: var(--primary);
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 18px;
+    font-weight: 800;
+    color: #ffffff;
+  }
+
+  .footer-brand-info h3 {
+    font-size: 18px;
+    font-weight: 800;
+    color: var(--ink-deep);
+    margin: 0;
+    letter-spacing: -0.4px;
+  }
+
+  .footer-brand-info p {
+    font-size: 13px;
+    color: var(--text-muted);
+    margin: 2px 0 0;
+  }
+
+  .footer-brand-right {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 12px;
+  }
+
+  .footer-brand-badges {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-wrap: wrap;
+  }
+
+  .footer-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 6px 14px;
+    background: var(--surface-soft);
+    border: 1px solid var(--hairline-soft);
+    border-radius: var(--radius-full);
+    font-size: 12px;
+    font-weight: 700;
+    color: var(--text-body);
+  }
+
+  /* ─── Social Media Icon Buttons ─── */
+  .footer-social-strip {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .social-icon-btn {
+    width: 38px;
+    height: 38px;
+    border-radius: var(--radius-full);
+    background: var(--surface-soft);
+    border: 1px solid var(--hairline-soft);
+    color: var(--text-muted);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    text-decoration: none;
+    transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  .social-icon-btn svg {
+    width: 18px;
+    height: 18px;
+    transition: transform 0.2s ease;
+  }
+
+  .social-icon-btn:hover svg {
+    transform: scale(1.12);
+  }
+
+  .social-icon-btn.btn-wa:hover {
+    background: #25D366;
+    border-color: #25D366;
+    color: #ffffff;
+    box-shadow: 0 4px 12px rgba(37, 211, 102, 0.35);
+  }
+
+  .social-icon-btn.btn-ig:hover {
+    background: linear-gradient(45deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%);
+    border-color: transparent;
+    color: #ffffff;
+    box-shadow: 0 4px 12px rgba(220, 39, 67, 0.35);
+  }
+
+  .social-icon-btn.btn-fb:hover {
+    background: #1877F2;
+    border-color: #1877F2;
+    color: #ffffff;
+    box-shadow: 0 4px 12px rgba(24, 119, 242, 0.35);
+  }
+
+  .social-icon-btn.btn-tiktok:hover {
+    background: #010101;
+    border-color: #010101;
+    color: #ffffff;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.35);
+  }
+
+  .social-icon-btn.btn-mail:hover {
+    background: #EA4335;
+    border-color: #EA4335;
+    color: #ffffff;
+    box-shadow: 0 4px 12px rgba(234, 67, 53, 0.35);
+  }
+
+  /* Footer Link with brand icon */
+  .footer-link-icon {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    color: var(--text-muted);
+    text-decoration: none;
+    font-size: 13.5px;
+    transition: all 0.2s ease;
+  }
+
+  .footer-link-icon .link-icon-glyph {
+    width: 18px;
+    height: 18px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    transition: transform 0.2s ease;
+  }
+
+  .footer-link-icon:hover {
+    color: var(--ink-deep);
+    transform: translateX(2px);
+  }
+
+  .footer-link-icon:hover .link-icon-glyph {
+    transform: scale(1.1);
+  }
+
+  .footer-link-icon.wa-link .link-icon-glyph { color: #25D366; }
+  .footer-link-icon.ig-link .link-icon-glyph { color: #E4405F; }
+  .footer-link-icon.fb-link .link-icon-glyph { color: #1877F2; }
+  .footer-link-icon.tiktok-link .link-icon-glyph { color: var(--ink-deep); }
+  .footer-link-icon.mail-link .link-icon-glyph { color: #EA4335; }
 
   .footer-columns {
     display: grid;
-    grid-template-columns: 2fr repeat(3, 1fr);
-    gap: 40px;
+    grid-template-columns: repeat(6, 1fr);
+    gap: 36px 20px;
     margin-bottom: 48px;
   }
 
@@ -651,6 +828,7 @@
     color: var(--ink-deep);
     margin-bottom: 16px;
     letter-spacing: -0.14px;
+    line-height: 1.43;
   }
 
   .footer-col ul {
@@ -665,11 +843,14 @@
   .footer-col a {
     color: var(--text-muted);
     text-decoration: none;
-    font-size: 13.5px;
-    transition: color 0.2s;
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 1.43;
+    letter-spacing: -0.14px;
+    transition: color 0.15s ease;
   }
   .footer-col a:hover {
-    color: var(--primary);
+    color: var(--ink-deep);
   }
 
   .footer-bottom {
@@ -679,9 +860,35 @@
     align-items: center;
     justify-content: space-between;
     font-size: 12px;
+    line-height: 1.33;
     color: var(--text-stone);
     flex-wrap: wrap;
     gap: 16px;
+  }
+
+  .footer-legal-links {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    flex-wrap: wrap;
+  }
+
+  .footer-legal-links a {
+    color: var(--text-stone);
+    text-decoration: none;
+    transition: color 0.15s ease;
+  }
+
+  .footer-legal-links a:hover {
+    color: var(--ink-deep);
+  }
+
+  .footer-locale-indicator {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    color: var(--text-muted);
+    font-weight: 600;
   }
 
   /* ─── WhatsApp Float ─── */
@@ -696,35 +903,17 @@
     border-radius: var(--radius-full);
     display: flex;
     align-items: center;
-    gap: 6px;
+    gap: 8px;
     font-size: 13px;
     font-weight: 700;
     text-decoration: none;
-    box-shadow: var(--shadow-md);
+    box-shadow: 0 8px 24px rgba(37, 211, 102, 0.4);
     transition: all 0.2s ease;
   }
   .wa-float:hover {
     transform: translateY(-2px);
     opacity: 0.95;
-  }
-
-  /* ─── Footer ─── */
-  .footer {
-    background: #060d1f;
-    color: #6b7280;
-    padding: 36px 8%;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    flex-wrap: wrap;
-    gap: 16px;
-    font-size: 14px;
-  }
-
-  .footer-brand {
-    font-weight: 800;
-    color: #60a5fa;
-    font-size: 16px;
+    box-shadow: 0 10px 28px rgba(37, 211, 102, 0.55);
   }
 
   /* ─── Animations ─── */
@@ -744,18 +933,25 @@
   }
 
   /* ─── Responsive ─── */
+  @media (max-width: 1100px) {
+    .footer-columns {
+      grid-template-columns: repeat(3, 1fr);
+    }
+  }
+
   @media (max-width: 768px) {
     .hero-title { font-size: 36px; }
-    .hero-stats { gap: 20px; flex-wrap: wrap; }
-    .nav-links { gap: 16px; }
+    .hero-stats-strip { grid-template-columns: repeat(2, 1fr); }
     .section-title { font-size: 28px; }
-    .cta-section h2 { font-size: 28px; }
-    .footer { flex-direction: column; text-align: center; }
+    .footer-columns { grid-template-columns: repeat(2, 1fr); gap: 28px 16px; }
+    .footer-bottom { flex-direction: column; align-items: flex-start; }
+    .footer-top-brand { flex-direction: column; align-items: flex-start; }
+    .footer-brand-right { align-items: flex-start; }
   }
 
   @media (max-width: 480px) {
-    .nav-links { display: none; }
     .hero-btns { flex-direction: column; }
+    .footer-columns { grid-template-columns: 1fr; }
   }
 </style>
 @endsection
@@ -764,6 +960,9 @@
 
 <!-- Floating WhatsApp CTA Pill -->
 <a href="{{ \App\Helpers\FormatHelper::whatsappUrl('Halo Kafa Advertising, saya ingin memesan neon box custom') }}" target="_blank" class="wa-float" title="Konsultasi WhatsApp">
+  <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor">
+    <path d="M17.472 14.382c-.301-.15-1.78-.878-2.056-.978-.275-.1-.476-.15-.677.15-.2.3-.776.978-.952 1.179-.175.2-.351.225-.652.075-.301-.15-1.27-.468-2.42-1.493-.895-.798-1.5-1.784-1.676-2.085-.175-.3-.019-.463.132-.612.136-.134.301-.35.451-.525.15-.176.2-.301.301-.502.101-.2.05-.376-.025-.526-.075-.15-.677-1.631-.928-2.235-.245-.588-.493-.508-.677-.517-.175-.009-.376-.009-.577-.009-.2 0-.526.075-.802.376-.275.301-1.053 1.028-1.053 2.508 0 1.48 1.078 2.909 1.228 3.11.15.2 2.122 3.24 5.141 4.544.718.31 1.279.495 1.716.634.722.23 1.379.197 1.9.12.58-.087 1.78-.727 2.03-1.429.251-.702.251-1.304.176-1.43-.075-.125-.276-.2-.577-.35zM12.04 2C6.5 2 2 6.5 2 12.04c0 1.78.47 3.52 1.36 5.06L2 22l5.06-1.33c1.5 0.84 3.19 1.29 4.98 1.29 5.54 0 10.04-4.5 10.04-10.04S17.58 2 12.04 2zm0 18.36c-1.57 0-3.1-.42-4.44-1.21l-.32-.19-3.3.87.88-3.21-.21-.33a8.31 8.31 0 0 1-1.27-4.45c0-4.6 3.74-8.34 8.34-8.34 4.6 0 8.34 3.74 8.34 8.34 0 4.6-3.74 8.34-8.34 8.34z"/>
+  </svg>
   <span>WhatsApp</span>
 </a>
 
@@ -820,7 +1019,10 @@
       <div>Melayani Demak, Semarang, Surabaya & seluruh Indonesia.</div>
     </div>
     <a href="{{ \App\Helpers\FormatHelper::whatsappUrl('Halo Kafa Advertising, saya ingin konsultasi pesanan') }}" target="_blank" class="drawer-wa-cta">
-      Chat WhatsApp Sekarang
+      <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor">
+        <path d="M17.472 14.382c-.301-.15-1.78-.878-2.056-.978-.275-.1-.476-.15-.677.15-.2.3-.776.978-.952 1.179-.175.2-.351.225-.652.075-.301-.15-1.27-.468-2.42-1.493-.895-.798-1.5-1.784-1.676-2.085-.175-.3-.019-.463.132-.612.136-.134.301-.35.451-.525.15-.176.2-.301.301-.502.101-.2.05-.376-.025-.526-.075-.15-.677-1.631-.928-2.235-.245-.588-.493-.508-.677-.517-.175-.009-.376-.009-.577-.009-.2 0-.526.075-.802.376-.275.301-1.053 1.028-1.053 2.508 0 1.48 1.078 2.909 1.228 3.11.15.2 2.122 3.24 5.141 4.544.718.31 1.279.495 1.716.634.722.23 1.379.197 1.9.12.58-.087 1.78-.727 2.03-1.429.251-.702.251-1.304.176-1.43-.075-.125-.276-.2-.577-.35zM12.04 2C6.5 2 2 6.5 2 12.04c0 1.78.47 3.52 1.36 5.06L2 22l5.06-1.33c1.5 0.84 3.19 1.29 4.98 1.29 5.54 0 10.04-4.5 10.04-10.04S17.58 2 12.04 2zm0 18.36c-1.57 0-3.1-.42-4.44-1.21l-.32-.19-3.3.87.88-3.21-.21-.33a8.31 8.31 0 0 1-1.27-4.45c0-4.6 3.74-8.34 8.34-8.34 4.6 0 8.34 3.74 8.34 8.34 0 4.6-3.74 8.34-8.34 8.34z"/>
+      </svg>
+      <span>Chat WhatsApp Sekarang</span>
     </a>
   </div>
 </aside>
@@ -990,23 +1192,180 @@
   </div>
 </section>
 
-<!-- ─── CTA Section ─── -->
-<section class="cta-section">
-  <h2>Siap Memesan Neon Box Custom?</h2>
-  <p>Hubungi tim kami sekarang dan dapatkan konsultasi gratis + estimasi harga terbaik untuk kebutuhan bisnis Anda.</p>
-  <a href="{{ \App\Helpers\FormatHelper::whatsappUrl('Halo Kafa Advertising, saya ingin konsultasi neon box') }}" target="_blank" class="btn-hero-wa" style="margin: 0 auto; font-size:18px; padding:18px 40px;">
-    💬 Chat WhatsApp Sekarang
-  </a>
-</section>
+<!-- ─── Footer Region (DESIGN2.md Spec) ─── -->
+<footer class="footer-region">
+  <div class="footer-top-brand">
+    <a href="{{ route('home') }}" class="footer-brand-left">
+      <div class="footer-brand-logo">K</div>
+      <div class="footer-brand-info">
+        <h3>Kafa Advertising</h3>
+        <p>Spesialis Neon Box, Signage LED & Reklame Komersial</p>
+      </div>
+    </a>
+    <div class="footer-brand-right">
+      <div class="footer-brand-badges">
+        <div class="footer-badge">✓ Garansi Resmi 12 Bulan</div>
+        <div class="footer-badge">✓ Pengiriman Seluruh Indonesia</div>
+        <div class="footer-badge">✓ Workshop Mandiri</div>
+      </div>
+      <!-- Social Media Buttons -->
+      <div class="footer-social-strip">
+        <!-- WhatsApp -->
+        <a href="{{ \App\Helpers\FormatHelper::whatsappUrl('Halo Kafa Advertising, saya ingin konsultasi produk') }}" target="_blank" class="social-icon-btn btn-wa" title="WhatsApp" aria-label="WhatsApp">
+          <svg viewBox="0 0 24 24" fill="currentColor">
+            <path d="M17.472 14.382c-.301-.15-1.78-.878-2.056-.978-.275-.1-.476-.15-.677.15-.2.3-.776.978-.952 1.179-.175.2-.351.225-.652.075-.301-.15-1.27-.468-2.42-1.493-.895-.798-1.5-1.784-1.676-2.085-.175-.3-.019-.463.132-.612.136-.134.301-.35.451-.525.15-.176.2-.301.301-.502.101-.2.05-.376-.025-.526-.075-.15-.677-1.631-.928-2.235-.245-.588-.493-.508-.677-.517-.175-.009-.376-.009-.577-.009-.2 0-.526.075-.802.376-.275.301-1.053 1.028-1.053 2.508 0 1.48 1.078 2.909 1.228 3.11.15.2 2.122 3.24 5.141 4.544.718.31 1.279.495 1.716.634.722.23 1.379.197 1.9.12.58-.087 1.78-.727 2.03-1.429.251-.702.251-1.304.176-1.43-.075-.125-.276-.2-.577-.35zM12.04 2C6.5 2 2 6.5 2 12.04c0 1.78.47 3.52 1.36 5.06L2 22l5.06-1.33c1.5 0.84 3.19 1.29 4.98 1.29 5.54 0 10.04-4.5 10.04-10.04S17.58 2 12.04 2zm0 18.36c-1.57 0-3.1-.42-4.44-1.21l-.32-.19-3.3.87.88-3.21-.21-.33a8.31 8.31 0 0 1-1.27-4.45c0-4.6 3.74-8.34 8.34-8.34 4.6 0 8.34 3.74 8.34 8.34 0 4.6-3.74 8.34-8.34 8.34z"/>
+          </svg>
+        </a>
+        <!-- Instagram -->
+        <a href="https://www.instagram.com/kafaxgraf?utm_source=ig_web_button_share_sheet&stkn=ZDNlZDc0MzIxNw==" target="_blank" class="social-icon-btn btn-ig" title="Instagram" aria-label="Instagram">
+          <svg viewBox="0 0 24 24" fill="currentColor">
+            <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/>
+          </svg>
+        </a>
+        <!-- Facebook -->
+        <a href="https://www.facebook.com/people/Kafa-X-Graf-Adv/61555941644272/" target="_blank" class="social-icon-btn btn-fb" title="Facebook" aria-label="Facebook">
+          <svg viewBox="0 0 24 24" fill="currentColor">
+            <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/>
+          </svg>
+        </a>
+        <!-- TikTok -->
+        <a href="https://www.tiktok.com/@kafaxgraf" target="_blank" class="social-icon-btn btn-tiktok" title="TikTok" aria-label="TikTok">
+          <svg viewBox="0 0 24 24" fill="currentColor">
+            <path d="M12.525.02c1.31-.02 2.61-.01 3.91-.02.08 1.53.63 3.09 1.75 4.17 1.12 1.11 2.7 1.62 4.24 1.79v4.03c-1.44-.05-2.89-.35-4.2-.97-.57-.26-1.1-.59-1.62-.93-.01 2.92.01 5.84-.02 8.75-.08 1.4-.54 2.79-1.35 3.94-1.31 1.92-3.58 3.17-5.91 3.21-1.43.08-2.86-.31-4.08-1.03-2.02-1.19-3.44-3.37-3.65-5.71-.02-.5-.03-1-.01-1.49.18-1.9 1.12-3.72 2.58-4.96 1.66-1.44 3.98-2.13 6.15-1.72.02 1.48-.04 2.96-.04 4.44-.99-.32-2.15-.23-3.02.37-.63.41-1.11 1.04-1.36 1.75-.21.51-.24 1.07-.14 1.61.24 1.64 1.82 2.88 3.48 2.71 1.26-.06 2.4-1.01 2.6-2.27.09-.43.1-.87.09-1.31V.02h.01z"/>
+          </svg>
+        </a>
+        <!-- Email -->
+        <a href="mailto:info@kafa-adv.com" class="social-icon-btn btn-mail" title="Email" aria-label="Email">
+          <svg viewBox="0 0 24 24" fill="currentColor">
+            <path d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4-8 5-8-5V6l8 5 8-5v2z"/>
+          </svg>
+        </a>
+      </div>
+    </div>
+  </div>
 
-<!-- ─── Footer ─── -->
-<footer class="footer">
-  <div class="footer-brand">💡 Kafa Advertising</div>
-  <p>© {{ date('Y') }} <strong>Kafa Advertising</strong>. Spesialis Neon Box & Signage Custom Indonesia.</p>
-  <div style="display: flex; gap: 16px; font-size: 13px;">
-    <a href="https://www.instagram.com/kafaxgraf?utm_source=ig_web_button_share_sheet&stkn=ZDNlZDc0MzIxNw==" style="color:#60a5fa; text-decoration:none;">Instagram</a>
-    <a href="https://www.facebook.com/people/Kafa-X-Graf-Adv/61555941644272/" style="color:#94a3b8; text-decoration:none;">Facebook</a>
-    <a href="" style="color:#94a3b8; text-decoration:none;">Email</a>
+  <div class="footer-columns">
+    <!-- Col 1: Produk Unggulan -->
+    <div class="footer-col">
+      <h4>Produk Signage</h4>
+      <ul>
+        <li><a href="{{ route('katalog') }}">Neon Box Akrilik</a></li>
+        <li><a href="{{ route('katalog') }}">Neon Box LED Bulat</a></li>
+        <li><a href="{{ route('katalog') }}">Huruf Timbul 3D</a></li>
+        <li><a href="{{ route('katalog') }}">Pylon & Totem Sign</a></li>
+        <li><a href="{{ route('katalog') }}">Signage Komersial</a></li>
+      </ul>
+    </div>
+
+    <!-- Col 2: Kategori Katalog -->
+    <div class="footer-col">
+      <h4>Kategori Produk</h4>
+      <ul>
+        @forelse($categories->take(5) as $cat)
+          <li><a href="{{ route('katalog.kategori', $cat->slug) }}">{{ $cat->nama }}</a></li>
+        @empty
+          <li><a href="{{ route('katalog') }}">Semua Kategori</a></li>
+        @endforelse
+      </ul>
+    </div>
+
+    <!-- Col 3: Navigasi Utama -->
+    <div class="footer-col">
+      <h4>Eksplorasi</h4>
+      <ul>
+        <li><a href="{{ route('home') }}">Beranda</a></li>
+        <li><a href="{{ route('katalog') }}">Katalog & Harga</a></li>
+        <li><a href="{{ route('portofolio') }}">Portofolio Proyek</a></li>
+        <li><a href="#keunggulan">Keunggulan Mutu</a></li>
+        <li><a href="#cabang">Cabang Showroom</a></li>
+      </ul>
+    </div>
+
+    <!-- Col 4: Layanan & Garansi -->
+    <div class="footer-col">
+      <h4>Layanan Kami</h4>
+      <ul>
+        <li><a href="{{ \App\Helpers\FormatHelper::whatsappUrl('Halo Kafa Advertising, saya ingin konsultasi desain neon box') }}" target="_blank">Konsultasi Desain</a></li>
+        <li><a href="#keunggulan">Garansi 12 Bulan</a></li>
+        <li><a href="#keunggulan">Instalasi & Pasang</a></li>
+        <li><a href="#keunggulan">Pengiriman Nasional</a></li>
+        <li><a href="{{ route('login.customer') }}">Status Pesanan</a></li>
+      </ul>
+    </div>
+
+    <!-- Col 5: Lokasi & Workshop -->
+    <div class="footer-col">
+      <h4>Workshop & Cabang</h4>
+      <ul>
+        @forelse($branches->take(4) as $branch)
+          <li><a href="#cabang">{{ $branch->nama_cabang }}</a></li>
+        @empty
+          <li><a href="#cabang">Showroom Demak (Pusat)</a></li>
+          <li><a href="#cabang">Workshop Semarang</a></li>
+          <li><a href="#cabang">Cabang Surabaya</a></li>
+        @endforelse
+      </ul>
+    </div>
+
+    <!-- Col 6: Hubungi Kami -->
+    <div class="footer-col">
+      <h4>Hubungi Kami</h4>
+      <ul>
+        <li>
+          <a href="{{ \App\Helpers\FormatHelper::whatsappUrl('Halo Kafa Advertising, saya ingin bertanya produk') }}" target="_blank" class="footer-link-icon wa-link">
+            <span class="link-icon-glyph">
+              <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor"><path d="M17.472 14.382c-.301-.15-1.78-.878-2.056-.978-.275-.1-.476-.15-.677.15-.2.3-.776.978-.952 1.179-.175.2-.351.225-.652.075-.301-.15-1.27-.468-2.42-1.493-.895-.798-1.5-1.784-1.676-2.085-.175-.3-.019-.463.132-.612.136-.134.301-.35.451-.525.15-.176.2-.301.301-.502.101-.2.05-.376-.025-.526-.075-.15-.677-1.631-.928-2.235-.245-.588-.493-.508-.677-.517-.175-.009-.376-.009-.577-.009-.2 0-.526.075-.802.376-.275.301-1.053 1.028-1.053 2.508 0 1.48 1.078 2.909 1.228 3.11.15.2 2.122 3.24 5.141 4.544.718.31 1.279.495 1.716.634.722.23 1.379.197 1.9.12.58-.087 1.78-.727 2.03-1.429.251-.702.251-1.304.176-1.43-.075-.125-.276-.2-.577-.35zM12.04 2C6.5 2 2 6.5 2 12.04c0 1.78.47 3.52 1.36 5.06L2 22l5.06-1.33c1.5 0.84 3.19 1.29 4.98 1.29 5.54 0 10.04-4.5 10.04-10.04S17.58 2 12.04 2zm0 18.36c-1.57 0-3.1-.42-4.44-1.21l-.32-.19-3.3.87.88-3.21-.21-.33a8.31 8.31 0 0 1-1.27-4.45c0-4.6 3.74-8.34 8.34-8.34 4.6 0 8.34 3.74 8.34 8.34 0 4.6-3.74 8.34-8.34 8.34z"/></svg>
+            </span>
+            <span>WhatsApp Chat</span>
+          </a>
+        </li>
+        <li>
+          <a href="https://www.instagram.com/kafaxgraf?utm_source=ig_web_button_share_sheet&stkn=ZDNlZDc0MzIxNw==" target="_blank" class="footer-link-icon ig-link">
+            <span class="link-icon-glyph">
+              <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
+            </span>
+            <span>Instagram</span>
+          </a>
+        </li>
+        <li>
+          <a href="https://www.facebook.com/people/Kafa-X-Graf-Adv/61555941644272/" target="_blank" class="footer-link-icon fb-link">
+            <span class="link-icon-glyph">
+              <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>
+            </span>
+            <span>Facebook Page</span>
+          </a>
+        </li>
+        <li>
+          <a href="https://www.tiktok.com/@kafaxgraf" target="_blank" class="footer-link-icon tiktok-link">
+            <span class="link-icon-glyph">
+              <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor"><path d="M12.525.02c1.31-.02 2.61-.01 3.91-.02.08 1.53.63 3.09 1.75 4.17 1.12 1.11 2.7 1.62 4.24 1.79v4.03c-1.44-.05-2.89-.35-4.2-.97-.57-.26-1.1-.59-1.62-.93-.01 2.92.01 5.84-.02 8.75-.08 1.4-.54 2.79-1.35 3.94-1.31 1.92-3.58 3.17-5.91 3.21-1.43.08-2.86-.31-4.08-1.03-2.02-1.19-3.44-3.37-3.65-5.71-.02-.5-.03-1-.01-1.49.18-1.9 1.12-3.72 2.58-4.96 1.66-1.44 3.98-2.13 6.15-1.72.02 1.48-.04 2.96-.04 4.44-.99-.32-2.15-.23-3.02.37-.63.41-1.11 1.04-1.36 1.75-.21.51-.24 1.07-.14 1.61.24 1.64 1.82 2.88 3.48 2.71 1.26-.06 2.4-1.01 2.6-2.27.09-.43.1-.87.09-1.31V.02h.01z"/></svg>
+            </span>
+            <span>TikTok Official</span>
+          </a>
+        </li>
+        <li>
+          <a href="mailto:info@kafa-adv.com" class="footer-link-icon mail-link">
+            <span class="link-icon-glyph">
+              <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor"><path d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4-8 5-8-5V6l8 5 8-5v2z"/></svg>
+            </span>
+            <span>Email Konsultasi</span>
+          </a>
+        </li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="footer-bottom">
+    <div>
+      © {{ date('Y') }} <strong>Kafa Advertising</strong>. Seluruh hak cipta dilindungi.
+    </div>
+
+    <div class="footer-legal-links">
+      <span class="footer-locale-indicator">🇮🇩 Indonesia (ID)</span>
+      <a href="#">Syarat & Ketentuan</a>
+      <a href="#">Kebijakan Privasi</a>
+      <a href="#">Jaminan Mutu</a>
+    </div>
   </div>
 </footer>
 
