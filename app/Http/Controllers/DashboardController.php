@@ -16,14 +16,8 @@ class DashboardController extends Controller
 {
     public function index(Request $request)
     {
-        $user = Auth::user();
-        $activeBranchId = Session::get('active_branch_id', $user->branch_id);
-
-        // Orders query filtered by branch if set
+        // Centralized orders query
         $ordersQuery = Order::query();
-        if ($activeBranchId) {
-            $ordersQuery->where('branch_id', $activeBranchId);
-        }
 
         $totalOrders = (clone $ordersQuery)->count();
         $totalProducts = Product::where('is_active', true)->count();
@@ -40,7 +34,6 @@ class DashboardController extends Controller
 
         // Recent orders (latest 5)
         $recentOrders = Order::with(['user', 'branch', 'payments'])
-            ->when($activeBranchId, fn($q) => $q->where('branch_id', $activeBranchId))
             ->latest('id')
             ->take(5)
             ->get();

@@ -16,7 +16,7 @@ class CategoryAndProductSeeder extends Seeder
                 'nama' => 'Neon Box Akrilik & LED',
                 'slug' => 'neon-box-akrilik-led',
                 'deskripsi' => 'Solusi neon box modern berbahan akrilik berkualitas tinggi dengan pencahayaan modul LED super terang dan hemat daya.',
-                'emoji' => '💡',
+                'emoji' => null,
                 'urutan' => 1,
                 'is_active' => true,
                 'products' => [
@@ -50,7 +50,7 @@ class CategoryAndProductSeeder extends Seeder
                 'nama' => 'Huruf Timbul (Channel Letter)',
                 'slug' => 'huruf-timbul',
                 'deskripsi' => 'Huruf 3D timbul berbahan stainless steel, akrilik, galvanis, atau kuningan dengan pencahayaan LED menyala depan (frontlit) atau belakang (backlit/halo).',
-                'emoji' => '🔤',
+                'emoji' => null,
                 'urutan' => 2,
                 'is_active' => true,
                 'products' => [
@@ -84,7 +84,7 @@ class CategoryAndProductSeeder extends Seeder
                 'nama' => 'Neon Flex & Wire Sign',
                 'slug' => 'neon-flex-wire-sign',
                 'deskripsi' => 'Lampu tulisan atau logo artistik fleksibel berbasis LED flex silicon. Cocok untuk kafe, kamar tidur, photobooth, bar, dan backdrop estetis.',
-                'emoji' => '⚡',
+                'emoji' => null,
                 'urutan' => 3,
                 'is_active' => true,
                 'products' => [
@@ -110,7 +110,7 @@ class CategoryAndProductSeeder extends Seeder
                 'nama' => 'Bengkel Las & Konstruksi',
                 'slug' => 'bengkel-las-konstruksi',
                 'deskripsi' => 'Layanan pengerjaan las besi, kanopi galvalum/kaca tempered, pagar minimalis, tralis jendela, rolling door, dan railing tangga.',
-                'emoji' => '🛠️',
+                'emoji' => null,
                 'urutan' => 4,
                 'is_active' => true,
                 'products' => [
@@ -144,7 +144,7 @@ class CategoryAndProductSeeder extends Seeder
                 'nama' => 'Pylon Sign & Totem Gedung',
                 'slug' => 'pylon-sign-totem',
                 'deskripsi' => 'Papan petunjuk & signage berdiri vertikal (freestanding) untuk pom bensin SPBU, gedung perkantoran, perbankan, dealer mobil, dan ruko.',
-                'emoji' => '🏢',
+                'emoji' => null,
                 'urutan' => 5,
                 'is_active' => true,
                 'products' => [

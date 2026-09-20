@@ -7,7 +7,7 @@
   <!-- Form Catat Produksi -->
   <div class="card">
     <div class="card-header">
-      <h3 class="card-title">➕ Catat Biaya Produksi</h3>
+      <h3 class="card-title">Catat Biaya Produksi</h3>
     </div>
     <form method="POST" action="{{ route('produksi.store') }}">
       @csrf
@@ -43,14 +43,14 @@
         <textarea name="keterangan" class="form-control" rows="2" placeholder="Catatan tambahan..."></textarea>
       </div>
 
-      <button type="submit" class="btn btn-primary" style="width:100%;">Simpan Catatan Produksi ➔</button>
+      <button type="submit" class="btn btn-primary" style="width:100%;">Simpan Catatan Produksi</button>
     </form>
   </div>
 
   <!-- Table Produksi -->
   <div class="card">
     <div class="card-header">
-      <h3 class="card-title">🍲 Daftar Catatan Produksi</h3>
+      <h3 class="card-title">Daftar Catatan Produksi</h3>
       <div class="badge badge-primary">Total: Rp {{ number_format($totalBiaya, 0, ',', '.') }}</div>
     </div>
 

@@ -47,7 +47,7 @@
         <input type="password" name="password" class="form-control" minlength="6" placeholder="Minimal 6 karakter" required>
       </div>
 
-      <button type="submit" class="btn btn-primary" style="width:100%;">Daftarkan Pelanggan ➔</button>
+      <button type="submit" class="btn btn-primary" style="width:100%;">Daftarkan Pelanggan</button>
     </form>
   </div>
 
@@ -136,37 +136,39 @@
 
 <!-- Modal Edit Pelanggan -->
 <div id="editPelangganModal" style="display:none; position:fixed; inset:0; background:rgba(0,0,0,0.6); z-index:9999; align-items:center; justify-content:center; padding:20px;">
-  <div class="card" style="width:100%; max-width:480px; background:var(--bg-card); margin:0; border-radius:20px; box-shadow:0 25px 50px -12px rgba(0,0,0,0.25);">
-    <div class="card-header">
+  <div class="card modal-scroll-container" style="width:100%; max-width:480px; background:var(--bg-card); margin:0; border-radius:20px; box-shadow:0 25px 50px -12px rgba(0,0,0,0.25);">
+    <div class="card-header" style="margin-bottom:12px; padding-bottom:12px; border-bottom:1px solid var(--border-color);">
       <h3 class="card-title">Edit Data Pelanggan</h3>
       <button type="button" onclick="closeEditPelangganModal()" style="background:none; border:none; font-size:20px; cursor:pointer; color:var(--text-main);">✕</button>
     </div>
-    <form id="editPelangganForm" method="POST" action="">
+    <form id="editPelangganForm" method="POST" action="" style="display:flex; flex-direction:column; flex:1; overflow:hidden;">
       @csrf
       @method('PUT')
-      <div class="form-group">
-        <label class="form-label">Username Pelanggan *</label>
-        <input type="text" name="username" id="edit_cust_username" class="form-control" required>
+      <div class="modal-scroll-body">
+        <div class="form-group">
+          <label class="form-label">Username Pelanggan *</label>
+          <input type="text" name="username" id="edit_cust_username" class="form-control" required>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">Email Pelanggan *</label>
+          <input type="email" name="email" id="edit_cust_email" class="form-control" required>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">Nomor WhatsApp / HP *</label>
+          <input type="text" name="phone" id="edit_cust_phone" class="form-control" required>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">Ganti Password (Kosongkan jika tidak diubah)</label>
+          <input type="password" name="password" class="form-control" minlength="6" placeholder="Password baru...">
+        </div>
       </div>
 
-      <div class="form-group">
-        <label class="form-label">Email Pelanggan *</label>
-        <input type="email" name="email" id="edit_cust_email" class="form-control" required>
-      </div>
-
-      <div class="form-group">
-        <label class="form-label">Nomor WhatsApp / HP *</label>
-        <input type="text" name="phone" id="edit_cust_phone" class="form-control" required>
-      </div>
-
-      <div class="form-group">
-        <label class="form-label">Ganti Password (Kosongkan jika tidak diubah)</label>
-        <input type="password" name="password" class="form-control" minlength="6" placeholder="Password baru...">
-      </div>
-
-      <div style="display:flex; justify-content:flex-end; gap:10px; margin-top:20px;">
+      <div style="display:flex; justify-content:flex-end; gap:10px; margin-top:14px; padding-top:12px; border-top:1px solid var(--border-color);">
         <button type="button" class="btn btn-secondary" onclick="closeEditPelangganModal()">Batal</button>
-        <button type="submit" class="btn btn-primary">Simpan Perubahan ➔</button>
+        <button type="submit" class="btn btn-primary">Simpan Perubahan</button>
       </div>
     </form>
   </div>

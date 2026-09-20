@@ -22,7 +22,7 @@
           <option value="">-- Pilih Kategori (Opsional) --</option>
           @foreach($categories as $cat)
             <option value="{{ $cat->id }}" {{ old('category_id') == $cat->id ? 'selected' : '' }}>
-              {{ $cat->emoji ?: '📂' }} {{ $cat->nama }}
+              {{ $cat->nama }}
             </option>
           @endforeach
         </select>
@@ -60,7 +60,7 @@
         </label>
       </div>
 
-      <button type="submit" class="btn btn-primary" style="width:100%;">Simpan Produk Baru ➔</button>
+      <button type="submit" class="btn btn-primary" style="width:100%;">Simpan Produk Baru</button>
     </form>
   </div>
 
@@ -88,7 +88,7 @@
                   <img src="{{ $p->foto_url }}" alt="{{ $p->nama }}" style="width:52px; height:52px; object-fit:cover; border-radius:10px; border:1px solid var(--border-color);">
                 @else
                   <div style="width:52px; height:52px; border-radius:10px; background:linear-gradient(135deg, var(--primary-light), #ede9fe); display:flex; align-items:center; justify-content:center; font-size:22px;">
-                    💡
+                    
                   </div>
                 @endif
               </td>
@@ -97,7 +97,7 @@
                 @if($p->category)
                   <div style="margin-top:2px;">
                     <span class="badge badge-purple" style="font-size:11px; padding:2px 8px;">
-                      {{ $p->category->emoji ?: '📂' }} {{ $p->category->nama }}
+                      {{ $p->category ? $p->category->nama : '-' }}
                     </span>
                   </div>
                 @endif
@@ -146,58 +146,60 @@
 
 <!-- Modal Edit Produk -->
 <div id="editProductModal" style="display:none; position:fixed; inset:0; background:rgba(0,0,0,0.6); z-index:9999; align-items:center; justify-content:center; padding:20px;">
-  <div class="card" style="width:100%; max-width:540px; background:var(--bg-card); margin:0; border-radius:20px; box-shadow:0 25px 50px -12px rgba(0,0,0,0.25); max-height:90vh; overflow-y:auto;">
-    <div class="card-header">
-      <h3 class="card-title">✏️ Edit Produk</h3>
+  <div class="card modal-scroll-container" style="width:100%; max-width:540px; background:var(--bg-card); margin:0; border-radius:20px; box-shadow:0 25px 50px -12px rgba(0,0,0,0.25);">
+    <div class="card-header" style="margin-bottom:12px; padding-bottom:12px; border-bottom:1px solid var(--border-color);">
+      <h3 class="card-title">Edit Produk</h3>
       <button type="button" onclick="closeEditProductModal()" style="background:none; border:none; font-size:20px; cursor:pointer; color:var(--text-main);">✕</button>
     </div>
-    <form id="editProductForm" method="POST" action="" enctype="multipart/form-data">
+    <form id="editProductForm" method="POST" action="" enctype="multipart/form-data" style="display:flex; flex-direction:column; flex:1; overflow:hidden;">
       @csrf
       @method('PUT')
-      <div class="form-group">
-        <label class="form-label">Nama Produk *</label>
-        <input type="text" name="nama" id="edit_nama" class="form-control" required>
-      </div>
-
-      <div class="form-group">
-        <label class="form-label">Kategori Produk</label>
-        <select name="category_id" id="edit_category_id" class="form-control">
-          <option value="">-- Tanpa Kategori --</option>
-          @foreach($categories as $cat)
-            <option value="{{ $cat->id }}">
-              {{ $cat->emoji ?: '📂' }} {{ $cat->nama }}
-            </option>
-          @endforeach
-        </select>
-      </div>
-
-      <div class="form-group">
-        <label class="form-label">Ganti Foto Produk (Opsional)</label>
-        <input type="file" name="foto" class="form-control" accept="image/*" onchange="previewImage(this, 'edit_previewImg')">
-        <div id="edit_previewContainer" style="margin-top:10px;">
-          <img id="edit_previewImg" src="" alt="Preview Foto" style="width:100px; height:100px; object-fit:cover; border-radius:12px; border:2px solid var(--border-color); display:none;">
-        </div>
-      </div>
-
-      <div class="grid grid-2">
+      <div class="modal-scroll-body">
         <div class="form-group">
-          <label class="form-label">Harga Min / Mulai Dari (Rp) *</label>
-          <input type="number" name="harga_min" id="edit_harga_min" class="form-control" min="0" required>
+          <label class="form-label">Nama Produk *</label>
+          <input type="text" name="nama" id="edit_nama" class="form-control" required>
         </div>
+
         <div class="form-group">
-          <label class="form-label">Harga Maksimum (Rp, Opsional)</label>
-          <input type="number" name="harga_max" id="edit_harga_max" class="form-control" min="0">
+          <label class="form-label">Kategori Produk</label>
+          <select name="category_id" id="edit_category_id" class="form-control">
+            <option value="">-- Tanpa Kategori --</option>
+            @foreach($categories as $cat)
+              <option value="{{ $cat->id }}">
+                {{ $cat->nama }}
+              </option>
+            @endforeach
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">Ganti Foto Produk (Opsional)</label>
+          <input type="file" name="foto" class="form-control" accept="image/*" onchange="previewImage(this, 'edit_previewImg')">
+          <div id="edit_previewContainer" style="margin-top:10px;">
+            <img id="edit_previewImg" src="" alt="Preview Foto" style="width:100px; height:100px; object-fit:cover; border-radius:12px; border:2px solid var(--border-color); display:none;">
+          </div>
+        </div>
+
+        <div class="grid grid-2">
+          <div class="form-group">
+            <label class="form-label">Harga Min / Mulai Dari (Rp) *</label>
+            <input type="number" name="harga_min" id="edit_harga_min" class="form-control" min="0" required>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Harga Maksimum (Rp, Opsional)</label>
+            <input type="number" name="harga_max" id="edit_harga_max" class="form-control" min="0">
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">Deskripsi & Spesifikasi</label>
+          <textarea name="deskripsi" id="edit_deskripsi" class="form-control" rows="3"></textarea>
         </div>
       </div>
 
-      <div class="form-group">
-        <label class="form-label">Deskripsi & Spesifikasi</label>
-        <textarea name="deskripsi" id="edit_deskripsi" class="form-control" rows="3"></textarea>
-      </div>
-
-      <div style="display:flex; justify-content:flex-end; gap:10px; margin-top:20px;">
+      <div style="display:flex; justify-content:flex-end; gap:10px; margin-top:14px; padding-top:12px; border-top:1px solid var(--border-color);">
         <button type="button" class="btn btn-secondary" onclick="closeEditProductModal()">Batal</button>
-        <button type="submit" class="btn btn-primary">Simpan Perubahan ➔</button>
+        <button type="submit" class="btn btn-primary">Simpan Perubahan</button>
       </div>
     </form>
   </div>

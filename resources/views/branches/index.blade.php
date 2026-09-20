@@ -7,7 +7,7 @@
   <!-- Form Tambah Cabang -->
   <div class="card">
     <div class="card-header">
-      <h3 class="card-title">🏢 Tambah Cabang / Showroom Baru</h3>
+      <h3 class="card-title">Tambah Cabang / Showroom Baru</h3>
     </div>
     <form method="POST" action="{{ route('branches.store') }}">
       @csrf
@@ -25,18 +25,18 @@
         <label class="form-label">Embed HTML Google Maps (Iframe) / URL Peta</label>
         <textarea name="map_iframe" class="form-control" rows="3" placeholder='Tempelkan kode <iframe> dari Google Maps di sini, contoh:&#10;<iframe src="https://www.google.com/maps/embed?..." width="600" height="450" ...></iframe>'>{{ old('map_iframe') }}</textarea>
         <small style="color:var(--text-muted); font-size:12px; display:block; margin-top:4px;">
-          💡 <strong>Tips Google Maps:</strong> Buka lokasi di Google Maps ➔ Klik "Bagikan" (Share) ➔ Pilih tab "Sematkan peta" (Embed a map) ➔ Salin kode HTML iframe dan tempel di sini.
+          <strong>Tips Google Maps:</strong> Buka lokasi di Google Maps &rarr; Klik "Bagikan" (Share) &rarr; Pilih tab "Sematkan peta" (Embed a map) &rarr; Salin kode HTML iframe dan tempel di sini.
         </small>
       </div>
 
-      <button type="submit" class="btn btn-primary" style="width:100%;">Simpan Lokasi Cabang ➔</button>
+      <button type="submit" class="btn btn-primary" style="width:100%;">Simpan Lokasi Cabang</button>
     </form>
   </div>
 
   <!-- Daftar Cabang -->
   <div class="card">
     <div class="card-header">
-      <h3 class="card-title">📍 Daftar Gerai & Showroom Aktif</h3>
+      <h3 class="card-title">Daftar Gerai & Showroom Aktif</h3>
     </div>
     <div class="table-responsive">
       <table class="table">
@@ -56,7 +56,7 @@
                 <strong>{{ $b->nama_cabang }}</strong>
                 @if($b->map_iframe || $b->map_url)
                   <div style="margin-top:4px;">
-                    <span class="badge badge-primary" style="font-size:11px;">🗺️ Iframe Aktif</span>
+                    <span class="badge badge-primary" style="font-size:11px;">Iframe Aktif</span>
                   </div>
                 @else
                   <div style="font-size:11px; color:var(--text-muted); margin-top:2px;">Belum ada peta</div>
@@ -105,7 +105,7 @@
 <div id="editBranchModal" style="display:none; position:fixed; inset:0; background:rgba(0,0,0,0.6); z-index:9999; align-items:center; justify-content:center; padding:20px;">
   <div class="card" style="width:100%; max-width:520px; background:var(--bg-card); margin:0; border-radius:20px; box-shadow:0 25px 50px -12px rgba(0,0,0,0.25);">
     <div class="card-header">
-      <h3 class="card-title">✏️ Edit Cabang / Showroom</h3>
+      <h3 class="card-title">Edit Cabang / Showroom</h3>
       <button type="button" onclick="closeEditModal()" style="background:none; border:none; font-size:20px; cursor:pointer; color:var(--text-main);">✕</button>
     </div>
     <form id="editBranchForm" method="POST" action="">
@@ -128,7 +128,7 @@
 
       <div style="display:flex; justify-content:flex-end; gap:10px; margin-top:20px;">
         <button type="button" class="btn btn-secondary" onclick="closeEditModal()">Batal</button>
-        <button type="submit" class="btn btn-primary">Simpan Perubahan ➔</button>
+        <button type="submit" class="btn btn-primary">Simpan Perubahan</button>
       </div>
     </form>
   </div>

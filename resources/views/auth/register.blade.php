@@ -115,7 +115,7 @@
 <div class="auth-container">
   <div class="auth-card">
     <div class="auth-header">
-      <div class="auth-logo">🍳</div>
+      <div class="auth-logo">K</div>
       <h1 class="auth-title">Daftar Akun DapurKu</h1>
       <p class="auth-subtitle">Buat akun staf kasir baru untuk sistem POS</p>
     </div>
@@ -153,7 +153,7 @@
         <input type="password" name="password_confirmation" class="form-control" required minlength="6">
       </div>
 
-      <button type="submit" class="btn-submit">Daftar Akun ➔</button>
+      <button type="submit" class="btn-submit">Daftar Akun</button>
     </form>
 
     <div class="auth-footer">

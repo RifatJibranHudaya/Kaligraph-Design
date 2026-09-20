@@ -353,7 +353,7 @@
       ⬅ Kembali ke Pembayaran
     </a>
     <button type="button" onclick="window.print()" class="btn btn-primary">
-      🖨️ Cetak / Print Nota
+      Cetak / Print Nota
     </button>
   </div>
 
@@ -364,7 +364,7 @@
     <!-- Header & Brand -->
     <div class="brand-header">
       <div class="brand-logo">
-        ✨ KALIGRAPH DESIGN
+        KALIGRAPH DESIGN
       </div>
       <div class="brand-tagline">
         Advertising &bull; Neon Box &bull; Huruf Timbul &bull; Signage
@@ -387,9 +387,9 @@
         </div>
         <div style="margin-top:4px;">
           @if($isLunas)
-            <span class="badge-status badge-lunas">✅ LUNAS</span>
+            <span class="badge-status badge-lunas">LUNAS</span>
           @else
-            <span class="badge-status badge-dp">⏳ DP / ANGSURAN</span>
+            <span class="badge-status badge-dp">DP / ANGSURAN</span>
           @endif
         </div>
       </div>
@@ -398,24 +398,24 @@
     <!-- Customer & Order Info -->
     <div class="info-grid">
       <div class="info-block">
-        <div class="info-label">👤 Data Pelanggan</div>
+        <div class="info-label">Data Pelanggan</div>
         <div class="info-val">{{ $order ? $order->nama_pelanggan : 'Pelanggan Umum' }}</div>
         @if($order && $order->no_hp)
-          <div style="font-size:12px; color:var(--gray-600); margin-top:2px;">📞 {{ $order->no_hp }}</div>
+          <div style="font-size:12px; color:var(--gray-600); margin-top:2px;">{{ $order->no_hp }}</div>
         @endif
         @if($order && $order->alamat)
-          <div style="font-size:11px; color:var(--gray-400); margin-top:3px;">📍 {{ $order->alamat }}</div>
+          <div style="font-size:11px; color:var(--gray-400); margin-top:3px;">{{ $order->alamat }}</div>
         @endif
       </div>
 
       <div class="info-block">
-        <div class="info-label">📋 Rincian Pesanan</div>
+        <div class="info-label">Rincian Pesanan</div>
         <div class="info-val">Order #ORD-{{ str_pad($order ? $order->id : $payment->order_id, 5, '0', STR_PAD_LEFT) }}</div>
         @if($order && $order->kategori)
-          <div style="font-size:12px; color:var(--primary); font-weight:600; margin-top:2px;">📂 {{ $order->kategori }}</div>
+          <div style="font-size:12px; color:var(--primary); font-weight:600; margin-top:2px;">{{ $order->kategori }}</div>
         @endif
         @if($order && $order->keterangan)
-          <div style="font-size:11px; color:var(--gray-400); margin-top:3px;">📝 {{ Str::limit($order->keterangan, 50) }}</div>
+          <div style="font-size:11px; color:var(--gray-400); margin-top:3px;">{{ Str::limit($order->keterangan, 50) }}</div>
         @endif
       </div>
     </div>
@@ -454,7 +454,7 @@
     <!-- Notes if any -->
     @if($payment->keterangan)
       <div class="payment-note">
-        <strong>📌 Catatan Pembayaran:</strong> {{ $payment->keterangan }}
+        <strong>Catatan Pembayaran:</strong> {{ $payment->keterangan }}
       </div>
     @endif
 

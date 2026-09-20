@@ -62,28 +62,28 @@
 <div class="card" style="margin-bottom:24px;">
   <div class="card-header">
     <h3 class="card-title">Status Alur Pengerjaan Pesanan</h3>
-    <a href="{{ route('status_order.index') }}" class="btn btn-sm btn-secondary">Kelola Status ➔</a>
+    <a href="{{ route('status_order.index') }}" class="btn btn-sm btn-secondary">Kelola Status</a>
   </div>
   <div class="grid grid-4" style="gap:16px;">
-    <div style="background:#fef3c7; border:1px solid #fde68a; border-radius:12px; padding:16px;">
-      <div style="font-size:12px; font-weight:700; color:#92400e;">ORDER BARU</div>
-      <div style="font-size:22px; font-weight:800; color:#92400e; margin-top:4px;">{{ $ordersOrder }}</div>
-      <div style="font-size:11px; color:#b45309; margin-top:2px;">Menunggu konfirmasi / DP</div>
+    <div style="background:#fef9c3; border:1px solid #fef08a; border-radius:var(--radius); padding:18px;">
+      <div style="font-size:11px; font-weight:800; color:#854d0e; letter-spacing: 0.5px;">ORDER BARU</div>
+      <div style="font-size:24px; font-weight:700; color:#854d0e; margin-top:4px;">{{ $ordersOrder }}</div>
+      <div style="font-size:12px; color:#a16207; margin-top:2px;">Menunggu konfirmasi / DP</div>
     </div>
-    <div style="background:#dbeafe; border:1px solid #bfdbfe; border-radius:12px; padding:16px;">
-      <div style="font-size:12px; font-weight:700; color:#1e40af;">ON PROGRESS</div>
-      <div style="font-size:22px; font-weight:800; color:#1e40af; margin-top:4px;">{{ $ordersOnProgress }}</div>
-      <div style="font-size:11px; color:#2563eb; margin-top:2px;">Sedang tahap produksi / las</div>
+    <div style="background:#e7f1fe; border:1px solid #bfdbfe; border-radius:var(--radius); padding:18px;">
+      <div style="font-size:11px; font-weight:800; color:#0064e0; letter-spacing: 0.5px;">ON PROGRESS</div>
+      <div style="font-size:24px; font-weight:700; color:#0064e0; margin-top:4px;">{{ $ordersOnProgress }}</div>
+      <div style="font-size:12px; color:#0457cb; margin-top:2px;">Sedang tahap produksi / las</div>
     </div>
-    <div style="background:#d1fae5; border:1px solid #a7f3d0; border-radius:12px; padding:16px;">
-      <div style="font-size:12px; font-weight:700; color:#065f46;">SELESAI</div>
-      <div style="font-size:22px; font-weight:800; color:#065f46; margin-top:4px;">{{ $ordersSelesai }}</div>
-      <div style="font-size:11px; color:#059669; margin-top:2px;">Selesai terpasang / terkirim</div>
+    <div style="background:#dcfce7; border:1px solid #bbf7d0; border-radius:var(--radius); padding:18px;">
+      <div style="font-size:11px; font-weight:800; color:#15803d; letter-spacing: 0.5px;">SELESAI</div>
+      <div style="font-size:24px; font-weight:700; color:#15803d; margin-top:4px;">{{ $ordersSelesai }}</div>
+      <div style="font-size:12px; color:#16a34a; margin-top:2px;">Selesai terpasang / terkirim</div>
     </div>
-    <div style="background:#fee2e2; border:1px solid #fecaca; border-radius:12px; padding:16px;">
-      <div style="font-size:12px; font-weight:700; color:#991b1b;">CANCELLED</div>
-      <div style="font-size:22px; font-weight:800; color:#991b1b; margin-top:4px;">{{ $ordersCancelled }}</div>
-      <div style="font-size:11px; color:#dc2626; margin-top:2px;">Dibatalkan</div>
+    <div style="background:#fee2e2; border:1px solid #fecaca; border-radius:var(--radius); padding:18px;">
+      <div style="font-size:11px; font-weight:800; color:#b91c1c; letter-spacing: 0.5px;">CANCELLED</div>
+      <div style="font-size:24px; font-weight:700; color:#b91c1c; margin-top:4px;">{{ $ordersCancelled }}</div>
+      <div style="font-size:12px; color:#dc2626; margin-top:2px;">Dibatalkan</div>
     </div>
   </div>
 </div>
@@ -109,7 +109,9 @@
           @forelse($recentOrders as $ord)
             <tr>
               <td>
-                <strong>#{{ $ord->id }} - {{ $ord->nama_pelanggan }}</strong>
+                <a href="{{ route('pembayaran.detail.order', $ord->id) }}" style="color:var(--text-main); text-decoration:none; font-weight:800;">
+                  #{{ $ord->id }} - {{ $ord->nama_pelanggan }}
+                </a>
                 <div style="font-size:11px; color:var(--text-muted);">
                   {{ $ord->created_at ? $ord->created_at->diffForHumans() : '-' }}
                 </div>
@@ -145,7 +147,7 @@
       @forelse($recentLogs as $log)
         <div style="display:flex; align-items:flex-start; gap:12px; padding-bottom:12px; border-bottom:1px solid var(--border-color);">
           <div style="width:32px; height:32px; border-radius:50%; background:var(--bg-main); display:flex; align-items:center; justify-content:center; font-size:14px;">
-            👤
+            
           </div>
           <div style="flex:1;">
             <div style="font-size:13px; font-weight:600; color:var(--text-main);">

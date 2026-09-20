@@ -94,7 +94,7 @@
           </div>
 
           <div style="margin-top:14px; text-align:right;">
-            <button type="submit" class="btn btn-primary">Simpan Hak Akses {{ $user->username }} ➔</button>
+            <button type="submit" class="btn btn-primary">Simpan Hak Akses {{ $user->username }}</button>
           </div>
         </form>
       </div>

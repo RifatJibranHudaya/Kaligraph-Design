@@ -40,7 +40,7 @@
         </label>
       </div>
 
-      <button type="submit" class="btn btn-primary" style="width:100%;">Simpan Kategori ➔</button>
+      <button type="submit" class="btn btn-primary" style="width:100%;">Simpan Kategori</button>
     </form>
   </div>
 
@@ -111,7 +111,7 @@
 <div id="editCatModal" style="display:none; position:fixed; inset:0; background:rgba(0,0,0,0.6); z-index:9999; align-items:center; justify-content:center; padding:20px;">
   <div class="card" style="width:100%; max-width:500px; background:var(--bg-card); margin:0; border-radius:20px; box-shadow:0 25px 50px -12px rgba(0,0,0,0.25); max-height:90vh; overflow-y:auto;">
     <div class="card-header">
-      <h3 class="card-title">✏️ Edit Kategori</h3>
+      <h3 class="card-title">Edit Kategori</h3>
       <button type="button" onclick="closeEditCatModal()" style="background:none; border:none; font-size:20px; cursor:pointer; color:var(--text-main);">✕</button>
     </div>
     <form id="editCatForm" method="POST" action="" enctype="multipart/form-data">
