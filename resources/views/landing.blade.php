@@ -1255,7 +1255,7 @@
        class="social-icon-link instagram" 
        target="_blank" 
        title="Instagram">
-      <img src="https://cdn-icons-png.flaticon.com/512/174/174855.png" alt="Instagram">
+      <img src="https://cdn.icon-icons.com/icons2/1458/png/512/instagram_99937.png" alt="Instagram">
     </a>
     
     <!-- Facebook -->
@@ -1263,14 +1263,14 @@
        class="social-icon-link facebook" 
        target="_blank" 
        title="Facebook">
-      <img src="https://cdn-icons-png.flaticon.com/512/5968/5968764.png" alt="Facebook">
+      <img src="https://cdn.icon-icons.com/icons2/1458/png/512/facebook_99933.png" alt="Facebook">
     </a>
     
     <!-- Email -->
     <a href="mailto:kafaadvertising@example.com" 
        class="social-icon-link email" 
        title="Email">
-      <img src="https://cdn-icons-png.flaticon.com/512/732/732200.png" alt="Email">
+      <img src="https://cdn.icon-icons.com/icons2/1458/png/512/email_99927.png" alt="Email">
     </a>
     
     <!-- TikTok -->
@@ -1278,7 +1278,7 @@
        class="social-icon-link tiktok" 
        target="_blank" 
        title="TikTok">
-      <img src="https://cdn-icons-png.flaticon.com/512/3046/3046121.png" alt="TikTok">
+      <img src="https://cdn.icon-icons.com/icons2/1458/png/512/tiktok_99952.png" alt="TikTok">
     </a>
     
     <!-- WhatsApp -->
@@ -1286,7 +1286,7 @@
        class="social-icon-link whatsapp" 
        target="_blank" 
        title="WhatsApp">
-      <img src="https://cdn-icons-png.flaticon.com/512/733/733585.png" alt="WhatsApp">
+      <img src="https://cdn.icon-icons.com/icons2/1458/png/512/whatsapp_99960.png" alt="WhatsApp">
     </a>
     
     <!-- YouTube (optional) -->
@@ -1294,7 +1294,7 @@
        class="social-icon-link youtube" 
        target="_blank" 
        title="YouTube">
-      <img src="https://cdn-icons-png.flaticon.com/512/1384/1384060.png" alt="YouTube">
+      <img src="https://cdn.icon-icons.com/icons2/1458/png/512/youtube_99963.png" alt="YouTube">
     </a>
   </div>
 </footer>
