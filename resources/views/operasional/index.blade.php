@@ -7,7 +7,7 @@
   <!-- Form Input Operasional -->
   <div class="card">
     <div class="card-header">
-      <h3 class="card-title">➕ Catat Biaya / Alat Operasional</h3>
+      <h3 class="card-title">Catat Biaya / Alat Operasional</h3>
     </div>
     <form method="POST" action="{{ route('operasional.store') }}">
       @csrf
@@ -47,14 +47,14 @@
         <textarea name="keterangan" class="form-control" rows="2" placeholder="Garansi, garansi servis, dsb..."></textarea>
       </div>
 
-      <button type="submit" class="btn btn-primary" style="width:100%;">Simpan Data Operasional ➔</button>
+      <button type="submit" class="btn btn-primary" style="width:100%;">Simpan Data Operasional</button>
     </form>
   </div>
 
   <!-- Daftar Operasional -->
   <div class="card">
     <div class="card-header">
-      <h3 class="card-title">🛠️ Daftar Peralatan & Operasional</h3>
+      <h3 class="card-title">Daftar Peralatan & Operasional</h3>
       <div class="badge badge-danger">Total Biaya: Rp {{ number_format($totalBiaya, 0, ',', '.') }}</div>
     </div>
 

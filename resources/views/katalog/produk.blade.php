@@ -534,6 +534,66 @@
     font-size: 14px;
     margin-top: 60px;
   }
+
+  @media (max-width: 768px) {
+    .navbar {
+      padding: 10px 14px;
+    }
+    .page-header {
+      padding: 32px 14px;
+    }
+    .page-header h1 {
+      font-size: 22px;
+      line-height: 1.3;
+    }
+    .page-header p {
+      font-size: 13px;
+    }
+    .catalog-container {
+      padding: 20px 14px;
+    }
+    .category-pills {
+      gap: 6px;
+      padding-bottom: 10px;
+      margin-bottom: 20px;
+    }
+    .cat-pill {
+      padding: 6px 14px;
+      font-size: 12px;
+    }
+    .products-grid {
+      grid-template-columns: 1fr;
+      gap: 14px;
+    }
+    .product-img {
+      height: 150px;
+    }
+    .product-body {
+      padding: 14px;
+    }
+    .product-name {
+      font-size: 16px;
+    }
+    .product-price {
+      font-size: 16px;
+    }
+    .product-desc {
+      font-size: 12.5px;
+      margin-bottom: 12px;
+    }
+    .btn-detail {
+      padding: 8px 12px;
+      font-size: 12px;
+    }
+    .footer {
+      padding: 24px 14px;
+      margin-top: 30px;
+      flex-direction: column;
+      text-align: center;
+      gap: 8px;
+      font-size: 12px;
+    }
+  }
 </style>
 @endsection
 
@@ -542,13 +602,13 @@
 <!-- Navbar -->
 <nav class="navbar">
   <a href="{{ route('home') }}" class="nav-brand">
-    <div class="brand-logo">💡</div>
+    <div class="brand-logo">K</div>
     <span>Kafa Advertising</span>
   </a>
 
 <div class="nav-right-wrap">
     <a href="{{ route('katalog') }}" class="nav-quick-btn" style="display:none; @media(min-width:768px){display:inline-flex;}">
-      <span>📂</span>
+      
       <span>Katalog Produk</span>
     </a>
     <button type="button" class="menu-toggle-btn" id="menuToggleBtn" onclick="toggleSideNav()" aria-label="Buka Menu Navigasi">
@@ -569,7 +629,7 @@
 <aside class="side-drawer-nav" id="sideDrawerNav" aria-label="Menu Navigasi Samping">
   <div class="drawer-header">
     <div class="drawer-brand">
-      <div class="drawer-brand-logo">💡</div>
+      <div class="drawer-brand-logo">K</div>
       <div>
         <div class="drawer-brand-title">Kafa Advertising</div>
         <div class="drawer-brand-sub">Advertising & Reklame</div>
@@ -584,72 +644,72 @@
         <a href="{{ route('home') }}" class="drawer-link" onclick="closeSideNav()">
           <div class="drawer-link-left">
             <span class="drawer-link-num">01</span>
-            <span>🏠 Beranda</span>
+            <span>Beranda</span>
           </div>
-          <span class="drawer-link-arrow">➔</span>
+          
         </a>
       </li>
       <li class="drawer-menu-item">
         <a href="{{ route('home') }}#kategori" class="drawer-link" onclick="closeSideNav()">
           <div class="drawer-link-left">
             <span class="drawer-link-num">02</span>
-            <span>📂 Kategori Layanan</span>
+            <span>Kategori Layanan</span>
           </div>
-          <span class="drawer-link-arrow">➔</span>
+          
         </a>
       </li>
       <li class="drawer-menu-item">
         <a href="{{ route('katalog') }}" class="drawer-link" onclick="closeSideNav()">
           <div class="drawer-link-left">
             <span class="drawer-link-num">03</span>
-            <span>💡 Katalog & Harga Produk</span>
+            <span>Katalog & Harga Produk</span>
           </div>
-          <span class="drawer-link-arrow">➔</span>
+          
         </a>
       </li>
       <li class="drawer-menu-item">
         <a href="{{ route('portofolio') }}" class="drawer-link" onclick="closeSideNav()">
           <div class="drawer-link-left">
             <span class="drawer-link-num">04</span>
-            <span>🖼️ Portofolio Proyek</span>
+            <span>Portofolio Proyek</span>
           </div>
-          <span class="drawer-link-arrow">➔</span>
+          
         </a>
       </li>
       <li class="drawer-menu-item">
         <a href="{{ route('home') }}#keunggulan" class="drawer-link" onclick="closeSideNav()">
           <div class="drawer-link-left">
             <span class="drawer-link-num">05</span>
-            <span>⭐ Keunggulan Layanan</span>
+            <span>Keunggulan Layanan</span>
           </div>
-          <span class="drawer-link-arrow">➔</span>
+          
         </a>
       </li>
       <li class="drawer-menu-item">
         <a href="{{ route('home') }}#cabang" class="drawer-link" onclick="closeSideNav()">
           <div class="drawer-link-left">
             <span class="drawer-link-num">06</span>
-            <span>📍 Lokasi Showroom & Maps</span>
+            <span>Lokasi Showroom & Maps</span>
           </div>
-          <span class="drawer-link-arrow">➔</span>
+          
         </a>
       </li>
       <li class="drawer-menu-item">
         <a href="{{ route('login.customer') }}" class="drawer-link highlight-customer" onclick="closeSideNav()">
           <div class="drawer-link-left">
             <span class="drawer-link-num">07</span>
-            <span>🛍️ Portal Pelanggan</span>
+            <span>Portal Pelanggan</span>
           </div>
-          <span class="drawer-link-arrow">➔</span>
+          
         </a>
       </li>
       <li class="drawer-menu-item">
         <a href="{{ route('login.admin') }}" class="drawer-link highlight-admin" onclick="closeSideNav()">
           <div class="drawer-link-left">
             <span class="drawer-link-num">08</span>
-            <span>🛡️ Login Admin & Staff</span>
+            <span>Login Admin & Staff</span>
           </div>
-          <span class="drawer-link-arrow">➔</span>
+          
         </a>
       </li>
     </ul>
@@ -657,7 +717,7 @@
 
   <div class="drawer-footer">
     <div class="drawer-footer-info">
-      <div>📍 <strong>Workshop & Showroom</strong></div>
+      <div><strong>Workshop & Showroom</strong></div>
       <div>Melayani Demak, Semarang, Surabaya & sekitarnya. Pengiriman ke seluruh Indonesia.</div>
     </div>
     <a href="{{ \App\Helpers\FormatHelper::whatsappUrl('Halo Kafa Advertising, saya ingin konsultasi pesanan') }}" target="_blank" class="drawer-wa-cta">
@@ -670,7 +730,7 @@
 <!-- Page Header -->
 <div class="page-header">
   <div style="display:inline-block; padding:5px 12px; background:rgba(255,255,255,0.1); border-radius:20px; font-size:12px; font-weight:700; color:#60a5fa; margin-bottom:10px;">
-    {{ $category->emoji ?: '📂' }} KATEGORI PRODUK
+    KATEGORI PRODUK
   </div>
   <h1>{{ $category->nama }}</h1>
   <p>{{ $category->deskripsi ?: 'Pilihan produk custom dengan bahan berkualitas, pengerjaan presisi, dan garansi resmi.' }}</p>
@@ -690,7 +750,7 @@
     <a href="{{ route('katalog') }}" class="cat-pill">Semua Kategori</a>
     @foreach($categories as $cat)
       <a href="{{ route('katalog.kategori', $cat->slug) }}" class="cat-pill {{ $cat->id === $category->id ? 'active' : '' }}">
-        <span>{{ $cat->emoji ?: '📂' }}</span>
+        
         <span>{{ $cat->nama }}</span>
       </a>
     @endforeach
@@ -704,7 +764,7 @@
           @if($prod->foto_url)
             <img src="{{ $prod->foto_url }}" alt="{{ $prod->nama }}">
           @else
-            <span>💡</span>
+            
           @endif
         </div>
         <div class="product-body">
@@ -712,18 +772,16 @@
           <div class="product-price">{{ $prod->harga_display }}</div>
           <p class="product-desc">{{ Str::limit($prod->deskripsi ?: 'Kualitas terjamin, siap survey lokasi dan melayani pengiriman.', 100) }}</p>
           <div class="btn-detail">
-            <span>Detail & Estimasi Harga</span>
-            <span>➔</span>
+            <span>Detail & Harga →</span>
           </div>
         </div>
       </a>
     @empty
-      <div style="grid-column:1/-1; text-align:center; padding:70px 20px; color:var(--text-muted);">
-        <div style="font-size:48px; margin-bottom:16px;">🔍</div>
-        <h3>Belum ada produk dalam kategori ini</h3>
-        <p style="margin-top:8px;">Silakan hubungi kami via WhatsApp untuk konsultasi produk custom sesuai kebutuhan Anda.</p>
-        <a href="{{ \App\Helpers\FormatHelper::whatsappUrl('Halo Kafa Advertising, saya ingin tanya produk kategori ' . $category->nama) }}" target="_blank" class="btn btn-primary" style="margin-top:16px; display:inline-flex;">
-          💬 Konsultasi Produk Ini
+      <div style="grid-column:1/-1; text-align:center; padding:50px 14px; color:var(--text-muted);">
+        <h3>Belum ada produk</h3>
+        <p style="margin-top:6px; font-size:13px;">Silakan hubungi kami via WhatsApp untuk konsultasi produk custom.</p>
+        <a href="{{ \App\Helpers\FormatHelper::whatsappUrl('Halo Kafa Advertising, saya ingin tanya produk kategori ' . $category->nama) }}" target="_blank" class="btn-pill btn-meta-buy" style="margin-top:14px; display:inline-flex; font-size:13px; padding:10px 20px;">
+          Konsultasi Produk
         </a>
       </div>
     @endforelse
@@ -732,7 +790,7 @@
 
 <!-- Footer -->
 <footer class="footer">
-  <div>💡 <strong>Kafa Advertising</strong> — Spesialis Neon Box & Signage Custom</div>
+  <div><strong>Kafa Advertising</strong> — Spesialis Neon Box & Signage Custom</div>
   <p>© {{ date('Y') }} All rights reserved.</p>
 </footer>
 

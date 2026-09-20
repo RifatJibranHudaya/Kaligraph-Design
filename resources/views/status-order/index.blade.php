@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'Status Pengerjaan Order')
+@section('title', 'Order')
 
 @section('styles')
 <style>
@@ -75,7 +75,7 @@
 <!-- Header & Add Order Button -->
 <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:24px; flex-wrap:wrap; gap:16px;">
   <div>
-    <h2 style="font-size:22px; font-weight:800; color:var(--text-main);">Tracking & Status Pengerjaan</h2>
+    <h2 style="font-size:22px; font-weight:800; color:var(--text-main);">Tracking Pengerjaan</h2>
     <p style="font-size:13px; color:var(--text-muted); margin-top:2px;">Pantau progres pengerjaan mulai dari pesanan masuk, on progress pengerjaan, selesai, hingga cancelled.</p>
   </div>
   <button type="button" class="btn btn-primary" onclick="document.getElementById('newOrderModal').style.display='flex'">
@@ -142,15 +142,15 @@
               Order #{{ $ord->id }}
             </div>
             <div style="font-size:13px; font-weight:600; color:var(--primary); margin-top:2px;">
-              👤 {{ $ord->nama_pelanggan }}
+              {{ $ord->nama_pelanggan }}
             </div>
             @if($ord->no_hp)
               <div style="font-size:12px; color:var(--text-muted); margin-top:2px;">
-                📞 {{ $ord->no_hp }}
+                {{ $ord->no_hp }}
               </div>
             @endif
             <div style="font-size:11px; color:var(--text-muted); margin-top:4px;">
-              📅 {{ $ord->created_at ? $ord->created_at->format('d/m/Y H:i') : '-' }}
+              {{ $ord->created_at ? $ord->created_at->format('d/m/Y H:i') : '-' }}
             </div>
           </td>
           <td>
@@ -207,14 +207,9 @@
             </form>
           </td>
           <td>
-            <div style="display:flex; flex-direction:column; gap:6px;">
-              <a href="{{ route('pembayaran.detail.order', $ord->id) }}" class="btn btn-sm btn-primary" style="font-size:11px;">
-                💳 Detail Bayar
-              </a>
-              <a href="{{ route('pembayaran.index', ['order_id' => $ord->id]) }}" class="btn btn-sm btn-secondary" style="font-size:11px;">
-                Catat Bayar
-              </a>
-            </div>
+            <a href="{{ route('pembayaran.detail.order', $ord->id) }}" class="btn btn-sm btn-primary" style="font-size:12px; font-weight:700; padding:6px 12px; white-space:nowrap;">
+              Detail & Bayar →
+            </a>
           </td>
         </tr>
       @empty
@@ -234,68 +229,71 @@
 
 <!-- Modal Tambah Order Baru -->
 <div id="newOrderModal" style="display:none; position:fixed; inset:0; background:rgba(0,0,0,0.6); z-index:9999; align-items:center; justify-content:center; padding:20px;">
-  <div class="card" style="width:100%; max-width:540px; background:var(--bg-card); margin:0; border-radius:20px; box-shadow:0 25px 50px -12px rgba(0,0,0,0.25); max-height:90vh; overflow-y:auto;">
-    <div class="card-header">
+  <div class="card modal-scroll-container" style="width:100%; max-width:540px; background:var(--bg-card); margin:0; border-radius:20px; box-shadow:0 25px 50px -12px rgba(0,0,0,0.25);">
+    <div class="card-header" style="margin-bottom:12px; padding-bottom:12px; border-bottom:1px solid var(--border-color);">
       <h3 class="card-title">Buat Pesanan / Order Baru</h3>
       <button type="button" onclick="document.getElementById('newOrderModal').style.display='none'" style="background:none; border:none; font-size:20px; cursor:pointer; color:var(--text-main);">✕</button>
     </div>
-    <form method="POST" action="{{ route('status_order.store') }}">
+    <form method="POST" action="{{ route('status_order.store') }}" style="display:flex; flex-direction:column; flex:1; overflow:hidden;">
       @csrf
       
-      <!-- Nama Pelanggan with AJAX Auto Complete -->
-      <div class="form-group" style="position:relative;">
-        <label class="form-label" style="display:flex; justify-content:space-between; align-items:center;">
-          <span>Nama Pelanggan *</span>
-          <span style="font-size:11px; font-weight:normal; color:var(--primary); display:inline-flex; align-items:center; gap:4px;">
-            ⚡ Auto-complete Data Pelanggan
-          </span>
-        </label>
-        <div style="position:relative;">
-          <input type="text" name="nama_pelanggan" id="order_nama_pelanggan" class="form-control" placeholder="Ketik nama atau no HP pelanggan..." autocomplete="off" required>
-          <div id="cust_search_spinner" style="display:none; position:absolute; right:12px; top:50%; transform:translateY(-50%); font-size:11px; color:var(--primary); font-weight:600;">
-            ⏳ Mencari...
+      <div class="modal-scroll-body">
+        <!-- Nama Pelanggan with AJAX Auto Complete -->
+        <div class="form-group" style="position:relative;">
+          <label class="form-label" style="display:flex; justify-content:space-between; align-items:center;">
+            <span>Nama Pelanggan *</span>
+            <span style="font-size:11px; font-weight:normal; color:var(--primary); display:inline-flex; align-items:center; gap:4px;">
+              Auto-complete Pelanggan
+            </span>
+          </label>
+          <div style="position:relative;">
+            <input type="text" name="nama_pelanggan" id="order_nama_pelanggan" class="form-control" placeholder="Ketik nama atau no HP pelanggan..." autocomplete="off" required>
+            <div id="cust_search_spinner" style="display:none; position:absolute; right:12px; top:50%; transform:translateY(-50%); font-size:11px; color:var(--primary); font-weight:600;">
+              Mencari...
+            </div>
+          </div>
+
+          <!-- Autocomplete Suggestions Box -->
+          <div id="cust_autocomplete_box" style="display:none; position:absolute; top:100%; left:0; right:0; background:var(--bg-card); border:1px solid var(--border-color); border-radius:12px; box-shadow:0 12px 30px rgba(0,0,0,0.18); z-index:10000; max-height:180px; overflow-y:auto; margin-top:4px;">
           </div>
         </div>
 
-        <!-- Autocomplete Suggestions Box -->
-        <div id="cust_autocomplete_box" style="display:none; position:absolute; top:100%; left:0; right:0; background:var(--bg-card); border:1px solid var(--border-color); border-radius:12px; box-shadow:0 12px 30px rgba(0,0,0,0.18); z-index:10000; max-height:220px; overflow-y:auto; margin-top:4px;">
+        <div class="grid grid-2">
+          <div class="form-group">
+            <label class="form-label">Nomor WhatsApp / HP</label>
+            <input type="text" name="no_hp" id="order_no_hp" class="form-control" placeholder="cth. 081234567890">
+          </div>
+          <div class="form-group">
+            <label class="form-label">Kategori Pekerjaan</label>
+            <select name="kategori" class="form-control">
+              <option value="">-- Pilih Kategori --</option>
+              @foreach($categories as $cat)
+                <option value="{{ $cat->nama }}">{{ $cat->nama }}</option>
+              @endforeach
+            </select>
+          </div>
         </div>
-      </div>
 
-      <div class="grid grid-2">
         <div class="form-group">
-          <label class="form-label">Nomor WhatsApp / HP</label>
-          <input type="text" name="no_hp" id="order_no_hp" class="form-control" placeholder="cth. 081234567890">
+          <label class="form-label">Total Nilai Tagihan (Rp) *</label>
+          <input type="text" id="order_total_display" class="form-control" placeholder="cth. 1.500.000" autocomplete="off" required>
+          <input type="hidden" name="total" id="order_total_raw" value="">
         </div>
+
         <div class="form-group">
-          <label class="form-label">Kategori Pekerjaan</label>
-          <select name="kategori" class="form-control">
-            <option value="">-- Pilih Kategori Pekerjaan --</option>
-            @foreach($categories as $cat)
-              <option value="{{ $cat->nama }}">{{ $cat->emoji ?: '📂' }} {{ $cat->nama }}</option>
-            @endforeach
-          </select>
+          <label class="form-label">Alamat / Lokasi Pemasangan</label>
+          <textarea name="alamat" id="order_alamat" class="form-control" rows="2" placeholder="Alamat lengkap tujuan kirim atau survey lokasi..."></textarea>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">Catatan Spesifikasi / Ukuran</label>
+          <textarea name="keterangan" class="form-control" rows="2" placeholder="cth. Ukuran 120x60cm, LED putih super bright, bracket siku besi..."></textarea>
         </div>
       </div>
 
-      <div class="form-group">
-        <label class="form-label">Total Nilai Tagihan (Rp) *</label>
-        <input type="number" name="total" class="form-control" placeholder="cth. 1500000" min="0" required>
-      </div>
-
-      <div class="form-group">
-        <label class="form-label">Alamat / Lokasi Pemasangan</label>
-        <textarea name="alamat" id="order_alamat" class="form-control" rows="2" placeholder="Alamat lengkap tujuan kirim atau survey lokasi..."></textarea>
-      </div>
-
-      <div class="form-group">
-        <label class="form-label">Catatan Spesifikasi / Ukuran</label>
-        <textarea name="keterangan" class="form-control" rows="2" placeholder="cth. Ukuran 120x60cm, LED putih super bright, bracket siku besi..."></textarea>
-      </div>
-
-      <div style="display:flex; justify-content:flex-end; gap:10px; margin-top:20px;">
+      <div style="display:flex; justify-content:flex-end; gap:10px; margin-top:14px; padding-top:12px; border-top:1px solid var(--border-color);">
         <button type="button" class="btn btn-secondary" onclick="document.getElementById('newOrderModal').style.display='none'">Batal</button>
-        <button type="submit" class="btn btn-primary">Simpan Order ➔</button>
+        <button type="submit" class="btn btn-primary">Simpan Order</button>
       </div>
     </form>
   </div>
@@ -359,12 +357,12 @@ document.addEventListener('DOMContentLoaded', function() {
                    onmouseout="this.style.background='transparent'">
                 <div>
                   <div style="font-weight:700; font-size:13px; color:var(--text-main); display:flex; align-items:center; gap:6px;">
-                    <span>👤 ${escapeHtml(item.nama)}</span>
+                    <span>${escapeHtml(item.nama)}</span>
                   </div>
                   <div style="font-size:11px; color:var(--text-muted); margin-top:2px; display:flex; gap:10px; flex-wrap:wrap;">
-                    ${item.no_hp ? `<span>📞 ${escapeHtml(item.no_hp)}</span>` : ''}
-                    ${item.email ? `<span>✉️ ${escapeHtml(item.email)}</span>` : ''}
-                    ${item.alamat ? `<span>📍 ${escapeHtml(item.alamat)}</span>` : ''}
+                    ${item.no_hp ? `<span>${escapeHtml(item.no_hp)}</span>` : ''}
+                    ${item.email ? `<span>${escapeHtml(item.email)}</span>` : ''}
+                    ${item.alamat ? `<span>${escapeHtml(item.alamat)}</span>` : ''}
                   </div>
                 </div>
                 <span style="font-size:10px; font-weight:700; padding:2px 8px; border-radius:6px; background:${badgeBg}; color:${badgeColor}; white-space:nowrap;">
@@ -415,6 +413,22 @@ document.addEventListener('DOMContentLoaded', function() {
       if (e.key === 'Escape') {
         autocompleteBox.style.display = 'none';
       }
+    });
+  }
+
+  const totalDisplay = document.getElementById('order_total_display');
+  const totalRaw = document.getElementById('order_total_raw');
+
+  if (totalDisplay && totalRaw) {
+    totalDisplay.addEventListener('input', function() {
+      let rawVal = this.value.replace(/\D/g, '');
+      if (rawVal === '') {
+        this.value = '';
+        totalRaw.value = '';
+        return;
+      }
+      totalRaw.value = rawVal;
+      this.value = rawVal.replace(/\B(?=(\d{3})+(?!\d))/g, '.');
     });
   }
 

@@ -124,8 +124,7 @@ class CatalogAndAdminTest extends TestCase
     public function test_admin_pembayaran_accessible(): void
     {
         $response = $this->actingAs($this->admin)->get('/pembayaran');
-        $response->assertStatus(200);
-        $response->assertSee('Data Pembayaran');
+        $response->assertRedirect('/status-order');
     }
 
     public function test_admin_activity_log_accessible(): void

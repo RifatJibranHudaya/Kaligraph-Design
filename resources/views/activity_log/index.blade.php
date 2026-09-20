@@ -6,7 +6,7 @@
 <div class="card">
   <div class="card-header" style="flex-wrap:wrap; gap:12px;">
     <div>
-      <h3 class="card-title">📜 Audit Trail Log Aktivitas Sistem</h3>
+      <h3 class="card-title">Audit Trail Log Aktivitas Sistem</h3>
       <div style="font-size:12px; color:var(--text-muted); margin-top:2px;">
         Pencatatan riwayat transaksi, perubahan data produk, kategori, dan autentikasi.
       </div>

@@ -144,20 +144,20 @@
 <div class="auth-container">
   <div class="auth-card">
     <div class="auth-header">
-      <div class="auth-logo">🔑</div>
+      <div class="auth-logo">K</div>
       <h1 class="auth-title">Kata Sandi Baru</h1>
       <p class="auth-subtitle">Buat kata sandi baru yang kuat untuk akun <strong>{{ $email }}</strong></p>
     </div>
 
     @if(session('success'))
       <div class="alert-success">
-        <span>✅</span> {{ session('success') }}
+         {{ session('success') }}
       </div>
     @endif
 
     @if($errors->any())
       <div class="alert-error">
-        <span>⚠️</span> {{ $errors->first() }}
+         {{ $errors->first() }}
       </div>
     @endif
 
@@ -173,7 +173,7 @@
         <input type="password" name="password_confirmation" class="form-control" placeholder="Ulangi kata sandi baru" required>
       </div>
 
-      <button type="submit" class="btn-submit">Simpan Kata Sandi Baru ➔</button>
+      <button type="submit" class="btn-submit">Simpan Kata Sandi Baru</button>
     </form>
   </div>
 </div>

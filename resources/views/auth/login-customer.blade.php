@@ -191,7 +191,7 @@
 <div class="auth-container">
   <div class="auth-card">
     <div class="auth-header">
-      <div class="auth-logo">🛍️</div>
+      <div class="auth-logo">K</div>
       <span class="auth-badge">Portal Pelanggan</span>
       <h1 class="auth-title">Login Pelanggan</h1>
       <p class="auth-subtitle">Pantau pesanan neon box & signage custom Anda</p>
@@ -199,13 +199,13 @@
 
     @if(session('success'))
       <div class="alert alert-success">
-        <span>✅</span> {{ session('success') }}
+         {{ session('success') }}
       </div>
     @endif
 
     @if($errors->any())
       <div class="alert alert-error">
-        <span>⚠️</span> {{ $errors->first() }}
+         {{ $errors->first() }}
       </div>
     @endif
 
@@ -228,7 +228,7 @@
         <a href="{{ route('password.request') }}">Lupa Password?</a>
       </div>
 
-      <button type="submit" class="btn-submit">Masuk ke Portal Pelanggan ➔</button>
+      <button type="submit" class="btn-submit">Masuk ke Portal Pelanggan</button>
     </form>
 
     <div class="auth-footer">

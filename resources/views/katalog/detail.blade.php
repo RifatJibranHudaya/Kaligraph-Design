@@ -4,529 +4,386 @@
 
 @section('styles')
 <style>
-  /* ─── Navbar & Menu Trigger ─── */
+  /* ─── Navbar ─── */
   .navbar {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding: 16px 8%;
-    background: rgba(255,255,255,0.95);
-    backdrop-filter: blur(14px);
-    border-bottom: 1px solid var(--border-color);
+    padding: 14px 8%;
+    background: #ffffff;
+    border-bottom: 1px solid var(--hairline-soft);
     position: sticky;
     top: 0;
     z-index: 1000;
-    box-shadow: 0 4px 20px rgba(15,23,42,0.05);
+    box-shadow: 0 1px 3px rgba(10, 19, 23, 0.04);
   }
 
   .nav-brand {
     display: flex;
     align-items: center;
-    gap: 12px;
-    font-size: 20px;
+    gap: 10px;
+    font-size: 19px;
     font-weight: 800;
-    color: var(--primary);
+    color: var(--ink-deep);
     text-decoration: none;
-    letter-spacing: -0.5px;
+    letter-spacing: -0.4px;
   }
 
   .nav-brand .brand-logo {
-    width: 42px;
-    height: 42px;
-    background: linear-gradient(135deg, #2563eb, #7c3aed);
-    border-radius: 12px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 20px;
-    box-shadow: 0 4px 12px rgba(37,99,235,0.3);
-  }
-
-  .nav-right-wrap {
-    display: flex;
-    align-items: center;
-    gap: 14px;
-  }
-
-  .nav-quick-btn {
-    display: inline-flex;
-    align-items: center;
-    gap: 6px;
-    padding: 8px 16px;
-    background: var(--primary-light);
-    color: var(--primary);
-    border-radius: 20px;
-    font-size: 13px;
-    font-weight: 700;
-    text-decoration: none;
-    transition: all 0.2s;
-  }
-  .nav-quick-btn:hover {
-    background: var(--primary);
-    color: #fff;
-  }
-
-  /* Hero Global Style Menu Button */
-  .menu-toggle-btn {
-    display: inline-flex;
-    align-items: center;
-    gap: 10px;
-    padding: 10px 20px;
-    background: #0f172a;
-    color: #fff;
-    border: 1px solid rgba(255,255,255,0.1);
-    border-radius: 30px;
-    font-size: 13px;
-    font-weight: 800;
-    letter-spacing: 1.5px;
-    cursor: pointer;
-    box-shadow: 0 4px 16px rgba(15,23,42,0.18);
-    transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
-  }
-
-  .menu-toggle-btn:hover {
-    background: var(--primary);
-    border-color: var(--primary);
-    transform: translateY(-2px);
-    box-shadow: 0 8px 24px rgba(37,99,235,0.35);
-  }
-
-  .menu-burger-icon {
-    width: 20px;
-    height: 14px;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-  }
-
-  .menu-burger-icon span {
-    display: block;
-    height: 2px;
-    background: #fff;
-    border-radius: 2px;
-    transition: all 0.3s;
-  }
-
-  .menu-burger-icon .line-1 { width: 100%; }
-  .menu-burger-icon .line-2 { width: 65%; margin-left: auto; }
-  .menu-burger-icon .line-3 { width: 100%; }
-
-  .menu-toggle-btn:hover .menu-burger-icon .line-2 {
-    width: 100%;
-  }
-
-  /* ─── Side Drawer ─── */
-  .side-drawer-backdrop {
-    position: fixed;
-    inset: 0;
-    background: rgba(15, 23, 42, 0.65);
-    backdrop-filter: blur(8px);
-    z-index: 99998;
-    opacity: 0;
-    visibility: hidden;
-    transition: opacity 0.4s ease, visibility 0.4s ease;
-  }
-
-  .side-drawer-backdrop.active {
-    opacity: 1;
-    visibility: visible;
-  }
-
-  .side-drawer-nav {
-    position: fixed;
-    top: 0;
-    right: 0;
-    bottom: 0;
-    width: 420px;
-    max-width: 90vw;
-    background: linear-gradient(180deg, #090e1a 0%, #0f172a 100%);
-    color: #fff;
-    z-index: 99999;
-    box-shadow: -12px 0 40px rgba(0,0,0,0.5);
-    transform: translateX(100%);
-    transition: transform 0.45s cubic-bezier(0.16, 1, 0.3, 1);
-    display: flex;
-    flex-direction: column;
-    overflow-y: auto;
-    border-left: 1px solid rgba(255,255,255,0.08);
-  }
-
-  .side-drawer-nav.active {
-    transform: translateX(0);
-  }
-
-  .drawer-header {
-    padding: 24px 28px;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    border-bottom: 1px solid rgba(255,255,255,0.08);
-  }
-
-  .drawer-brand {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-  }
-
-  .drawer-brand-logo {
     width: 36px;
     height: 36px;
-    background: linear-gradient(135deg, #2563eb, #7c3aed);
+    background: var(--primary);
     border-radius: 10px;
     display: flex;
     align-items: center;
     justify-content: center;
     font-size: 18px;
-  }
-
-  .drawer-brand-title {
-    font-size: 16px;
     font-weight: 800;
-    color: #fff;
-    letter-spacing: -0.3px;
+    color: #ffffff;
   }
 
-  .drawer-brand-sub {
-    font-size: 10px;
-    color: #94a3b8;
-    text-transform: uppercase;
-    letter-spacing: 1px;
-  }
-
-  .drawer-close-btn {
-    width: 38px;
-    height: 38px;
-    border-radius: 50%;
-    background: rgba(255,255,255,0.08);
-    border: 1px solid rgba(255,255,255,0.12);
-    color: #fff;
-    font-size: 18px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    cursor: pointer;
-    transition: all 0.3s;
-  }
-
-  .drawer-close-btn:hover {
-    background: #ef4444;
-    border-color: #ef4444;
-    transform: rotate(90deg);
-  }
-
-  .drawer-body {
-    padding: 30px 24px;
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-  }
-
-  .drawer-nav-label {
-    font-size: 11px;
-    font-weight: 700;
-    text-transform: uppercase;
-    letter-spacing: 2px;
-    color: #64748b;
-    margin-bottom: 16px;
-    padding-left: 12px;
-  }
-
-  .drawer-menu-list {
-    list-style: none;
-    padding: 0;
-    margin: 0;
-    display: flex;
-    flex-direction: column;
+  .nav-pills-center {
+    display: none;
     gap: 8px;
-  }
-
-  .drawer-link {
-    display: flex;
     align-items: center;
-    justify-content: space-between;
-    padding: 13px 18px;
-    border-radius: 12px;
-    color: #f1f5f9;
-    text-decoration: none;
-    font-size: 16px;
-    font-weight: 700;
-    letter-spacing: -0.2px;
-    background: transparent;
-    transition: all 0.25s ease;
-    border: 1px solid transparent;
+  }
+  @media(min-width: 900px) {
+    .nav-pills-center {
+      display: flex;
+    }
   }
 
-  .drawer-link-left {
+  .nav-pill-btn {
+    padding: 8px 18px;
+    border-radius: var(--radius-full);
+    font-size: 13.5px;
+    font-weight: 700;
+    letter-spacing: -0.14px;
+    text-decoration: none;
+    color: var(--text-body);
+    background: var(--bg-card);
+    border: 1px solid var(--hairline);
+    transition: all 0.2s ease;
+  }
+  .nav-pill-btn:hover {
+    background: var(--surface-soft);
+    border-color: var(--text-muted);
+  }
+
+  .nav-right-wrap {
     display: flex;
     align-items: center;
     gap: 12px;
   }
 
-  .drawer-link-num {
-    font-size: 11px;
-    font-weight: 700;
-    color: #64748b;
-    font-family: monospace;
-    transition: color 0.25s;
-    min-width: 20px;
-  }
-
-  .drawer-link-arrow {
-    font-size: 14px;
-    color: #64748b;
-    transform: translateX(-4px);
-    opacity: 0;
-    transition: all 0.25s;
-  }
-
-  .drawer-link:hover {
-    background: rgba(37, 99, 235, 0.15);
-    border-color: rgba(37, 99, 235, 0.3);
-    color: #60a5fa;
-    transform: translateX(6px);
-  }
-
-  .drawer-link:hover .drawer-link-num {
-    color: #60a5fa;
-  }
-
-  .drawer-link:hover .drawer-link-arrow {
-    opacity: 1;
-    transform: translateX(0);
-    color: #60a5fa;
-  }
-
-  .drawer-link.highlight-customer {
-    background: rgba(16, 185, 129, 0.1);
-    border-color: rgba(16, 185, 129, 0.2);
-    color: #34d399;
-  }
-  .drawer-link.highlight-customer:hover {
-    background: rgba(16, 185, 129, 0.2);
-    border-color: rgba(16, 185, 129, 0.4);
-    color: #6ee7b7;
-  }
-
-  .drawer-link.highlight-admin {
-    background: rgba(139, 92, 246, 0.1);
-    border-color: rgba(139, 92, 246, 0.2);
-    color: #a78bfa;
-  }
-  .drawer-link.highlight-admin:hover {
-    background: rgba(139, 92, 246, 0.2);
-    border-color: rgba(139, 92, 246, 0.4);
-    color: #c4b5fd;
-  }
-
-  .drawer-footer {
-    padding: 24px 28px;
-    border-top: 1px solid rgba(255,255,255,0.08);
-    background: rgba(0,0,0,0.25);
-  }
-
-  .drawer-footer-info {
-    font-size: 12px;
-    color: #94a3b8;
-    line-height: 1.6;
-    margin-bottom: 16px;
-  }
-
-  .drawer-wa-cta {
-    display: flex;
+  .menu-toggle-btn {
+    display: inline-flex;
     align-items: center;
-    justify-content: center;
     gap: 8px;
-    padding: 12px 20px;
-    background: #25d366;
+    padding: 9px 20px;
+    background: var(--ink-deep);
     color: #fff;
-    border-radius: 12px;
-    font-size: 14px;
+    border: none;
+    border-radius: var(--radius-full);
+    font-size: 13px;
     font-weight: 700;
-    text-decoration: none;
-    box-shadow: 0 4px 16px rgba(37,211,102,0.3);
-    transition: all 0.2s;
+    letter-spacing: 0.5px;
+    cursor: pointer;
   }
 
-  .drawer-wa-cta:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 6px 20px rgba(37,211,102,0.45);
+  .menu-burger-icon {
+    width: 16px;
+    height: 12px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
   }
-
-  .detail-container {
-    padding: 40px 8%;
-    max-width: 1200px;
-    margin: 0 auto;
+  .menu-burger-icon span {
+    display: block;
+    height: 2px;
+    background: #fff;
+    border-radius: 2px;
   }
+  .menu-burger-icon .line-1 { width: 100%; }
+  .menu-burger-icon .line-2 { width: 70%; margin-left: auto; }
+  .menu-burger-icon .line-3 { width: 100%; }
 
-  .breadcrumb {
+  /* ─── Breadcrumbs ─── */
+  .breadcrumb-nav {
     display: flex;
     align-items: center;
     gap: 8px;
     font-size: 13px;
     color: var(--text-muted);
-    margin-bottom: 24px;
-    flex-wrap: wrap;
+    padding: 24px 8% 12px;
+    background: var(--bg-main);
   }
-  .breadcrumb a {
-    color: var(--primary);
+  .breadcrumb-nav a {
+    color: var(--text-muted);
     text-decoration: none;
   }
-
-  .product-detail-grid {
-    display: grid;
-    grid-template-columns: 1fr 1.2fr;
-    gap: 40px;
-    margin-bottom: 60px;
+  .breadcrumb-nav a:hover {
+    color: var(--primary);
+  }
+  .breadcrumb-nav .active {
+    color: var(--ink-deep);
+    font-weight: 700;
   }
 
-  .product-gallery {
-    background: var(--bg-card);
-    border: 1px solid var(--border-color);
-    border-radius: 20px;
+  /* ─── PDP 2-Column Split Layout ─── */
+  .pdp-container {
+    padding: 12px 8% 80px;
+    max-width: 1320px;
+    margin: 0 auto;
+  }
+
+  .pdp-grid {
+    display: grid;
+    grid-template-columns: 1.15fr 0.85fr;
+    gap: 48px;
+    align-items: flex-start;
+  }
+
+  /* Gallery Hero */
+  .pdp-gallery-card {
+    background: var(--surface-soft);
+    border: 1px solid var(--hairline-soft);
+    border-radius: var(--radius-xxxl);
     overflow: hidden;
-    height: 420px;
+    height: 520px;
     display: flex;
     align-items: center;
     justify-content: center;
-    box-shadow: 0 10px 25px rgba(0,0,0,0.05);
   }
-  .product-gallery img {
+
+  .pdp-gallery-card img {
     width: 100%;
     height: 100%;
     object-fit: cover;
   }
-  .product-gallery .placeholder-icon {
-    font-size: 84px;
+
+  /* Sticky Right Rail (card-checkout-summary) */
+  .pdp-summary-rail {
+    position: sticky;
+    top: 90px;
+    background: var(--bg-card);
+    border: 1px solid var(--hairline-soft);
+    border-radius: var(--radius-xl);
+    padding: 36px;
+    box-shadow: var(--shadow-sticky);
   }
 
-  .product-info {
-    display: flex;
-    flex-direction: column;
-  }
-
-  .cat-badge {
+  .pdp-badge-pill {
     display: inline-flex;
     align-items: center;
     gap: 6px;
-    padding: 6px 14px;
-    background: var(--primary-light);
+    padding: 4px 12px;
+    background: var(--surface-soft);
     color: var(--primary);
-    border-radius: 20px;
-    font-size: 13px;
+    border: 1px solid var(--hairline-soft);
+    border-radius: var(--radius-full);
+    font-size: 12px;
     font-weight: 700;
-    margin-bottom: 12px;
-    align-self: flex-start;
+    margin-bottom: 14px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
   }
 
-  .product-title {
+  .pdp-title {
     font-size: 32px;
-    font-weight: 800;
-    color: var(--text-main);
+    font-weight: 500;
+    color: var(--ink-deep);
     line-height: 1.2;
-    margin-bottom: 16px;
+    margin-bottom: 14px;
+    letter-spacing: -0.5px;
   }
 
-  .price-box {
-    background: linear-gradient(135deg, rgba(37,99,235,0.06), rgba(124,58,237,0.06));
-    border: 1px solid rgba(37,99,235,0.15);
-    border-radius: 14px;
-    padding: 16px 20px;
+  .pdp-price-row {
     margin-bottom: 24px;
+    padding-bottom: 20px;
+    border-bottom: 1px solid var(--hairline-soft);
   }
-  .price-label {
+
+  .pdp-price-label {
     font-size: 12px;
     font-weight: 600;
     color: var(--text-muted);
     text-transform: uppercase;
     letter-spacing: 0.5px;
   }
-  .price-value {
-    font-size: 28px;
-    font-weight: 800;
-    color: var(--primary);
+
+  .pdp-price-value {
+    font-size: 30px;
+    font-weight: 700;
+    color: var(--ink-deep);
     margin-top: 4px;
+    letter-spacing: -0.5px;
   }
 
-  .product-description {
-    font-size: 15px;
-    color: var(--text-main);
-    line-height: 1.8;
+  .pdp-desc {
+    font-size: 14.5px;
+    color: var(--text-body);
+    line-height: 1.6;
     margin-bottom: 28px;
   }
 
-  .features-pills {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 12px;
-    margin-bottom: 30px;
-  }
-  .feat-pill {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    padding: 12px 16px;
-    background: var(--bg-card);
-    border: 1px solid var(--border-color);
-    border-radius: 12px;
-    font-size: 13px;
-    font-weight: 600;
-    color: var(--text-main);
+  /* Tech Specs Table (2-column minimal key/value) */
+  .tech-specs-box {
+    margin-bottom: 28px;
+    border: 1px solid var(--hairline-soft);
+    border-radius: var(--radius-lg);
+    background: var(--surface-soft);
+    padding: 18px 20px;
   }
 
-  .order-btn-wa {
+  .tech-specs-title {
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--ink-deep);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-bottom: 12px;
+  }
+
+  .spec-row {
+    display: flex;
+    justify-content: space-between;
+    padding: 8px 0;
+    font-size: 13px;
+    border-bottom: 1px solid var(--hairline-soft);
+  }
+  .spec-row:last-child {
+    border-bottom: none;
+  }
+  .spec-label {
+    color: var(--text-muted);
+    font-weight: 500;
+  }
+  .spec-val {
+    color: var(--ink-deep);
+    font-weight: 700;
+  }
+
+  /* Cobalt Buy CTA Button */
+  .btn-buy-rail {
+    width: 100%;
+    padding: 16px 28px;
+    background: var(--primary);
+    color: #ffffff;
+    border-radius: var(--radius-full);
+    font-size: 15px;
+    font-weight: 700;
+    letter-spacing: -0.14px;
     display: inline-flex;
     align-items: center;
     justify-content: center;
     gap: 10px;
-    padding: 16px 28px;
-    background: #25d366;
-    color: #fff;
-    border-radius: 12px;
-    font-size: 16px;
-    font-weight: 700;
     text-decoration: none;
-    box-shadow: 0 8px 24px rgba(37,211,102,0.4);
-    transition: transform 0.2s, box-shadow 0.2s;
+    transition: all 0.2s ease;
+    border: none;
+    cursor: pointer;
   }
-  .order-btn-wa:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 12px 30px rgba(37,211,102,0.5);
+  .btn-buy-rail:hover {
+    background: var(--primary-deep);
   }
 
+  /* Feature reassurance cards (4-up) */
+  .pdp-reassurance-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
+    margin-top: 24px;
+  }
+
+  .reassurance-chip {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px 14px;
+    background: var(--surface-soft);
+    border-radius: var(--radius-lg);
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--text-body);
+  }
+
+  /* Related Products */
   .related-section {
-    border-top: 1px solid var(--border-color);
-    padding-top: 40px;
+    margin-top: 80px;
+    padding-top: 48px;
+    border-top: 1px solid var(--hairline-soft);
   }
-  .related-title {
-    font-size: 22px;
-    font-weight: 800;
-    margin-bottom: 24px;
-    color: var(--text-main);
-  }
+
   .related-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
-    gap: 20px;
+    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+    gap: 24px;
   }
 
-  .footer {
-    background: #060d1f;
-    color: #6b7280;
-    padding: 36px 8%;
+  .related-card {
+    background: var(--bg-card);
+    border: 1px solid var(--hairline-soft);
+    border-radius: var(--radius-xxl);
+    padding: 20px;
+    text-decoration: none;
+    display: flex;
+    flex-direction: column;
+    transition: all 0.2s ease;
+  }
+  .related-card:hover {
+    border-color: var(--hairline);
+    box-shadow: var(--shadow-sm);
+    transform: translateY(-4px);
+  }
+
+  .related-img {
+    width: 100%;
+    height: 160px;
+    object-fit: cover;
+    border-radius: var(--radius-xl);
+    margin-bottom: 14px;
+    background: var(--surface-soft);
+  }
+
+  .related-title {
+    font-size: 16px;
+    font-weight: 700;
+    color: var(--ink-deep);
+    margin-bottom: 4px;
+  }
+
+  .related-price {
+    font-size: 14px;
+    font-weight: 700;
+    color: var(--primary);
+  }
+
+  /* ─── Footer ─── */
+  .footer-region {
+    background: #ffffff;
+    border-top: 1px solid var(--hairline-soft);
+    padding: 48px 8% 32px;
     display: flex;
     align-items: center;
     justify-content: space-between;
     flex-wrap: wrap;
     gap: 16px;
-    font-size: 14px;
-    margin-top: 60px;
+    font-size: 13px;
+    color: var(--text-stone);
   }
 
-  @media (max-width: 868px) {
-    .product-detail-grid { grid-template-columns: 1fr; }
-    .product-gallery { height: 320px; }
-    .features-pills { grid-template-columns: 1fr; }
+  @media (max-width: 960px) {
+    .pdp-grid { grid-template-columns: 1fr; gap: 20px; }
+    .pdp-gallery-card { height: 280px; border-radius: var(--radius-xl); }
+    .pdp-summary-rail { position: static; padding: 20px 14px; border-radius: var(--radius-xl); }
+    .pdp-container { padding: 12px 14px 40px; }
+    .breadcrumb-nav { padding: 14px 14px 8px; font-size: 12px; }
+    .navbar { padding: 10px 14px; }
+    .pdp-title { font-size: 22px; }
+    .pdp-price-value { font-size: 24px; }
+    .pdp-desc { font-size: 13px; margin-bottom: 18px; }
+    .btn-buy-rail { padding: 12px 18px; font-size: 14px; }
+    .footer-region { padding: 24px 14px; flex-direction: column; text-align: center; gap: 8px; font-size: 12px; }
   }
 </style>
 @endsection
@@ -536,225 +393,134 @@
 <!-- Navbar -->
 <nav class="navbar">
   <a href="{{ route('home') }}" class="nav-brand">
-    <div class="brand-logo">💡</div>
+    <div class="brand-logo">K</div>
     <span>Kafa Advertising</span>
   </a>
 
+  <div class="nav-pills-center">
+    <a href="{{ route('home') }}" class="nav-pill-btn">Beranda</a>
+    <a href="{{ route('katalog') }}" class="nav-pill-btn">Katalog Produk</a>
+    <a href="{{ route('portofolio') }}" class="nav-pill-btn">Portofolio</a>
+  </div>
+
   <div class="nav-right-wrap">
-    <a href="{{ route('katalog') }}" class="nav-quick-btn" style="display:none; @media(min-width:768px){display:inline-flex;}">
-      <span>📂</span>
-      <span>Katalog Produk</span>
+    <a href="{{ route('login.customer') }}" class="nav-pill-btn" style="border-color: var(--primary); color: var(--primary); font-weight: 700;">
+      Portal Pelanggan
     </a>
-    <button type="button" class="menu-toggle-btn" id="menuToggleBtn" onclick="toggleSideNav()" aria-label="Buka Menu Navigasi">
-      <span>MENU</span>
-      <div class="menu-burger-icon">
-        <span class="line-1"></span>
-        <span class="line-2"></span>
-        <span class="line-3"></span>
-      </div>
-    </button>
   </div>
 </nav>
 
-<!-- ─── Side Drawer Backdrop ─── -->
-<div class="side-drawer-backdrop" id="sideDrawerBackdrop" onclick="closeSideNav()"></div>
+<!-- Breadcrumb -->
+<div class="breadcrumb-nav">
+  <a href="{{ route('home') }}">Beranda</a>
+  <span>›</span>
+  <a href="{{ route('katalog') }}">Katalog</a>
+  <span>›</span>
+  <a href="{{ route('katalog.kategori', $product->category->slug ?? 'kategori') }}">{{ $product->category->nama ?? 'Kategori' }}</a>
+  <span>›</span>
+  <span class="active">{{ $product->nama }}</span>
+</div>
 
-<!-- ─── Hero Global Style Side Drawer (Menurun ke Bawah) ─── -->
-<aside class="side-drawer-nav" id="sideDrawerNav" aria-label="Menu Navigasi Samping">
-  <div class="drawer-header">
-    <div class="drawer-brand">
-      <div class="drawer-brand-logo">💡</div>
-      <div>
-        <div class="drawer-brand-title">Kafa Advertising</div>
-        <div class="drawer-brand-sub">Advertising & Reklame</div>
+<!-- Main PDP Content -->
+<div class="pdp-container">
+  <div class="pdp-grid">
+    
+    <!-- Gallery Column Left -->
+    <div>
+      <div class="pdp-gallery-card">
+        @if($product->foto_url)
+          <img src="{{ $product->foto_url }}" alt="{{ $product->nama }}">
+        @else
+          <div style="font-size: 64px; color: var(--text-muted); font-weight: 800;">
+            K
+          </div>
+        @endif
+      </div>
+
+      <!-- Feature reassurance row below hero photo -->
+      <div class="pdp-reassurance-grid">
+        <div class="reassurance-chip">
+          <span>✓</span>
+          <span>Garansi 12 Bln</span>
+        </div>
+        <div class="reassurance-chip">
+          <span>✓</span>
+          <span>Custom Desain</span>
+        </div>
+        <div class="reassurance-chip">
+          <span>✓</span>
+          <span>Kirim Nasional</span>
+        </div>
+        <div class="reassurance-chip">
+          <span>✓</span>
+          <span>Teknisi Pasang</span>
+        </div>
       </div>
     </div>
-    <button type="button" class="drawer-close-btn" onclick="closeSideNav()" aria-label="Tutup Menu">✕</button>
-  </div>
 
-  <div class="drawer-body">
-    <div class="drawer-nav-label">Menu Navigasi</div>
-    <ul class="drawer-menu-list">
-      <li class="drawer-menu-item">
-        <a href="{{ route('home') }}" class="drawer-link" onclick="closeSideNav()">
-          <div class="drawer-link-left">
-            <span class="drawer-link-num">01</span>
-            <span>🏠 Beranda</span>
-          </div>
-          <span class="drawer-link-arrow">➔</span>
-        </a>
-      </li>
-      <li class="drawer-menu-item">
-        <a href="{{ route('home') }}#kategori" class="drawer-link" onclick="closeSideNav()">
-          <div class="drawer-link-left">
-            <span class="drawer-link-num">02</span>
-            <span>📂 Kategori Layanan</span>
-          </div>
-          <span class="drawer-link-arrow">➔</span>
-        </a>
-      </li>
-      <li class="drawer-menu-item">
-        <a href="{{ route('katalog') }}" class="drawer-link" onclick="closeSideNav()">
-          <div class="drawer-link-left">
-            <span class="drawer-link-num">03</span>
-            <span>💡 Katalog & Harga Produk</span>
-          </div>
-          <span class="drawer-link-arrow">➔</span>
-        </a>
-      </li>
-      <li class="drawer-menu-item">
-        <a href="{{ route('portofolio') }}" class="drawer-link" onclick="closeSideNav()">
-          <div class="drawer-link-left">
-            <span class="drawer-link-num">04</span>
-            <span>🖼️ Portofolio Proyek</span>
-          </div>
-          <span class="drawer-link-arrow">➔</span>
-        </a>
-      </li>
-      <li class="drawer-menu-item">
-        <a href="{{ route('home') }}#keunggulan" class="drawer-link" onclick="closeSideNav()">
-          <div class="drawer-link-left">
-            <span class="drawer-link-num">05</span>
-            <span>⭐ Keunggulan Layanan</span>
-          </div>
-          <span class="drawer-link-arrow">➔</span>
-        </a>
-      </li>
-      <li class="drawer-menu-item">
-        <a href="{{ route('home') }}#cabang" class="drawer-link" onclick="closeSideNav()">
-          <div class="drawer-link-left">
-            <span class="drawer-link-num">06</span>
-            <span>📍 Lokasi Showroom & Maps</span>
-          </div>
-          <span class="drawer-link-arrow">➔</span>
-        </a>
-      </li>
-      <li class="drawer-menu-item">
-        <a href="{{ route('login.customer') }}" class="drawer-link highlight-customer" onclick="closeSideNav()">
-          <div class="drawer-link-left">
-            <span class="drawer-link-num">07</span>
-            <span>🛍️ Portal Pelanggan</span>
-          </div>
-          <span class="drawer-link-arrow">➔</span>
-        </a>
-      </li>
-      <li class="drawer-menu-item">
-        <a href="{{ route('login.admin') }}" class="drawer-link highlight-admin" onclick="closeSideNav()">
-          <div class="drawer-link-left">
-            <span class="drawer-link-num">08</span>
-            <span>🛡️ Login Admin & Staff</span>
-          </div>
-          <span class="drawer-link-arrow">➔</span>
-        </a>
-      </li>
-    </ul>
-  </div>
-
-  <div class="drawer-footer">
-    <div class="drawer-footer-info">
-      <div>📍 <strong>Workshop & Showroom</strong></div>
-      <div>Melayani Demak, Semarang, Surabaya & sekitarnya. Pengiriman ke seluruh Indonesia.</div>
-    </div>
-    <a href="{{ \App\Helpers\FormatHelper::whatsappUrl('Halo Kafa Advertising, saya ingin konsultasi pesanan') }}" target="_blank" class="drawer-wa-cta">
-      <span>💬</span>
-      <span>Chat WhatsApp Sekarang</span>
-    </a>
-  </div>
-</aside>
-
-<div class="detail-container">
-  <!-- Breadcrumb -->
-  <div class="breadcrumb">
-    <a href="{{ route('home') }}">Beranda</a>
-    <span>/</span>
-    <a href="{{ route('katalog') }}">Katalog</a>
-    @if($product->category)
-      <span>/</span>
-      <a href="{{ route('katalog.kategori', $product->category->slug) }}">{{ $product->category->nama }}</a>
-    @endif
-    <span>/</span>
-    <span>{{ $product->nama }}</span>
-  </div>
-
-  <!-- Detail Main Grid -->
-  <div class="product-detail-grid">
-    <!-- Image -->
-    <div class="product-gallery">
-      @if($product->foto_url)
-        <img src="{{ $product->foto_url }}" alt="{{ $product->nama }}">
-      @else
-        <div class="placeholder-icon">💡</div>
-      @endif
-    </div>
-
-    <!-- Info -->
-    <div class="product-info">
-      @if($product->category)
-        <a href="{{ route('katalog.kategori', $product->category->slug) }}" class="cat-badge">
-          <span>{{ $product->category->emoji ?: '📂' }}</span>
-          <span>{{ $product->category->nama }}</span>
-        </a>
-      @endif
-
-      <h1 class="product-title">{{ $product->nama }}</h1>
-
-      <div class="price-box">
-        <div class="price-label">Estimasi Biaya / Harga</div>
-        <div class="price-value">{{ $product->harga_display }}</div>
+    <!-- Sticky Purchase Rail Column Right (card-checkout-summary) -->
+    <div class="pdp-summary-rail">
+      <div class="pdp-badge-pill">
+        {{ $product->category->nama ?? 'Advertising & Signage' }}
       </div>
+      <h1 class="pdp-title">{{ $product->nama }}</h1>
 
-      <div class="product-description">
-        {!! nl2br(e($product->deskripsi ?: 'Produk custom dengan material bermutu tinggi, siap diukur ke lokasi dan melayani pengiriman langsung ke alamat Anda.')) !!}
-      </div>
-
-      <!-- Value Props -->
-      <div class="features-pills">
-        <div class="feat-pill">
-          <span style="font-size:20px;">📐</span>
-          <span>Survey & Pengukuran Lokasi</span>
-        </div>
-        <div class="feat-pill">
-          <span style="font-size:20px;">📦</span>
-          <span>Bisa Dikirim ke Seluruh Wilayah</span>
-        </div>
-        <div class="feat-pill">
-          <span style="font-size:20px;">🛡️</span>
-          <span>Garansi Material & Modul LED</span>
-        </div>
-        <div class="feat-pill">
-          <span style="font-size:20px;">⚡</span>
-          <span>Pengerjaan Cepat & Presisi</span>
+      <div class="pdp-price-row">
+        <div class="pdp-price-label">Estimasi Biaya Mulai</div>
+        <div class="pdp-price-value">
+          Rp {{ number_format($product->harga, 0, ',', '.') }}
         </div>
       </div>
 
-      <!-- WhatsApp CTA -->
-      @php
-        $waMsg = "Halo Kafa Advertising, saya tertarik untuk memesan / konsultasi produk: *" . $product->nama . "* (" . $product->harga_display . "). Mohon info estimasi dan proses pemesanannya.";
-        $waUrl = \App\Helpers\FormatHelper::whatsappUrl($waMsg);
-      @endphp
-      <a href="{{ $waUrl }}" target="_blank" class="order-btn-wa">
-        <span style="font-size:22px;">💬</span>
-        <span>Konsultasi & Pesan via WhatsApp</span>
+      <p class="pdp-desc">
+        {{ $product->deskripsi ?: 'Produk signage neon box berkualitas premium dengan material akrilik terbaik dan modul pencahayaan LED berdaya tahan tinggi.' }}
+      </p>
+
+      <!-- Tech Specs Box -->
+      <div class="tech-specs-box">
+        <div class="tech-specs-title">Spesifikasi Material</div>
+        <div class="spec-row">
+          <span class="spec-label">Kategori</span>
+          <span class="spec-val">{{ $product->category->nama ?? '-' }}</span>
+        </div>
+        <div class="spec-row">
+          <span class="spec-label">Ketahanan</span>
+          <span class="spec-val">Outdoor & Indoor (Weatherproof)</span>
+        </div>
+        <div class="spec-row">
+          <span class="spec-label">Penerangan</span>
+          <span class="spec-val">Modul LED High-Brightness</span>
+        </div>
+        <div class="spec-row">
+          <span class="spec-label">Waktu Pengerjaan</span>
+          <span class="spec-val">3 – 7 Hari Kerja</span>
+        </div>
+      </div>
+
+      <!-- Buy CTA Button -->
+      <a href="{{ \App\Helpers\FormatHelper::whatsappUrl('Halo Kafa Advertising, saya berminat memesan produk ' . $product->nama . ' (Rp ' . number_format($product->harga, 0, ',', '.') . ')') }}" target="_blank" class="btn-buy-rail">
+        Pesan via WhatsApp
       </a>
     </div>
+
   </div>
 
-  <!-- Related Products -->
-  @if($relatedProducts->count() > 0)
+  <!-- Related Products Section -->
+  @if(isset($relatedProducts) && $relatedProducts->count() > 0)
     <div class="related-section">
-      <h3 class="related-title">Produk Lainnya dalam Kategori Ini</h3>
+      <h2 style="font-size: 24px; font-weight: 500; color: var(--ink-deep); margin-bottom: 24px; letter-spacing: -0.4px;">
+        Pilihan Produk Terkait
+      </h2>
       <div class="related-grid">
         @foreach($relatedProducts as $rel)
-          <a href="{{ route('katalog.detail', [$rel->category ? $rel->category->slug : 'katalog', $rel->id]) }}" class="card" style="text-decoration:none; color:inherit; padding:16px; border-radius:14px; transition:transform 0.2s;">
-            <div style="height:140px; border-radius:10px; overflow:hidden; background:linear-gradient(135deg, var(--primary-light), #ede9fe); display:flex; align-items:center; justify-content:center; margin-bottom:12px;">
-              @if($rel->foto_url)
-                <img src="{{ $rel->foto_url }}" alt="{{ $rel->nama }}" style="width:100%; height:100%; object-fit:cover;">
-              @else
-                <span style="font-size:36px;">💡</span>
-              @endif
-            </div>
-            <div style="font-weight:700; font-size:14px; color:var(--text-main); margin-bottom:4px;">{{ $rel->nama }}</div>
-            <div style="font-weight:800; font-size:13px; color:var(--primary);">{{ $rel->harga_display }}</div>
+          <a href="{{ route('katalog.detail', [$rel->category->slug, $rel->id]) }}" class="related-card">
+            @if($rel->foto_url)
+              <img src="{{ $rel->foto_url }}" alt="{{ $rel->nama }}" class="related-img">
+            @else
+              <div class="related-img" style="display:flex; align-items:center; justify-content:center; font-size:24px; color:var(--text-muted);">K</div>
+            @endif
+            <div class="related-title">{{ $rel->nama }}</div>
+            <div class="related-price">Rp {{ number_format($rel->harga, 0, ',', '.') }}</div>
           </a>
         @endforeach
       </div>
@@ -763,39 +529,18 @@
 </div>
 
 <!-- Footer -->
-<footer class="footer">
-  <div>💡 <strong>Kafa Advertising</strong> — Spesialis Neon Box & Signage Custom</div>
-  <p>© {{ date('Y') }} All rights reserved.</p>
+<footer class="footer-region">
+  <div><strong>Kafa Advertising</strong> — Spesialis Reklame & Signage Modern</div>
+  <div>© {{ date('Y') }} Hak Cipta Dilindungi.</div>
 </footer>
 
 @endsection
 
 @section('scripts')
 <script>
-function openSideNav() {
-  document.getElementById('sideDrawerBackdrop').classList.add('active');
-  document.getElementById('sideDrawerNav').classList.add('active');
-  document.body.style.overflow = 'hidden';
-}
-
-function closeSideNav() {
-  document.getElementById('sideDrawerBackdrop').classList.remove('active');
-  document.getElementById('sideDrawerNav').classList.remove('active');
-  document.body.style.overflow = '';
-}
-
-function toggleSideNav() {
-  const nav = document.getElementById('sideDrawerNav');
-  if (nav && nav.classList.contains('active')) {
-    closeSideNav();
-  } else {
-    openSideNav();
-  }
-}
-
 document.addEventListener('keydown', function(e) {
   if (e.key === 'Escape') {
-    closeSideNav();
+    // Handle escape if needed
   }
 });
 </script>

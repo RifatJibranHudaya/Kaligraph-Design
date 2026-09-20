@@ -47,7 +47,7 @@
         </label>
       </div>
 
-      <button type="submit" class="btn btn-primary" style="width:100%;">Simpan Konten Section ➔</button>
+      <button type="submit" class="btn btn-primary" style="width:100%;">Simpan Konten Section</button>
     </form>
   </div>
 
@@ -56,8 +56,8 @@
     <div class="card-header">
       <h3 class="card-title">Daftar Section Landing Page</h3>
     </div>
-
-    @forelse($sections as $secName => $items)
+    <div class="form-scroll-y">
+      @forelse($sections as $secName => $items)
       <div style="margin-bottom: 20px; border: 1px solid var(--border-color); border-radius: 8px; padding: 14px;">
         <h4 style="font-size:14px; font-weight:700; text-transform:uppercase; color:var(--primary); margin-bottom:10px;">
           Section: {{ $secName }}
@@ -75,7 +75,7 @@
             <tbody>
               @foreach($items as $item)
                 <tr>
-                  <td style="font-size:24px;">{{ $item->icon ?: '📌' }}</td>
+                  <td style="font-size:24px;">{{ $item->icon ?: '-' }}</td>
                   <td>
                     <strong>{{ $item->title ?: '-' }}</strong>
                     <div style="font-size:12px; color:var(--text-muted);">{{ $item->subtitle }}</div>
@@ -107,6 +107,7 @@
         Belum ada konten section terdaftar.
       </div>
     @endforelse
+    </div>
   </div>
 </div>
 @endsection

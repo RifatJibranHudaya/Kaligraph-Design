@@ -70,6 +70,12 @@ class StatusOrderController extends Controller
 
     public function store(Request $request)
     {
+        // Sanitize total input if formatted with thousand dots
+        if ($request->has('total')) {
+            $rawTotal = preg_replace('/[^\d]/', '', (string)$request->input('total'));
+            $request->merge(['total' => $rawTotal !== '' ? $rawTotal : 0]);
+        }
+
         $validated = $request->validate([
             'nama_pelanggan' => 'required|string|max:150',
             'no_hp'          => 'nullable|string|max:20',

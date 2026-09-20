@@ -24,6 +24,7 @@ class Order extends Model
     protected $fillable = [
         'user_id', 'branch_id', 'kategori', 'total', 'keterangan',
         'status', 'nama_pelanggan', 'no_hp', 'alamat',
+        'receipt_path', 'payment_status', 'payment_verified_by', 'payment_verified_at',
     ];
 
     protected $casts = [
@@ -88,6 +89,14 @@ class Order extends Model
     public function getStatusBadgeClassAttribute(): string
     {
         return $this->getStatusBadgeAttribute();
+    }
+
+    /**
+     * Accessor for receipt URL (public storage path)
+     */
+    public function getReceiptUrlAttribute()
+    {
+        return $this->receipt_path ? asset('storage/' . $this->receipt_path) : null;
     }
 
     /**

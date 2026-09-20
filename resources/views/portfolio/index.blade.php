@@ -22,7 +22,7 @@
           <option value="">-- Pilih Kategori (Opsional) --</option>
           @foreach($categories as $cat)
             <option value="{{ $cat->id }}" {{ old('category_id') == $cat->id ? 'selected' : '' }}>
-              {{ $cat->emoji ?: '📂' }} {{ $cat->nama }}
+              {{ $cat->nama }}
             </option>
           @endforeach
         </select>
@@ -64,7 +64,7 @@
         </label>
       </div>
 
-      <button type="submit" class="btn btn-primary" style="width:100%;">Simpan Portofolio Baru ➔</button>
+      <button type="submit" class="btn btn-primary" style="width:100%;">Simpan Portofolio Baru</button>
     </form>
   </div>
 
@@ -101,7 +101,7 @@
                 @if($p->category)
                   <div style="margin-top:2px;">
                     <span class="badge badge-purple" style="font-size:11px; padding:2px 8px;">
-                      {{ $p->category->emoji ?: '📂' }} {{ $p->category->nama }}
+                      {{ $p->category ? $p->category->nama : '-' }}
                     </span>
                   </div>
                 @endif
@@ -150,63 +150,65 @@
 
 <!-- Modal Edit Portofolio -->
 <div id="editPortfolioModal" style="display:none; position:fixed; inset:0; background:rgba(0,0,0,0.6); z-index:9999; align-items:center; justify-content:center; padding:20px;">
-  <div class="card" style="width:100%; max-width:540px; background:var(--bg-card); margin:0; border-radius:20px; box-shadow:0 25px 50px -12px rgba(0,0,0,0.25); max-height:90vh; overflow-y:auto;">
-    <div class="card-header">
+  <div class="card modal-scroll-container" style="width:100%; max-width:540px; background:var(--bg-card); margin:0; border-radius:20px; box-shadow:0 25px 50px -12px rgba(0,0,0,0.25);">
+    <div class="card-header" style="margin-bottom:12px; padding-bottom:12px; border-bottom:1px solid var(--border-color);">
       <h3 class="card-title">Edit Portofolio</h3>
       <button type="button" onclick="closeEditPortfolioModal()" style="background:none; border:none; font-size:20px; cursor:pointer; color:var(--text-main);">✕</button>
     </div>
-    <form id="editPortfolioForm" method="POST" action="" enctype="multipart/form-data">
+    <form id="editPortfolioForm" method="POST" action="" enctype="multipart/form-data" style="display:flex; flex-direction:column; flex:1; overflow:hidden;">
       @csrf
       @method('PUT')
-      <div class="form-group">
-        <label class="form-label">Nama Proyek / Karya *</label>
-        <input type="text" name="nama" id="edit_nama" class="form-control" required>
-      </div>
-
-      <div class="form-group">
-        <label class="form-label">Kategori</label>
-        <select name="category_id" id="edit_category_id" class="form-control">
-          <option value="">-- Tanpa Kategori --</option>
-          @foreach($categories as $cat)
-            <option value="{{ $cat->id }}">
-              {{ $cat->emoji ?: '📂' }} {{ $cat->nama }}
-            </option>
-          @endforeach
-        </select>
-      </div>
-
-      <div class="form-group">
-        <label class="form-label">Ganti Foto Proyek (Opsional)</label>
-        <input type="file" name="foto" class="form-control" accept="image/*" onchange="previewImage(this, 'edit_previewImg')">
-        <div id="edit_previewContainer" style="margin-top:10px;">
-          <img id="edit_previewImg" src="" alt="Preview Foto" style="width:100px; height:100px; object-fit:cover; border-radius:12px; border:2px solid var(--border-color); display:none;">
-        </div>
-      </div>
-
-      <div class="form-group">
-        <label class="form-label">Nama Klien / Pelanggan</label>
-        <input type="text" name="client" id="edit_client" class="form-control">
-      </div>
-
-      <div class="grid grid-2">
+      <div class="modal-scroll-body">
         <div class="form-group">
-          <label class="form-label">Lokasi Proyek</label>
-          <input type="text" name="lokasi" id="edit_lokasi" class="form-control">
+          <label class="form-label">Nama Proyek / Karya *</label>
+          <input type="text" name="nama" id="edit_nama" class="form-control" required>
         </div>
+
         <div class="form-group">
-          <label class="form-label">Tahun</label>
-          <input type="text" name="tahun" id="edit_tahun" class="form-control" maxlength="10">
+          <label class="form-label">Kategori</label>
+          <select name="category_id" id="edit_category_id" class="form-control">
+            <option value="">-- Tanpa Kategori --</option>
+            @foreach($categories as $cat)
+              <option value="{{ $cat->id }}">
+                {{ $cat->nama }}
+              </option>
+            @endforeach
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">Ganti Foto Proyek (Opsional)</label>
+          <input type="file" name="foto" class="form-control" accept="image/*" onchange="previewImage(this, 'edit_previewImg')">
+          <div id="edit_previewContainer" style="margin-top:10px;">
+            <img id="edit_previewImg" src="" alt="Preview Foto" style="width:100px; height:100px; object-fit:cover; border-radius:12px; border:2px solid var(--border-color); display:none;">
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">Nama Klien / Pelanggan</label>
+          <input type="text" name="client" id="edit_client" class="form-control">
+        </div>
+
+        <div class="grid grid-2">
+          <div class="form-group">
+            <label class="form-label">Lokasi Proyek</label>
+            <input type="text" name="lokasi" id="edit_lokasi" class="form-control">
+          </div>
+          <div class="form-group">
+            <label class="form-label">Tahun</label>
+            <input type="text" name="tahun" id="edit_tahun" class="form-control" maxlength="10">
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">Deskripsi Proyek</label>
+          <textarea name="deskripsi" id="edit_deskripsi" class="form-control" rows="3"></textarea>
         </div>
       </div>
 
-      <div class="form-group">
-        <label class="form-label">Deskripsi Proyek</label>
-        <textarea name="deskripsi" id="edit_deskripsi" class="form-control" rows="3"></textarea>
-      </div>
-
-      <div style="display:flex; justify-content:flex-end; gap:10px; margin-top:20px;">
+      <div style="display:flex; justify-content:flex-end; gap:10px; margin-top:14px; padding-top:12px; border-top:1px solid var(--border-color);">
         <button type="button" class="btn btn-secondary" onclick="closeEditPortfolioModal()">Batal</button>
-        <button type="submit" class="btn btn-primary">Simpan Perubahan ➔</button>
+        <button type="submit" class="btn btn-primary">Simpan Perubahan</button>
       </div>
     </form>
   </div>

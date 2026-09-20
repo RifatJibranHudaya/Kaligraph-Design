@@ -161,7 +161,7 @@
 <div class="auth-container">
   <div class="auth-card">
     <div class="auth-header">
-      <div class="auth-logo">💡</div>
+      <div class="auth-logo">K</div>
       <span class="auth-badge">Registrasi Akun</span>
       <h1 class="auth-title">Daftar Pelanggan</h1>
       <p class="auth-subtitle">Buat akun untuk memesan & memantau neon box Anda</p>
@@ -169,7 +169,7 @@
 
     @if($errors->any())
       <div class="alert-error">
-        <span>⚠️</span> {{ $errors->first() }}
+         {{ $errors->first() }}
       </div>
     @endif
 
@@ -200,7 +200,7 @@
         <input type="password" name="password_confirmation" class="form-control" placeholder="Ulangi kata sandi" required>
       </div>
 
-      <button type="submit" class="btn-submit">Daftar Sekarang ➔</button>
+      <button type="submit" class="btn-submit">Daftar Sekarang</button>
     </form>
 
     <div class="auth-footer">

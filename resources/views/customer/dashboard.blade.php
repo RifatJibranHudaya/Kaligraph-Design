@@ -618,9 +618,13 @@
   .profile-edit-card {
     background: var(--bg-card);
     border-radius: 20px;
-    padding: 32px;
+    padding: 24px;
     width: 100%;
     max-width: 480px;
+    max-height: 85vh;
+    display: flex;
+    flex-direction: column;
+    overflow-y: auto;
     border: 1px solid var(--border-color);
     box-shadow: 0 20px 60px rgba(0,0,0,0.3);
   }
@@ -629,7 +633,7 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
-    margin-bottom: 24px;
+    margin-bottom: 20px;
   }
 
   .profile-edit-title {
@@ -712,7 +716,7 @@
 <!-- Navigation Bar -->
 <nav class="customer-navbar">
   <a href="{{ route('home') }}" class="nav-brand">
-    <div class="brand-icon">💡</div>
+    <div class="brand-icon">K</div>
     <span>Kafa Advertising</span>
   </a>
 
@@ -735,7 +739,7 @@
 <aside class="side-drawer-nav" id="sideDrawerNav" aria-label="Menu Navigasi Samping">
   <div class="drawer-header">
     <div class="drawer-brand">
-      <div class="drawer-brand-logo">💡</div>
+      <div class="drawer-brand-logo">K</div>
       <div>
         <div class="drawer-brand-title">Kafa Advertising</div>
         <div class="drawer-brand-sub">Advertising & Reklame</div>
@@ -751,63 +755,63 @@
         <a href="{{ route('home') }}" class="drawer-link" onclick="closeSideNav()">
           <div class="drawer-link-left">
             <span class="drawer-link-num">01</span>
-            <span>🏠 Beranda</span>
+            <span>Beranda</span>
           </div>
-          <span class="drawer-link-arrow">➔</span>
+          
         </a>
       </li>
       <li class="drawer-menu-item">
         <a href="{{ route('home') }}#kategori" class="drawer-link" onclick="closeSideNav()">
           <div class="drawer-link-left">
             <span class="drawer-link-num">02</span>
-            <span>📂 Kategori Layanan</span>
+            <span>Kategori Layanan</span>
           </div>
-          <span class="drawer-link-arrow">➔</span>
+          
         </a>
       </li>
       <li class="drawer-menu-item">
         <a href="{{ route('katalog') }}" class="drawer-link" onclick="closeSideNav()">
           <div class="drawer-link-left">
             <span class="drawer-link-num">03</span>
-            <span>💡 Katalog & Harga Produk</span>
+            <span>Katalog & Harga Produk</span>
           </div>
-          <span class="drawer-link-arrow">➔</span>
+          
         </a>
       </li>
       <li class="drawer-menu-item">
         <a href="{{ route('portofolio') }}" class="drawer-link" onclick="closeSideNav()">
           <div class="drawer-link-left">
             <span class="drawer-link-num">04</span>
-            <span>🖼️ Portofolio Proyek</span>
+            <span>Portofolio Proyek</span>
           </div>
-          <span class="drawer-link-arrow">➔</span>
+          
         </a>
       </li>
       <li class="drawer-menu-item">
         <a href="{{ route('home') }}#keunggulan" class="drawer-link" onclick="closeSideNav()">
           <div class="drawer-link-left">
             <span class="drawer-link-num">05</span>
-            <span>⭐ Keunggulan Layanan</span>
+            <span>Keunggulan Layanan</span>
           </div>
-          <span class="drawer-link-arrow">➔</span>
+          
         </a>
       </li>
       <li class="drawer-menu-item">
         <a href="{{ route('home') }}#cabang" class="drawer-link" onclick="closeSideNav()">
           <div class="drawer-link-left">
             <span class="drawer-link-num">06</span>
-            <span>📍 Lokasi Showroom & Maps</span>
+            <span>Lokasi Showroom & Maps</span>
           </div>
-          <span class="drawer-link-arrow">➔</span>
+          
         </a>
       </li>
       <li class="drawer-menu-item">
         <a href="{{ route('login.admin') }}" class="drawer-link highlight-admin" onclick="closeSideNav()">
           <div class="drawer-link-left">
             <span class="drawer-link-num">07</span>
-            <span>🛡️ Login Admin & Staff</span>
+            <span>Login Admin & Staff</span>
           </div>
-          <span class="drawer-link-arrow">➔</span>
+          
         </a>
       </li>
     </ul>
@@ -831,7 +835,7 @@
               <span class="drawer-link-num">08</span>
               <span>✏️ Edit Profil</span>
             </div>
-            <span class="drawer-link-arrow">➔</span>
+            
           </button>
         </li>
         <li class="drawer-menu-item">
@@ -840,9 +844,9 @@
             <button type="submit" class="drawer-link" style="width: 100%; text-align: left; cursor: pointer; background: rgba(239, 68, 68, 0.1); border-color: rgba(239, 68, 68, 0.2); color: #f87171;">
               <div class="drawer-link-left">
                 <span class="drawer-link-num">09</span>
-                <span>⏻ Keluar</span>
+                <span>Keluar</span>
               </div>
-              <span class="drawer-link-arrow">➔</span>
+              
             </button>
           </form>
         </li>
@@ -864,7 +868,7 @@
 <div class="profile-edit-modal" id="profileEditModal">
   <div class="profile-edit-card">
     <div class="profile-edit-header">
-      <h3 class="profile-edit-title">✏️ Edit Profil Pelanggan</h3>
+      <h3 class="profile-edit-title">Edit Profil Pelanggan</h3>
       <button type="button" class="profile-edit-close" onclick="closeProfileModal()">✕</button>
     </div>
 
@@ -886,7 +890,7 @@
         <input type="text" class="form-input" id="edit-phone" name="phone" value="{{ $user->phone ?? '' }}" placeholder="+62...">
       </div>
 
-      <button type="submit" class="btn-save-profile">💾 Simpan Perubahan</button>
+      <button type="submit" class="btn-save-profile">Simpan Perubahan</button>
     </form>
   </div>
 </div>
@@ -895,14 +899,14 @@
 <div class="portal-content">
   @if(session('success'))
     <div style="padding: 14px 18px; border-radius: 12px; background: #d1fae5; color: #065f46; font-size: 14px; font-weight: 600; margin-bottom: 24px;">
-      ✅ {{ session('success') }}
+      {{ session('success') }}
     </div>
   @endif
 
   <!-- Welcome Banner -->
   <div class="welcome-banner">
     <div class="welcome-badge">Portal Pelanggan Kafa Advertising</div>
-    <h1 class="welcome-title">Halo, {{ $user->username }}! 👋</h1>
+    <h1 class="welcome-title">Halo, {{ $user->username }}!</h1>
     <p class="welcome-subtitle">
       Selamat datang di pusat layanan pelanggan Kafa Advertising. Anda dapat melihat riwayat pengerjaan pesanan neon box Anda atau melakukan konsultasi proyek baru.
     </p>
@@ -914,7 +918,7 @@
   <!-- Orders Section -->
   <div class="section-card">
     <div class="section-header">
-      <h2 class="section-title">📦 Riwayat & Status Pesanan Anda</h2>
+      <h2 class="section-title">Riwayat & Status Pesanan Anda</h2>
     </div>
 
     @if($orders->count() > 0)
@@ -940,10 +944,10 @@
                 $sisa = max(0, $total - $dibayar);
                 $isLunas = $dibayar >= $total && $total > 0;
                 $statusLabels = [
-                  'order' => '📋 Order Baru',
-                  'on_progress' => '🔧 Sedang Dikerjakan',
-                  'selesai' => '✅ Selesai',
-                  'cancelled' => '❌ Dibatalkan',
+                  'order' => 'Order Baru',
+                  'on_progress' => 'Sedang Dikerjakan',
+                  'selesai' => 'Selesai',
+                  'cancelled' => 'Dibatalkan',
                 ];
                 $statusLabel = isset($statusLabels[$order->status]) ? $statusLabels[$order->status] : $order->status;
               @endphp
@@ -968,19 +972,19 @@
                 </td>
                 <td>
                   @if($isLunas)
-                    <span class="badge-status badge-selesai">✅ Lunas</span>
+                    <span class="badge-status badge-selesai">Lunas</span>
                   @elseif($dibayar > 0)
-                    <span class="badge-status badge-proses">⏳ DP</span>
+                    <span class="badge-status badge-proses">DP</span>
                     <div style="font-size:10px; color:var(--text-muted); margin-top:2px;">
                       Sisa: Rp {{ number_format($sisa, 0, ',', '.') }}
                     </div>
                   @else
-                    <span class="badge-status badge-pending">⚠️ Belum Bayar</span>
+                    <span class="badge-status badge-pending">Belum Bayar</span>
                   @endif
                 </td>
                 <td>
                   <a href="{{ route('customer.order.detail', $order->id) }}" class="btn-order-wa" style="padding:6px 10px; font-size:11px;">
-                    💳 Detail & Bayar
+                    Detail & Bayar
                   </a>
                 </td>
               </tr>
@@ -993,7 +997,7 @@
       </div>
     @else
       <div class="empty-state">
-        <div class="empty-icon">💡</div>
+        
         <h3 style="font-size: 16px; font-weight: 700; margin-bottom: 6px; color: var(--text-main);">Belum Ada Pesanan Terdaftar</h3>
         <p style="font-size: 13px; max-width: 400px; margin: 0 auto 16px;">
           Anda belum memiliki riwayat pesanan neon box. Silakan pilih produk di bawah atau hubungi tim kami untuk membuat pesanan custom.
@@ -1005,9 +1009,9 @@
   <!-- Catalog Section -->
   <div class="section-card">
     <div class="section-header">
-      <h2 class="section-title">✨ Katalog Pilihan Neon Box</h2>
+      <h2 class="section-title">Katalog Pilihan Neon Box</h2>
       <a href="{{ route('home') }}#produk" style="font-size: 13px; color: var(--primary); font-weight: 700; text-decoration: none;">
-        Lihat Semua Produk ➔
+        Lihat Semua Produk
       </a>
     </div>
 
@@ -1017,7 +1021,7 @@
           @if($prod->foto_url)
             <img src="{{ $prod->foto_url }}" alt="{{ $prod->nama }}" style="width:100%; height:140px; object-fit:cover; border-radius:10px; margin-bottom:12px; border:1px solid var(--border-color);">
           @else
-            <div class="product-mini-icon">💡</div>
+            
           @endif
           <div class="product-mini-name">{{ $prod->nama }}</div>
           <div class="product-mini-price">{{ $prod->harga_display }}</div>

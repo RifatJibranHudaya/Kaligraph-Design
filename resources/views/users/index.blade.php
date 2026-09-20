@@ -69,7 +69,7 @@
         <input type="password" name="password" class="form-control" minlength="6" placeholder="Minimal 6 karakter" required>
       </div>
 
-      <button type="submit" class="btn btn-primary" style="width:100%;">Tambah User Baru ➔</button>
+      <button type="submit" class="btn btn-primary" style="width:100%;">Tambah User Baru</button>
     </form>
   </div>
 
