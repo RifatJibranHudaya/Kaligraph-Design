@@ -845,6 +845,66 @@
     font-size: 16px;
   }
 
+  .footer-socials {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+
+  .social-icon-link {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 42px;
+    height: 42px;
+    border-radius: 10px;
+    background: rgba(255,255,255,0.05);
+    border: 1px solid rgba(255,255,255,0.1);
+    transition: all 0.3s ease;
+    text-decoration: none;
+  }
+
+  .social-icon-link:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 20px rgba(0,0,0,0.3);
+  }
+
+  .social-icon-link img {
+    width: 24px;
+    height: 24px;
+    object-fit: contain;
+  }
+
+  .social-icon-link.instagram:hover {
+    background: linear-gradient(45deg, #f09433, #e6683c, #dc2743, #cc2366, #bc1888);
+    border-color: transparent;
+  }
+
+  .social-icon-link.facebook:hover {
+    background: #1877f2;
+    border-color: #1877f2;
+  }
+
+  .social-icon-link.email:hover {
+    background: #ea4335;
+    border-color: #ea4335;
+  }
+
+  .social-icon-link.tiktok:hover {
+    background: #000000;
+    border-color: #333;
+  }
+
+  .social-icon-link.whatsapp:hover {
+    background: #25d366;
+    border-color: #25d366;
+  }
+
+  .social-icon-link.youtube:hover {
+    background: #ff0000;
+    border-color: #ff0000;
+  }
+
   /* ─── Animations ─── */
   @keyframes fadeInDown {
     from { opacity: 0; transform: translateY(-20px); }
@@ -1187,10 +1247,55 @@
 <footer class="footer">
   <div class="footer-brand">💡 Kafa Advertising</div>
   <p>© {{ date('Y') }} <strong>Kafa Advertising</strong>. Spesialis Neon Box & Signage Custom Indonesia.</p>
-  <div style="display: flex; gap: 16px; font-size: 13px;">
-    <a href="https://www.instagram.com/kafaxgraf?utm_source=ig_web_button_share_sheet&stkn=ZDNlZDc0MzIxNw==" style="color:#60a5fa; text-decoration:none;">Instagram</a>
-    <a href="https://www.facebook.com/people/Kafa-X-Graf-Adv/61555941644272/" style="color:#94a3b8; text-decoration:none;">Facebook</a>
-    <a href="" style="color:#94a3b8; text-decoration:none;">Email</a>
+  
+  <!-- Social Media Icons -->
+  <div class="footer-socials">
+    <!-- Instagram -->
+    <a href="https://www.instagram.com/kafaxgraf?utm_source=ig_web_button_share_sheet&stkn=ZDNlZDc0MzIxNw==" 
+       class="social-icon-link instagram" 
+       target="_blank" 
+       title="Instagram">
+      <img src="https://cdn-icons-png.flaticon.com/512/174/174855.png" alt="Instagram">
+    </a>
+    
+    <!-- Facebook -->
+    <a href="https://www.facebook.com/people/Kafa-X-Graf-Adv/61555941644272/" 
+       class="social-icon-link facebook" 
+       target="_blank" 
+       title="Facebook">
+      <img src="https://cdn-icons-png.flaticon.com/512/5968/5968764.png" alt="Facebook">
+    </a>
+    
+    <!-- Email -->
+    <a href="mailto:kafaadvertising@example.com" 
+       class="social-icon-link email" 
+       title="Email">
+      <img src="https://cdn-icons-png.flaticon.com/512/732/732200.png" alt="Email">
+    </a>
+    
+    <!-- TikTok -->
+    <a href="https://www.tiktok.com/@username" 
+       class="social-icon-link tiktok" 
+       target="_blank" 
+       title="TikTok">
+      <img src="https://cdn-icons-png.flaticon.com/512/3046/3046121.png" alt="TikTok">
+    </a>
+    
+    <!-- WhatsApp -->
+    <a href="{{ \App\Helpers\FormatHelper::whatsappUrl('Halo Kafa Advertising') }}" 
+       class="social-icon-link whatsapp" 
+       target="_blank" 
+       title="WhatsApp">
+      <img src="https://cdn-icons-png.flaticon.com/512/733/733585.png" alt="WhatsApp">
+    </a>
+    
+    <!-- YouTube (optional) -->
+    <a href="https://www.youtube.com/@username" 
+       class="social-icon-link youtube" 
+       target="_blank" 
+       title="YouTube">
+      <img src="https://cdn-icons-png.flaticon.com/512/1384/1384060.png" alt="YouTube">
+    </a>
   </div>
 </footer>
 
