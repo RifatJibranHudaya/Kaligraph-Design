@@ -708,198 +708,54 @@
     opacity: 0.95;
   }
 
-  /* ─── Mobile Responsiveness Enhancements ─── */
+  /* ─── Footer ─── */
+  .footer {
+    background: #060d1f;
+    color: #6b7280;
+    padding: 36px 8%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 16px;
+    font-size: 14px;
+  }
+
+  .footer-brand {
+    font-weight: 800;
+    color: #60a5fa;
+    font-size: 16px;
+  }
+
+  /* ─── Animations ─── */
+  @keyframes fadeInDown {
+    from { opacity: 0; transform: translateY(-20px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  @keyframes fadeInUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  @keyframes pulse-wa {
+    0%, 100% { box-shadow: 0 8px 24px rgba(37,211,102,0.5); }
+    50% { box-shadow: 0 8px 32px rgba(37,211,102,0.8), 0 0 0 12px rgba(37,211,102,0.12); }
+  }
+
+  /* ─── Responsive ─── */
   @media (max-width: 768px) {
-    .navbar {
-      padding: 10px 14px;
-    }
-    .nav-brand {
-      font-size: 16px;
-      gap: 8px;
-    }
-    .nav-brand .brand-logo {
-      width: 30px;
-      height: 30px;
-      font-size: 15px;
-      border-radius: 8px;
-    }
-    .menu-toggle-btn {
-      padding: 7px 14px;
-      font-size: 12px;
-      gap: 6px;
-    }
-    .hero-wrapper {
-      padding: 8px 10px 0;
-    }
-    .hero-band {
-      min-height: auto;
-      border-radius: var(--radius-xl);
-    }
-    .hero-content {
-      padding: 28px 14px;
-      max-width: 100%;
-    }
-    .hero-badge-pill {
-      font-size: 11px;
-      padding: 4px 12px;
-      margin-bottom: 12px;
-    }
-    .hero-title {
-      font-size: 24px;
-      line-height: 1.25;
-      margin-bottom: 10px;
-      word-break: break-word;
-    }
-    .hero-subtitle {
-      font-size: 13.5px;
-      margin-bottom: 18px;
-      line-height: 1.45;
-    }
-    .hero-btns {
-      flex-direction: column;
-      width: 100%;
-      gap: 8px;
-    }
-    .hero-btns .btn-pill {
-      width: 100%;
-      text-align: center;
-      justify-content: center;
-      padding: 11px 16px;
-      font-size: 13.5px;
-    }
-    .hero-stats-strip {
-      grid-template-columns: repeat(2, 1fr);
-      padding: 12px 8px;
-      gap: 8px;
-      margin-top: 10px;
-      border-radius: var(--radius-lg);
-    }
-    .stat-tile {
-      padding: 6px 4px;
-    }
-    .stat-tile .num {
-      font-size: 18px;
-      margin-bottom: 2px;
-    }
-    .stat-tile .lbl {
-      font-size: 10.5px;
-      line-height: 1.2;
-    }
-    .section {
-      padding: 32px 14px;
-    }
-    .section-badge {
-      font-size: 10.5px;
-      padding: 3px 10px;
-      margin-bottom: 8px;
-    }
-    .section-title {
-      font-size: 20px;
-      margin-bottom: 6px;
-    }
-    .section-subtitle {
-      font-size: 13px;
-      margin-bottom: 18px;
-      line-height: 1.4;
-    }
-    .categories-grid {
-      grid-template-columns: 1fr;
-      gap: 12px;
-    }
-    .category-card {
-      padding: 14px;
-      border-radius: var(--radius-xl);
-    }
-    .category-img {
-      height: 140px;
-      border-radius: var(--radius-lg);
-      margin-bottom: 10px;
-    }
-    .category-title {
-      font-size: 17px;
-    }
-    .category-count {
-      font-size: 11px;
-      margin-bottom: 6px;
-    }
-    .category-desc {
-      font-size: 12.5px;
-      margin-bottom: 12px;
-      line-height: 1.4;
-    }
-    .category-cta-row {
-      font-size: 12.5px;
-      padding-top: 8px;
-    }
-    .why-buy-grid {
-      grid-template-columns: 1fr;
-      gap: 10px;
-    }
-    .why-buy-tile {
-      padding: 14px 12px;
-      border-radius: var(--radius-md);
-    }
-    .why-buy-title {
-      font-size: 15px;
-    }
-    .why-buy-desc {
-      font-size: 12.5px;
-      line-height: 1.4;
-    }
-    .promo-strip-section {
-      padding: 0 10px 32px;
-      margin-top: 24px !important;
-    }
-    .card-promo-strip {
-      padding: 22px 14px;
-      gap: 14px;
-      border-radius: var(--radius-xl);
-      flex-direction: column;
-      text-align: center;
-    }
-    .promo-strip-content h2 {
-      font-size: 19px;
-      margin-bottom: 6px;
-    }
-    .promo-strip-content p {
-      font-size: 12.5px;
-      line-height: 1.4;
-    }
-    .card-promo-strip .btn-meta-buy {
-      width: 100%;
-      text-align: center;
-      justify-content: center;
-      padding: 11px 18px;
-      font-size: 13.5px;
-    }
-    .branches-grid {
-      grid-template-columns: 1fr;
-      gap: 12px;
-    }
-    .branch-card {
-      padding: 14px 12px;
-      border-radius: var(--radius-lg);
-    }
-    .branch-name {
-      font-size: 16px;
-    }
-    .branch-addr {
-      font-size: 12.5px;
-    }
-    .footer-region {
-      padding: 30px 14px 20px;
-    }
-    .footer-columns {
-      grid-template-columns: 1fr;
-      gap: 20px;
-      margin-bottom: 24px;
-    }
-    .footer-bottom {
-      flex-direction: column;
-      text-align: center;
-      gap: 6px;
-      font-size: 11.5px;
-    }
+    .hero-title { font-size: 36px; }
+    .hero-stats { gap: 20px; flex-wrap: wrap; }
+    .nav-links { gap: 16px; }
+    .section-title { font-size: 28px; }
+    .cta-section h2 { font-size: 28px; }
+    .footer { flex-direction: column; text-align: center; }
+  }
+
+  @media (max-width: 480px) {
+    .nav-links { display: none; }
+    .hero-btns { flex-direction: column; }
   }
 </style>
 @endsection
@@ -1134,47 +990,23 @@
   </div>
 </section>
 
-<!-- ─── Footer Region ─── -->
-<footer class="footer-region">
-  <div class="footer-columns">
-    <div>
-      <div class="nav-brand" style="margin-bottom: 12px;">
-        <div class="brand-logo">K</div>
-        <span>Kafa Advertising</span>
-      </div>
-      <p style="font-size: 13.5px; color: var(--text-muted); line-height: 1.5; max-width: 320px;">
-        Spesialis neon box, huruf timbul, pylon sign & konstruksi reklame bergaransi kualitas premium.
-      </p>
-    </div>
+<!-- ─── CTA Section ─── -->
+<section class="cta-section">
+  <h2>Siap Memesan Neon Box Custom?</h2>
+  <p>Hubungi tim kami sekarang dan dapatkan konsultasi gratis + estimasi harga terbaik untuk kebutuhan bisnis Anda.</p>
+  <a href="{{ \App\Helpers\FormatHelper::whatsappUrl('Halo Kafa Advertising, saya ingin konsultasi neon box') }}" target="_blank" class="btn-hero-wa" style="margin: 0 auto; font-size:18px; padding:18px 40px;">
+    💬 Chat WhatsApp Sekarang
+  </a>
+</section>
 
-    <div class="footer-col">
-      <h4>Katalog</h4>
-      <ul>
-        <li><a href="{{ route('katalog') }}">Semua Kategori</a></li>
-        <li><a href="{{ route('portofolio') }}">Portofolio Proyek</a></li>
-      </ul>
-    </div>
-
-    <div class="footer-col">
-      <h4>Akses Portal</h4>
-      <ul>
-        <li><a href="{{ route('login.customer') }}">Portal Pelanggan</a></li>
-        <li><a href="{{ route('login.admin') }}">Admin & Staf</a></li>
-      </ul>
-    </div>
-
-    <div class="footer-col">
-      <h4>Media Sosial</h4>
-      <ul>
-        <li><a href="https://www.instagram.com/kafaxgraf" target="_blank">Instagram</a></li>
-        <li><a href="https://www.facebook.com" target="_blank">Facebook</a></li>
-      </ul>
-    </div>
-  </div>
-
-  <div class="footer-bottom">
-    <div>© {{ date('Y') }} <strong>Kafa Advertising</strong>. Hak Cipta Dilindungi.</div>
-    <div>Sistem Manajemen Reklame & Signage Modern</div>
+<!-- ─── Footer ─── -->
+<footer class="footer">
+  <div class="footer-brand">💡 Kafa Advertising</div>
+  <p>© {{ date('Y') }} <strong>Kafa Advertising</strong>. Spesialis Neon Box & Signage Custom Indonesia.</p>
+  <div style="display: flex; gap: 16px; font-size: 13px;">
+    <a href="https://www.instagram.com/kafaxgraf?utm_source=ig_web_button_share_sheet&stkn=ZDNlZDc0MzIxNw==" style="color:#60a5fa; text-decoration:none;">Instagram</a>
+    <a href="https://www.facebook.com/people/Kafa-X-Graf-Adv/61555941644272/" style="color:#94a3b8; text-decoration:none;">Facebook</a>
+    <a href="" style="color:#94a3b8; text-decoration:none;">Email</a>
   </div>
 </footer>
 
