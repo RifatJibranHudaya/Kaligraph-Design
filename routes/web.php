@@ -109,6 +109,7 @@ Route::middleware(['auth:web', 'prevent.back'])->group(function () {
         Route::delete('/{payment}', [PaymentController::class, 'destroy'])->name('destroy');
         Route::get('/order/{order}/detail', [PaymentController::class, 'detailOrder'])->name('detail.order');
         Route::post('/order/{order}/send-whatsapp', [PaymentController::class, 'sendWhatsapp'])->name('send.whatsapp');
+        Route::post('/order/{order}/verify-receipt', [PaymentController::class, 'verifyReceipt'])->name('pembayaran.verify.receipt');
     });
 
     // Status Pengerjaan Order
@@ -182,5 +183,7 @@ Route::middleware(['auth:customer', 'prevent.back'])->group(function () {
     
     // Detail pembayaran untuk pelanggan
     Route::get('/customer/order/{order}/detail', [PaymentController::class, 'detailOrder'])->name('customer.order.detail');
+    Route::post('/customer/order/{order}/payment-upload', [PaymentController::class, 'customerUploadReceipt'])->name('customer.payment.upload');
+    // Existing routes
     Route::post('/customer/order/{order}/send-whatsapp', [PaymentController::class, 'sendWhatsapp'])->name('customer.order.send.whatsapp');
 });

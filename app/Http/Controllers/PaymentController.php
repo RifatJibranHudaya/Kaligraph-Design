@@ -285,4 +285,80 @@ class PaymentController extends Controller
             ->with('wa_url', $waUrl)
             ->with('nomor_wa', $validated['nomor_wa']);
     }
+
+    /**
+     * Admin: Verify uploaded receipt and optionally adjust order total.
+     */
+    public function verifyReceipt(Request $request, Order $order)
+    {
+        // Ensure admin/staff user
+        $authUser = Auth::guard('web')->user();
+        if (!$authUser) {
+            return redirect()->route('login.admin')->with('error', 'Silakan login terlebih dahulu.');
+        }
+
+        // Validate inputs: optional new_total, and required verification action
+        $validated = $request->validate([
+            'new_total' => 'nullable|numeric|min:0',
+        ]);
+
+        // Update order total if provided
+        if (isset($validated['new_total'])) {
+            $order->total = $validated['new_total'];
+        }
+
+        // Mark receipt as verified
+        $order->payment_status = 'verified';
+        $order->payment_verified_by = $authUser->id;
+        $order->payment_verified_at = now();
+        $order->save();
+
+        ActivityLogService::log(
+            'verify_receipt',
+            'pembayaran',
+            "Verifikasi bukti pembayaran untuk Order #{$order->id}",
+            $order->id
+        );
+
+        return redirect()->route('pembayaran.detail.order', $order->id)
+            ->with('success', 'Bukti pembayaran berhasil diverifikasi.');
+    }
+
+
+
+    public function customerUploadReceipt(Request $request, Order $order)
+    {
+        $authUser = Auth::guard('customer')->user() ?: Auth::guard('web')->user();
+        if (!$authUser) {
+            return redirect()->route('login.customer')->with('error', 'Silakan login terlebih dahulu.');
+        }
+        // Ensure the customer can only access their own order
+        if ($authUser->isCustomer() && $order->user_id !== $authUser->id) {
+            return redirect()->route('customer.dashboard')->with('error', 'Anda tidak memiliki akses ke order ini.');
+        }
+
+        $validated = $request->validate([
+            'bukti' => 'required|image|mimes:jpeg,png,jpg,webp|max:3072',
+        ]);
+
+        if ($request->hasFile('bukti')) {
+            $file = $request->file('bukti');
+            $filename = 'receipt_' . time() . '_' . Str::random(8) . '.' . $file->getClientOriginalExtension();
+            $file->move(public_path('uploads/receipts'), $filename);
+
+            $order->receipt_path = $filename;
+            $order->payment_status = 'pending';
+            $order->save();
+
+            ActivityLogService::log(
+                'upload_receipt',
+                'pembayaran',
+                "Upload bukti pembayaran untuk Order #{$order->id}",
+                $order->id
+            );
+        }
+
+        return redirect()->route($authUser->isCustomer() ? 'customer.order.detail' : 'pembayaran.detail.order', $order->id)
+            ->with('success', 'Bukti pembayaran berhasil diunggah, menunggu verifikasi.');
+    }
 }
