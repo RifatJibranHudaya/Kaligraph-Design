@@ -11,40 +11,115 @@
 
   <style>
     :root {
-      --bg-main: #f0f4ff;
+      --bg-main: #ffffff;
       --bg-card: #ffffff;
-      --text-main: #0d1b3e;
-      --text-muted: #5a6a8a;
-      --border-color: #dde4f0;
-      --primary: #2563eb;
-      --primary-hover: #1d4ed8;
-      --primary-light: #dbeafe;
-      --accent: #eab308;
-      --accent-light: #fef9c3;
-      --radius: 16px;
+      --surface-soft: #f1f4f7;
+      --text-main: #0a1317;
+      --text-body: #1c1e21;
+      --text-muted: #5d6c7b;
+      --text-stone: #8595a4;
+      --border-color: #dee3e9;
+      --hairline: #ced0d4;
+      --hairline-soft: #dee3e9;
+      --primary: #0064e0;
+      --primary-deep: #0457cb;
+      --primary-soft: #0091ff;
+      --primary-light: #e7f1fe;
+      --ink-button: #000000;
+      --ink-deep: #0a1317;
+      --accent: #1876f2;
+      --success: #31a24c;
+      --warning: #f7b928;
+      --warning-bg: #ffe200;
+      --attention: #f2a918;
+      --danger: #e41e3f;
+      --radius-sm: 4px;
+      --radius-md: 6px;
+      --radius-lg: 8px;
+      --radius-xl: 16px;
+      --radius-xxl: 24px;
+      --radius-xxxl: 32px;
+      --radius-full: 100px;
+      --shadow-sm: 0 1px 3px rgba(10, 19, 23, 0.06);
+      --shadow-md: rgba(20, 22, 26, 0.08) 0px 4px 16px;
+      --shadow-sticky: rgba(20, 22, 26, 0.3) 0px 1px 4px 0px;
     }
 
     [data-theme="dark"] {
-      --bg-main: #060d1f;
-      --bg-card: #111827;
-      --text-main: #e2e8f0;
-      --text-muted: #6b7280;
-      --border-color: #1e2d4a;
-      --primary-light: #1e3a8a;
-      --accent-light: #713f12;
+      --bg-main: #0a1317;
+      --bg-card: #141f26;
+      --surface-soft: #1a2730;
+      --text-main: #f1f4f7;
+      --text-body: #dee3e9;
+      --text-muted: #8595a4;
+      --text-stone: #5d6c7b;
+      --border-color: #243542;
+      --hairline: #314656;
+      --hairline-soft: #243542;
+      --primary-light: #0a2540;
     }
 
     * {
       box-sizing: border-box;
       margin: 0;
       padding: 0;
-      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
     }
 
-    body {
+    html, body {
+      max-width: 100%;
+      overflow-x: hidden;
       background-color: var(--bg-main);
-      color: var(--text-main);
+      color: var(--text-body);
       min-height: 100vh;
+      -webkit-font-smoothing: antialiased;
+      letter-spacing: -0.16px;
+    }
+
+    /* Common Button & Element Base Tokens */
+    .btn-pill {
+      border-radius: var(--radius-full);
+      font-weight: 700;
+      letter-spacing: -0.14px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      text-decoration: none;
+      transition: all 0.2s ease;
+      cursor: pointer;
+    }
+
+    .btn-meta-primary {
+      background: var(--ink-button);
+      color: #ffffff;
+      padding: 14px 30px;
+      border: none;
+    }
+    .btn-meta-primary:hover {
+      background: #444950;
+      color: #ffffff;
+    }
+
+    .btn-meta-buy {
+      background: var(--primary);
+      color: #ffffff;
+      padding: 14px 30px;
+      border: none;
+    }
+    .btn-meta-buy:hover {
+      background: var(--primary-deep);
+      color: #ffffff;
+    }
+
+    .btn-meta-ghost {
+      background: transparent;
+      color: var(--text-main);
+      padding: 12px 28px;
+      border: 2px solid var(--text-main);
+    }
+    .btn-meta-ghost:hover {
+      background: rgba(10, 19, 23, 0.05);
     }
   </style>
   @yield('styles')

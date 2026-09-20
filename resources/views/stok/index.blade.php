@@ -7,7 +7,7 @@
   <!-- Form Catat Stok -->
   <div class="card">
     <div class="card-header">
-      <h3 class="card-title">➕ Catat Pergerakan Stok</h3>
+      <h3 class="card-title">Catat Pergerakan Stok</h3>
     </div>
     <form method="POST" action="{{ route('stok.store') }}">
       @csrf
@@ -47,14 +47,14 @@
         </div>
       </div>
 
-      <button type="submit" class="btn btn-primary" style="width:100%;">Catat Stok ➔</button>
+      <button type="submit" class="btn btn-primary" style="width:100%;">Catat Stok</button>
     </form>
   </div>
 
   <!-- Riwayat Stok -->
   <div class="card">
     <div class="card-header">
-      <h3 class="card-title">📦 Riwayat Catatan Stok</h3>
+      <h3 class="card-title">Riwayat Catatan Stok</h3>
     </div>
     <div class="table-responsive">
       <table class="table">

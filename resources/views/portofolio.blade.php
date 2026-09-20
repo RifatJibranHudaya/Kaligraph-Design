@@ -382,33 +382,34 @@
     position: relative;
     overflow: hidden;
   }
-  .page-header::before {
-    content: '';
-    position: absolute;
-    top: -50%;
-    right: -10%;
-    width: 500px;
-    height: 500px;
-    background: radial-gradient(circle, rgba(124,58,237,0.15) 0%, transparent 70%);
-    pointer-events: none;
+  /* ─── Page Header ─── */
+  .page-header {
+    background: #0a1317;
+    padding: 64px 8%;
+    color: #ffffff;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
   }
   .page-header h1 {
-    font-size: 38px;
-    font-weight: 800;
+    font-size: 40px;
+    font-weight: 500;
     margin-bottom: 12px;
+    letter-spacing: -0.5px;
   }
   .page-header p {
     font-size: 16px;
-    color: rgba(255,255,255,0.7);
+    font-weight: 300;
+    color: rgba(255,255,255,0.8);
     max-width: 600px;
     margin: 0 auto;
-    line-height: 1.7;
+    line-height: 1.6;
   }
 
   /* ─── Portfolio Grid ─── */
   .portfolio-container {
-    padding: 50px 8%;
-    max-width: 1280px;
+    padding: 40px 8% 80px;
+    max-width: 1320px;
     margin: 0 auto;
   }
 
@@ -418,36 +419,44 @@
     gap: 8px;
     font-size: 13px;
     color: var(--text-muted);
-    margin-bottom: 30px;
+    margin-bottom: 24px;
   }
   .breadcrumb a {
-    color: var(--primary);
+    color: var(--text-muted);
     text-decoration: none;
   }
+  .breadcrumb a:hover {
+    color: var(--primary);
+  }
 
-  /* Filter Tabs */
+  /* Filter Tabs (Meta Pill Tabs) */
   .filter-tabs {
     display: flex;
     gap: 8px;
     flex-wrap: wrap;
-    margin-bottom: 30px;
+    margin-bottom: 36px;
   }
   .filter-tab {
-    padding: 8px 18px;
-    border-radius: 30px;
-    border: 1px solid var(--border-color);
+    padding: 8px 20px;
+    border-radius: var(--radius-full);
+    border: 1px solid var(--hairline);
     background: var(--bg-card);
-    color: var(--text-muted);
-    font-size: 13px;
+    color: var(--text-body);
+    font-size: 13.5px;
     font-weight: 700;
+    letter-spacing: -0.14px;
     cursor: pointer;
-    transition: all 0.2s;
+    transition: all 0.2s ease;
     text-decoration: none;
   }
-  .filter-tab:hover, .filter-tab.active {
-    background: var(--primary);
-    color: #fff;
-    border-color: var(--primary);
+  .filter-tab:hover {
+    background: var(--surface-soft);
+    border-color: var(--text-muted);
+  }
+  .filter-tab.active {
+    background: var(--ink-deep);
+    color: #ffffff;
+    border-color: var(--ink-deep);
   }
 
   .portfolio-grid {
@@ -458,22 +467,22 @@
 
   .port-card {
     background: var(--bg-card);
-    border: 1px solid var(--border-color);
-    border-radius: 20px;
+    border: 1px solid var(--hairline-soft);
+    border-radius: var(--radius-xxxl);
     overflow: hidden;
-    transition: transform 0.3s, box-shadow 0.3s, border-color 0.3s;
+    transition: all 0.25s ease;
     display: flex;
     flex-direction: column;
   }
   .port-card:hover {
-    transform: translateY(-6px);
-    box-shadow: 0 20px 40px rgba(37,99,235,0.12);
-    border-color: rgba(37,99,235,0.3);
+    transform: translateY(-4px);
+    box-shadow: var(--shadow-md);
+    border-color: var(--hairline);
   }
 
   .port-card-img {
-    height: 220px;
-    background: linear-gradient(135deg, var(--primary-light), #ede9fe);
+    height: 240px;
+    background: var(--surface-soft);
     display: flex;
     align-items: center;
     justify-content: center;
@@ -488,7 +497,7 @@
     transition: transform 0.4s;
   }
   .port-card:hover .port-card-img img {
-    transform: scale(1.05);
+    transform: scale(1.04);
   }
 
   .port-card-overlay {
@@ -496,8 +505,8 @@
     bottom: 0;
     left: 0;
     right: 0;
-    padding: 12px 16px;
-    background: linear-gradient(transparent, rgba(0,0,0,0.7));
+    padding: 14px 18px;
+    background: linear-gradient(transparent, rgba(10,19,23,0.8));
     display: flex;
     gap: 8px;
     flex-wrap: wrap;
@@ -505,10 +514,10 @@
 
   .port-card-tag {
     display: inline-block;
-    padding: 4px 10px;
-    border-radius: 20px;
+    padding: 4px 12px;
+    border-radius: var(--radius-full);
     background: rgba(255,255,255,0.2);
-    backdrop-filter: blur(4px);
+    backdrop-filter: blur(6px);
     color: #fff;
     font-size: 11px;
     font-weight: 700;
@@ -586,8 +595,59 @@
 
   /* ─── Responsive ─── */
   @media (max-width: 768px) {
-    .page-header h1 { font-size: 28px; }
-    .portfolio-grid { grid-template-columns: 1fr; }
+    .navbar {
+      padding: 10px 14px;
+    }
+    .page-header {
+      padding: 32px 14px;
+    }
+    .page-header h1 {
+      font-size: 22px;
+      line-height: 1.3;
+    }
+    .page-header p {
+      font-size: 13px;
+    }
+    .portfolio-container {
+      padding: 20px 14px 40px;
+    }
+    .filter-tabs {
+      gap: 6px;
+      margin-bottom: 20px;
+    }
+    .filter-tab {
+      padding: 6px 14px;
+      font-size: 12px;
+    }
+    .portfolio-grid {
+      grid-template-columns: 1fr;
+      gap: 14px;
+    }
+    .port-card {
+      border-radius: var(--radius-xl);
+    }
+    .port-card-img {
+      height: 180px;
+    }
+    .port-card-body {
+      padding: 14px;
+    }
+    .port-card-title {
+      font-size: 16px;
+    }
+    .port-card-desc {
+      font-size: 12.5px;
+    }
+    .port-card-footer {
+      padding: 10px 14px;
+    }
+    .footer {
+      padding: 24px 14px;
+      flex-direction: column;
+      text-align: center;
+      gap: 8px;
+      font-size: 12px;
+    }
   }
 </style>
 @endsection
@@ -597,13 +657,13 @@
 <!-- Navbar -->
 <nav class="navbar">
   <a href="{{ route('home') }}" class="nav-brand">
-    <div class="brand-logo">💡</div>
+    <div class="brand-logo">K</div>
     <span>Kafa Advertising</span>
   </a>
 
   <div class="nav-right-wrap">
     <a href="{{ route('katalog') }}" class="nav-quick-btn" style="display:none; @media(min-width:768px){display:inline-flex;}">
-      <span>📂</span>
+      
       <span>Katalog Produk</span>
     </a>
     <button type="button" class="menu-toggle-btn" id="menuToggleBtn" onclick="toggleSideNav()" aria-label="Buka Menu Navigasi">
@@ -624,7 +684,7 @@
 <aside class="side-drawer-nav" id="sideDrawerNav" aria-label="Menu Navigasi Samping">
   <div class="drawer-header">
     <div class="drawer-brand">
-      <div class="drawer-brand-logo">💡</div>
+      <div class="drawer-brand-logo">K</div>
       <div>
         <div class="drawer-brand-title">Kafa Advertising</div>
         <div class="drawer-brand-sub">Advertising & Reklame</div>
@@ -640,72 +700,72 @@
         <a href="{{ route('home') }}" class="drawer-link" onclick="closeSideNav()">
           <div class="drawer-link-left">
             <span class="drawer-link-num">01</span>
-            <span>🏠 Beranda</span>
+            <span>Beranda</span>
           </div>
-          <span class="drawer-link-arrow">➔</span>
+          
         </a>
       </li>
       <li class="drawer-menu-item">
         <a href="{{ route('home') }}#kategori" class="drawer-link" onclick="closeSideNav()">
           <div class="drawer-link-left">
             <span class="drawer-link-num">02</span>
-            <span>📂 Kategori Layanan</span>
+            <span>Kategori Layanan</span>
           </div>
-          <span class="drawer-link-arrow">➔</span>
+          
         </a>
       </li>
       <li class="drawer-menu-item">
         <a href="{{ route('katalog') }}" class="drawer-link" onclick="closeSideNav()">
           <div class="drawer-link-left">
             <span class="drawer-link-num">03</span>
-            <span>💡 Katalog & Harga Produk</span>
+            <span>Katalog & Harga Produk</span>
           </div>
-          <span class="drawer-link-arrow">➔</span>
+          
         </a>
       </li>
       <li class="drawer-menu-item">
         <a href="{{ route('portofolio') }}" class="drawer-link" onclick="closeSideNav()" style="background:rgba(37,99,235,0.15); border-color:rgba(37,99,235,0.3); color:#60a5fa;">
           <div class="drawer-link-left">
             <span class="drawer-link-num" style="color:#60a5fa;">04</span>
-            <span>🖼️ Portofolio Proyek</span>
+            <span>Portofolio Proyek</span>
           </div>
-          <span class="drawer-link-arrow" style="opacity:1; transform:translateX(0); color:#60a5fa;">➔</span>
+          
         </a>
       </li>
       <li class="drawer-menu-item">
         <a href="{{ route('home') }}#keunggulan" class="drawer-link" onclick="closeSideNav()">
           <div class="drawer-link-left">
             <span class="drawer-link-num">05</span>
-            <span>⭐ Keunggulan Layanan</span>
+            <span>Keunggulan Layanan</span>
           </div>
-          <span class="drawer-link-arrow">➔</span>
+          
         </a>
       </li>
       <li class="drawer-menu-item">
         <a href="{{ route('home') }}#cabang" class="drawer-link" onclick="closeSideNav()">
           <div class="drawer-link-left">
             <span class="drawer-link-num">06</span>
-            <span>📍 Lokasi Showroom & Maps</span>
+            <span>Lokasi Showroom & Maps</span>
           </div>
-          <span class="drawer-link-arrow">➔</span>
+          
         </a>
       </li>
       <li class="drawer-menu-item">
         <a href="{{ route('login.customer') }}" class="drawer-link highlight-customer" onclick="closeSideNav()">
           <div class="drawer-link-left">
             <span class="drawer-link-num">07</span>
-            <span>🛍️ Portal Pelanggan</span>
+            <span>Portal Pelanggan</span>
           </div>
-          <span class="drawer-link-arrow">➔</span>
+          
         </a>
       </li>
       <li class="drawer-menu-item">
         <a href="{{ route('login.admin') }}" class="drawer-link highlight-admin" onclick="closeSideNav()">
           <div class="drawer-link-left">
             <span class="drawer-link-num">08</span>
-            <span>🛡️ Login Admin & Staff</span>
+            <span>Login Admin & Staff</span>
           </div>
-          <span class="drawer-link-arrow">➔</span>
+          
         </a>
       </li>
     </ul>
@@ -713,7 +773,7 @@
 
   <div class="drawer-footer">
     <div class="drawer-footer-info">
-      <div>📍 <strong>Workshop & Showroom</strong></div>
+      <div><strong>Workshop & Showroom</strong></div>
       <div>Melayani Demak, Semarang, Surabaya & sekitarnya. Pengiriman ke seluruh Indonesia.</div>
     </div>
     <a href="{{ \App\Helpers\FormatHelper::whatsappUrl('Halo Kafa Advertising, saya ingin konsultasi pesanan dari melihat Portofolio') }}" target="_blank" class="drawer-wa-cta">
@@ -726,7 +786,7 @@
 <!-- Page Header -->
 <div class="page-header">
   <div style="display:inline-block; padding:6px 14px; border-radius:20px; font-size:12px; font-weight:700; margin-bottom:12px; background:rgba(255,255,255,0.1); color:#60a5fa;">
-    🖼️ PORTOFOLIO PROYEK
+    PORTOFOLIO PROYEK
   </div>
   <h1>Hasil Karya & Proyek Kami</h1>
   <p>Lihat koleksi proyek neon box, signage, dan advertising yang telah kami kerjakan untuk berbagai klien di seluruh Indonesia.</p>
@@ -745,7 +805,7 @@
     <span class="filter-tab active" onclick="filterPortfolio('all')">Semua</span>
     @foreach($categories as $cat)
       <span class="filter-tab" onclick="filterPortfolio('cat-{{ $cat->id }}')" data-cat="{{ $cat->id }}">
-        {{ $cat->emoji ?: '📂' }} {{ $cat->nama }}
+        {{ $cat->nama }}
       </span>
     @endforeach
   </div>
@@ -758,14 +818,14 @@
           @if($p->foto_url)
             <img src="{{ $p->foto_url }}" alt="{{ $p->nama }}">
           @else
-            <span>🖼️</span>
+            
           @endif
           <div class="port-card-overlay">
             @if($p->category)
-              <span class="port-card-tag">{{ $p->category->emoji ?: '📂' }} {{ $p->category->nama }}</span>
+              <span class="port-card-tag">{{ $p->category ? $p->category->nama : '' }}</span>
             @endif
             @if($p->tahun)
-              <span class="port-card-tag">📅 {{ $p->tahun }}</span>
+              <span class="port-card-tag">{{ $p->tahun }}</span>
             @endif
           </div>
         </div>
@@ -773,10 +833,10 @@
           <div class="port-card-title">{{ $p->nama }}</div>
           <div class="port-card-meta">
             @if($p->client)
-              <span>🏢 {{ $p->client }}</span>
+              <span>{{ $p->client }}</span>
             @endif
             @if($p->lokasi)
-              <span>📍 {{ $p->lokasi }}</span>
+              <span>{{ $p->lokasi }}</span>
             @endif
           </div>
           <p class="port-card-desc">{{ Str::limit($p->deskripsi ?: 'Proyek custom signage & advertising berkualitas premium.', 120) }}</p>
@@ -784,7 +844,7 @@
         @if($p->category || $p->tahun)
         <div class="port-card-footer">
           @if($p->category)
-            <span class="port-card-category">{{ $p->category->emoji ?: '📂' }} {{ $p->category->nama }}</span>
+            <span class="port-card-category">{{ $p->category ? $p->category->nama : '' }}</span>
           @else
             <span></span>
           @endif
@@ -796,7 +856,7 @@
       </div>
     @empty
       <div style="grid-column:1/-1; text-align:center; padding:80px 20px; color:var(--text-muted);">
-        <div style="font-size:48px; margin-bottom:16px;">🖼️</div>
+        
         <p style="font-size:16px; font-weight:600;">Portofolio sedang diperbarui.</p>
         <p style="font-size:14px; margin-top:8px;">Hubungi kami via WhatsApp untuk melihat contoh proyek yang telah kami kerjakan.</p>
       </div>
@@ -806,7 +866,7 @@
 
 <!-- Footer -->
 <footer class="footer">
-  <div>💡 <strong>Kafa Advertising</strong> — Spesialis Neon Box & Signage Custom</div>
+  <div><strong>Kafa Advertising</strong> — Spesialis Neon Box & Signage Custom</div>
   <p>© {{ date('Y') }} All rights reserved.</p>
 </footer>
 

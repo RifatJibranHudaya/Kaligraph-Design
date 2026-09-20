@@ -201,7 +201,7 @@
 @section('content')
 <div class="auth-container">
   <div class="auth-card">
-    <div class="auth-logo">📬</div>
+    <div class="auth-logo">K</div>
     <h1 class="auth-title">Verifikasi Kode OTP</h1>
     <p class="auth-subtitle">
       Masukkan 6 digit kode OTP yang telah dikirimkan ke:<br>
@@ -210,13 +210,13 @@
 
     @if(session('success'))
       <div class="alert-success">
-        <span>✅</span> {{ session('success') }}
+         {{ session('success') }}
       </div>
     @endif
 
     @if($errors->any())
       <div class="alert-error">
-        <span>⚠️</span> {{ $errors->first() }}
+         {{ $errors->first() }}
       </div>
     @endif
 
@@ -235,10 +235,10 @@
       </div>
 
       <div class="timer-box" id="timerBox">
-        <span>⏳</span> Kode berlaku: <strong id="countdownTimer">10:00</strong>
+        Kode berlaku: <strong id="countdownTimer">10:00</strong>
       </div>
 
-      <button type="submit" class="btn-submit">Verifikasi & Lanjutkan ➔</button>
+      <button type="submit" class="btn-submit">Verifikasi & Lanjutkan</button>
     </form>
 
     <div class="resend-box">

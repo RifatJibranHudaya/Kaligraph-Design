@@ -158,20 +158,20 @@
 <div class="auth-container">
   <div class="auth-card">
     <div class="auth-header">
-      <div class="auth-logo">🔐</div>
+      <div class="auth-logo">K</div>
       <h1 class="auth-title">Lupa Password?</h1>
       <p class="auth-subtitle">Masukkan email terdaftar Anda. Kami akan mengirimkan <strong>kode OTP 6 digit</strong> untuk verifikasi.</p>
     </div>
 
     @if(session('success'))
       <div class="alert-success">
-        <span>✅</span> {{ session('success') }}
+         {{ session('success') }}
       </div>
     @endif
 
     @if($errors->any())
       <div class="alert-error">
-        <span>⚠️</span> {{ $errors->first() }}
+         {{ $errors->first() }}
       </div>
     @endif
 
@@ -182,7 +182,7 @@
         <input type="email" name="email" class="form-control" placeholder="contoh: nama@email.com" value="{{ old('email') }}" required autofocus>
       </div>
 
-      <button type="submit" class="btn-submit">Kirim Kode OTP via Email ➔</button>
+      <button type="submit" class="btn-submit">Kirim Kode OTP via Email</button>
     </form>
 
     <div class="auth-footer">

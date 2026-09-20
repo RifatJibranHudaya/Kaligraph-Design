@@ -119,7 +119,7 @@
 <!-- Navigation Bar -->
 <nav class="customer-navbar" style="display:flex;align-items:center;justify-content:space-between;padding:16px 6%;background:var(--bg-card);border-bottom:1px solid var(--border-color);position:sticky;top:0;z-index:100;box-shadow:0 2px 10px rgba(0,0,0,0.03);">
   <a href="{{ route('customer.dashboard') }}" style="display:flex;align-items:center;gap:10px;font-size:18px;font-weight:800;color:var(--primary);text-decoration:none;">
-    <div style="width:36px;height:36px;background:linear-gradient(135deg,#2563eb,#7c3aed);border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:18px;">💡</div>
+    <div style="width:36px;height:36px;background:linear-gradient(135deg,#2563eb,#7c3aed);border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:18px;color:#fff;font-weight:700;">K</div>
     <span>Kafa Advertising</span>
   </a>
   <div style="display:flex;align-items:center;gap:16px;">
@@ -132,20 +132,20 @@
   <div style="display:flex;justify-content:space-between;align-items:flex-start;flex-wrap:wrap;gap:16px;">
     <div>
       <h2 style="font-size:24px;font-weight:800;margin-bottom:8px;">Order #{{ $order->id }}</h2>
-      <p style="font-size:14px;opacity:0.9;margin:0;">👤 {{ $order->nama_pelanggan }} @if($order->no_hp) • 📞 {{ $order->no_hp }} @endif</p>
+      <p style="font-size:14px;opacity:0.9;margin:0;">{{ $order->nama_pelanggan }} @if($order->no_hp) • {{ $order->no_hp }} @endif</p>
       @if($order->kategori)
-        <span style="font-size:12px;opacity:0.8;display:block;margin-top:4px;">📂 {{ $order->kategori }}</span>
+        <span style="font-size:12px;opacity:0.8;display:block;margin-top:4px;">{{ $order->kategori }}</span>
       @endif
     </div>
     <div style="text-align:right;">
       <span class="status-badge {{ $isLunas ? 'status-lunas' : 'status-belum-lunas' }}">
-        @if($isLunas) ✅ LUNAS @else ⏳ BELUM LUNAS @endif
+        @if($isLunas) LUNAS @else BELUM LUNAS @endif
       </span>
       <div style="margin-top:12px;font-size:13px;opacity:0.9;">
         Status Pengerjaan:
         <strong style="display:block;margin-top:4px;font-size:15px;">
           @php
-            $statusLabels = ['order' => '📋 Order Baru', 'on_progress' => '🔧 Sedang Dikerjakan', 'selesai' => '✅ Selesai', 'cancelled' => '❌ Dibatalkan'];
+            $statusLabels = ['order' => 'Order Baru', 'on_progress' => 'Sedang Dikerjakan', 'selesai' => 'Selesai', 'cancelled' => 'Dibatalkan'];
             $statusLabel = isset($statusLabels[$order->status]) ? $statusLabels[$order->status] : $order->status;
           @endphp
           {{ $statusLabel }}
@@ -160,7 +160,7 @@
   <div>
     <!-- Form Catat Pembayaran -->
     <div class="form-section">
-      <h3 style="font-size:18px;font-weight:700;margin-bottom:16px;color:var(--text-main);">💳 Catat Pembayaran Baru</h3>
+      <h3 style="font-size:18px;font-weight:700;margin-bottom:16px;color:var(--text-main);">Catat Pembayaran Baru</h3>
       <form method="POST" action="{{ route('pembayaran.store') }}" enctype="multipart/form-data">
         @csrf
         <input type="hidden" name="order_id" value="{{ $order->id }}">
@@ -196,14 +196,14 @@
           <textarea name="keterangan" class="form-control" rows="2" placeholder="cth. DP 50% awal via BCA..."></textarea>
         </div>
 
-        <button type="submit" class="btn btn-primary" style="width:100%;">Simpan Pembayaran ➔</button>
+        <button type="submit" class="btn btn-primary" style="width:100%;">Simpan Pembayaran</button>
       </form>
     </div>
 
     <!-- Riwayat Pembayaran -->
     <div class="card">
       <div class="card-header">
-        <h3 class="card-title">📝 Riwayat Pembayaran</h3>
+        <h3 class="card-title">Riwayat Pembayaran</h3>
       </div>
       
       @forelse($allPayments as $pay)
@@ -229,11 +229,11 @@
             </div>
             <div style="display:flex;gap:6px;flex-direction:column;">
               <a href="{{ route('pembayaran.nota', $pay->id) }}" target="_blank" class="btn btn-sm btn-secondary">
-                🖨️ Nota
+                Nota
               </a>
               @if($pay->bukti_url)
                 <a href="{{ $pay->bukti_url }}" target="_blank" class="btn btn-sm btn-info" style="font-size:11px;">
-                  🖼️ Bukti
+                  Bukti
                 </a>
               @endif
             </div>
@@ -252,7 +252,7 @@
     <!-- Ringkasan Pembayaran -->
     <div class="card" style="position:sticky;top:90px;">
       <div class="card-header">
-        <h3 class="card-title">💰 Ringkasan Pembayaran</h3>
+        <h3 class="card-title">Ringkasan Pembayaran</h3>
       </div>
       
       <div style="padding:16px 0;">
@@ -286,9 +286,9 @@
         <!-- Info Status -->
         <div style="background:{{ $isLunas ? '#d1fae5' : '#fef3c7' }};border-radius:10px;padding:12px;margin-bottom:20px;">
           <div style="font-size:13px;font-weight:700;color:{{ $isLunas ? '#065f46' : '#92400e' }};">
-            @if($isLunas) ✅ Order ini sudah LUNAS
-            @elseif($totalPaid > 0) ⏳ DP diterima, sisa Rp {{ number_format($sisaTagihan, 0, ',', '.') }}
-            @else ⚠️ Belum ada pembayaran
+            @if($isLunas) Order ini sudah LUNAS
+            @elseif($totalPaid > 0) DP diterima, sisa Rp {{ number_format($sisaTagihan, 0, ',', '.') }}
+            @else Belum ada pembayaran
             @endif
           </div>
         </div>
@@ -297,10 +297,10 @@
         <div style="display:flex;flex-direction:column;gap:10px;">
           @php $firstPayment = $allPayments && count($allPayments) > 0 ? $allPayments[0] : null; @endphp
           <a href="{{ $firstPayment ? route('pembayaran.nota', $firstPayment->id) : '#' }}" target="_blank" class="btn btn-secondary" style="justify-content:center;">
-            🖨️ Cetak Nota
+            Cetak Nota
           </a>
           <button type="button" class="btn btn-primary" onclick="document.getElementById('sendWaModal').style.display='flex'" style="justify-content:center;">
-            📤 Kirim Nota ke WhatsApp
+            💬 Kirim Nota ke WhatsApp
           </button>
           <a href="{{ route('customer.dashboard') }}" class="btn btn-secondary" style="justify-content:center;">
             ← Kembali ke Dashboard
@@ -315,7 +315,7 @@
 <div id="sendWaModal" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.6);z-index:9999;align-items:center;justify-content:center;padding:20px;">
   <div class="card" style="width:100%;max-width:500px;background:var(--bg-card);margin:0;border-radius:20px;box-shadow:0 25px 50px -12px rgba(0,0,0,0.25);">
     <div class="card-header" style="display:flex;justify-content:space-between;align-items:center;">
-      <h3 class="card-title">📤 Kirim Nota ke WhatsApp</h3>
+      <h3 class="card-title">Kirim Nota ke WhatsApp</h3>
       <button type="button" onclick="document.getElementById('sendWaModal').style.display='none'" style="background:none;border:none;font-size:20px;cursor:pointer;color:var(--text-main);">✕</button>
     </div>
     
@@ -339,19 +339,19 @@
           <div style="font-size:11px;line-height:1.5;color:#374151;">
             *NOTA PEMBAYARAN ORDER #{{ $order->id }}*<br>
             ━━━━━━━━━━━━━━━━━━━━<br>
-            📋 *Detail Order*<br>
+            *Detail Order*<br>
             Nama: {{ $order->nama_pelanggan }}<br>
             Total: Rp {{ number_format($orderTotal, 0, ',', '.') }}<br>
             Dibayar: Rp {{ number_format($totalPaid, 0, ',', '.') }}<br>
             Sisa: Rp {{ number_format($sisaTagihan, 0, ',', '.') }}<br>
-            Status: {{ $isLunas ? 'LUNAS ✅' : 'BELUM LUNAS ⏳' }}<br>
+            Status: {{ $isLunas ? 'LUNAS' : 'BELUM LUNAS' }}<br>
             Progress: {{ $statusLabel }}
           </div>
         </div>
 
         @if(session('wa_url'))
           <div style="margin-top:16px;padding:12px;background:#d1fae5;border-radius:10px;text-align:center;">
-            <div style="font-size:13px;font-weight:700;color:#065f46;margin-bottom:8px;">✅ Nota berhasil disiapkan!</div>
+            <div style="font-size:13px;font-weight:700;color:#065f46;margin-bottom:8px;">Nota berhasil disiapkan!</div>
             <a href="{{ session('wa_url') }}" target="_blank" class="wa-button" style="padding:10px 20px;font-size:14px;">
               <span>💬</span> Buka WhatsApp Sekarang
             </a>
@@ -361,7 +361,7 @@
         <div style="display:flex;gap:10px;margin-top:20px;">
           <button type="button" class="btn btn-secondary" onclick="document.getElementById('sendWaModal').style.display='none'" style="flex:1;">Batal</button>
           <button type="submit" class="btn btn-primary" style="flex:1;">
-            <span>📤</span> Kirim ke WhatsApp
+            <span>💬</span> Kirim ke WhatsApp
           </button>
         </div>
       </div>

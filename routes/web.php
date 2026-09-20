@@ -101,9 +101,9 @@ Route::middleware(['auth:web', 'prevent.back'])->group(function () {
         Route::post('/{portfolio}/toggle', [PortfolioController::class, 'toggleActive'])->name('toggle');
     });
 
-    // Data Pembayaran
-    Route::prefix('pembayaran')->name('pembayaran.')->middleware('permission:pembayaran')->group(function () {
-        Route::get('/', [PaymentController::class, 'index'])->name('index');
+    // Data Pembayaran (Satu Pintu dengan Status Pengerjaan)
+    Route::prefix('pembayaran')->name('pembayaran.')->middleware('permission:status_order')->group(function () {
+        Route::get('/', fn() => redirect()->route('status_order.index'))->name('index');
         Route::post('/', [PaymentController::class, 'store'])->name('store');
         Route::get('/{payment}/nota', [PaymentController::class, 'nota'])->name('nota');
         Route::delete('/{payment}', [PaymentController::class, 'destroy'])->name('destroy');

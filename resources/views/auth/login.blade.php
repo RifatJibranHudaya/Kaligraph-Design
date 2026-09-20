@@ -227,41 +227,41 @@
 <div class="auth-portal-container">
   <div class="portal-wrapper">
     <div class="portal-header">
-      <div class="brand-logo-badge">💡</div>
+      <div class="brand-logo-badge">K</div>
       <h1 class="portal-title">Selamat Datang di Kafa Advertising</h1>
       <p class="portal-subtitle">Silakan pilih jenis akun Anda untuk melanjutkan ke layanan kami</p>
     </div>
 
     @if(session('success'))
       <div style="max-width: 500px; margin: 0 auto 24px; padding: 14px 18px; border-radius: 12px; background: #d1fae5; color: #065f46; font-size: 14px; font-weight: 600; text-align: center;">
-        ✅ {{ session('success') }}
+        {{ session('success') }}
       </div>
     @endif
 
     <div class="portal-cards-grid">
       <!-- Customer Card -->
       <a href="{{ route('login.customer') }}" class="portal-card customer">
-        <div class="portal-icon customer">🛍️</div>
+        <div class="portal-icon customer">P</div>
         <span class="card-role-badge badge-customer">Portal Pelanggan</span>
         <h2 class="card-heading">Saya Pelanggan</h2>
         <p class="card-description">
           Masuk untuk memantau status pengerjaan pesanan neon box, melihat riwayat transaksi, dan katalog produk signage Anda.
         </p>
         <div class="card-btn btn-customer">
-          Masuk sebagai Pelanggan ➔
+          Masuk sebagai Pelanggan
         </div>
       </a>
 
       <!-- Staff / Admin Card -->
       <a href="{{ route('login.admin') }}" class="portal-card admin">
-        <div class="portal-icon admin">🛡️</div>
+        <div class="portal-icon admin">A</div>
         <span class="card-role-badge badge-admin">Internal Management</span>
         <h2 class="card-heading">Saya Staff / Admin</h2>
         <p class="card-description">
           Masuk ke sistem manajemen internal Kafa Advertising untuk operasional kasir, produksi, stok, dan administrasi cabang.
         </p>
         <div class="card-btn btn-admin">
-          Masuk sebagai Admin / Staff ➔
+          Masuk sebagai Admin / Staff
         </div>
       </a>
     </div>

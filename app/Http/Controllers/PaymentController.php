@@ -34,6 +34,12 @@ class PaymentController extends Controller
 
     public function store(Request $request)
     {
+        // Strip non-digit characters if formatted with dots
+        if ($request->has('jumlah') && is_string($request->jumlah)) {
+            $cleanedJumlah = preg_replace('/[^\d]/', '', $request->jumlah);
+            $request->merge(['jumlah' => $cleanedJumlah !== '' ? $cleanedJumlah : 0]);
+        }
+
         $validated = $request->validate([
             'order_id'      => 'required|exists:orders,id',
             'jumlah'        => 'required|numeric|min:1',
@@ -44,10 +50,20 @@ class PaymentController extends Controller
         ], [
             'order_id.required'      => 'Pilih order terkait.',
             'jumlah.required'        => 'Jumlah pembayaran wajib diisi.',
+            'jumlah.min'             => 'Jumlah pembayaran minimal Rp 1.',
             'tanggal_bayar.required' => 'Tanggal bayar wajib diisi.',
             'bukti.image'            => 'File bukti harus berupa gambar.',
             'bukti.max'              => 'Ukuran bukti maksimal 3 MB.',
         ]);
+
+        $order = Order::findOrFail($validated['order_id']);
+        $sisaTagihan = $order->sisa_tagihan;
+
+        if ($validated['jumlah'] > $sisaTagihan) {
+            return back()->withInput()->withErrors([
+                'jumlah' => 'Jumlah pembayaran (Rp ' . number_format($validated['jumlah'], 0, ',', '.') . ') tidak boleh melebihi sisa tagihan (Maks: Rp ' . number_format($sisaTagihan, 0, ',', '.') . ').'
+            ]);
+        }
 
         $validated['user_id'] = Auth::id();
 
@@ -68,7 +84,14 @@ class PaymentController extends Controller
             $payment->id
         );
 
+        // Redirect ke detail order jika request berasal dari halaman detail
+        if ($request->filled('redirect_to_detail')) {
+            return redirect()->route('pembayaran.detail.order', $validated['order_id'])
+                ->with('success', 'Pembayaran berhasil dicatat.');
+        }
+
         return back()->with('success', "Pembayaran berhasil dicatat.");
+
     }
 
     public function destroy(Payment $payment)

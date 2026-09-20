@@ -30,13 +30,13 @@
     <!-- Quick Preset Buttons -->
     <div style="display:flex; gap:8px; flex-wrap:wrap;">
       <button type="button" class="btn btn-sm btn-secondary" onclick="applyPreset('all')">
-        ✅ Izinkan Semua
+        Izinkan Semua
       </button>
       <button type="button" class="btn btn-sm btn-secondary" onclick="applyPreset('standard')">
-        ⚡ Standar Portal
+        Standar Portal
       </button>
       <button type="button" class="btn btn-sm btn-secondary" onclick="applyPreset('readonly')">
-        👁️ Hanya Lihat
+        Hanya Lihat
       </button>
     </div>
   </div>
@@ -104,7 +104,7 @@
         Perubahan akan langsung berlaku pada sesi login seluruh pelanggan.
       </div>
       <button type="submit" class="btn btn-primary" style="padding:12px 28px; font-weight:700;">
-        💾 Simpan Hak Akses Level Pelanggan ➔
+        Simpan Hak Akses Level Pelanggan
       </button>
     </div>
   </form>

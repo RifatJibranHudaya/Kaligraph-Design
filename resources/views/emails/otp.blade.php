@@ -91,7 +91,7 @@
 <body>
   <div class="email-container">
     <div class="email-header">
-      <div class="logo-icon">💡</div>
+      <div class="logo-icon">K</div>
       <h1>Kafa Advertising</h1>
       <p>Spesialis Neon Box & Signage Custom</p>
     </div>
@@ -104,7 +104,7 @@
       </div>
 
       <div class="otp-warning">
-        ⏳ Kode OTP ini hanya berlaku selama <strong>10 menit</strong>.<br>
+        Kode OTP ini hanya berlaku selama <strong>10 menit</strong>.<br>
         Jangan berikan kode ini kepada siapapun termasuk pihak Kafa Advertising.
       </div>
 
