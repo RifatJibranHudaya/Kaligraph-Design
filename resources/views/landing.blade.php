@@ -1234,128 +1234,59 @@
     </div>
   </div>
 
-  <div class="footer-columns">
-    <!-- Col 1: Produk Unggulan -->
-    <div class="footer-col">
-      <h4>Produk Signage</h4>
-      <ul>
-        <li><a href="{{ route('katalog') }}">Neon Box Akrilik</a></li>
-        <li><a href="{{ route('katalog') }}">Neon Box LED Bulat</a></li>
-        <li><a href="{{ route('katalog') }}">Huruf Timbul 3D</a></li>
-        <li><a href="{{ route('katalog') }}">Pylon & Totem Sign</a></li>
-        <li><a href="{{ route('katalog') }}">Signage Komersial</a></li>
-      </ul>
-    </div>
-
-    <!-- Col 2: Kategori Katalog -->
-    <div class="footer-col">
-      <h4>Kategori Produk</h4>
-      <ul>
-        @forelse($categories->take(5) as $cat)
-          <li><a href="{{ route('katalog.kategori', $cat->slug) }}">{{ $cat->nama }}</a></li>
-        @empty
-          <li><a href="{{ route('katalog') }}">Semua Kategori</a></li>
-        @endforelse
-      </ul>
-    </div>
-
-    <!-- Col 3: Navigasi Utama -->
-    <div class="footer-col">
-      <h4>Eksplorasi</h4>
-      <ul>
-        <li><a href="{{ route('home') }}">Beranda</a></li>
-        <li><a href="{{ route('katalog') }}">Katalog & Harga</a></li>
-        <li><a href="{{ route('portofolio') }}">Portofolio Proyek</a></li>
-        <li><a href="#keunggulan">Keunggulan Mutu</a></li>
-        <li><a href="#cabang">Cabang Showroom</a></li>
-      </ul>
-    </div>
-
-    <!-- Col 4: Layanan & Garansi -->
-    <div class="footer-col">
-      <h4>Layanan Kami</h4>
-      <ul>
-        <li><a href="{{ \App\Helpers\FormatHelper::whatsappUrl('Halo Kafa Advertising, saya ingin konsultasi desain neon box') }}" target="_blank">Konsultasi Desain</a></li>
-        <li><a href="#keunggulan">Garansi 12 Bulan</a></li>
-        <li><a href="#keunggulan">Instalasi & Pasang</a></li>
-        <li><a href="#keunggulan">Pengiriman Nasional</a></li>
-        <li><a href="{{ route('login.customer') }}">Status Pesanan</a></li>
-      </ul>
-    </div>
-
-    <!-- Col 5: Lokasi & Workshop -->
-    <div class="footer-col">
-      <h4>Workshop & Cabang</h4>
-      <ul>
-        @forelse($branches->take(4) as $branch)
-          <li><a href="#cabang">{{ $branch->nama_cabang }}</a></li>
-        @empty
-          <li><a href="#cabang">Showroom Demak (Pusat)</a></li>
-          <li><a href="#cabang">Workshop Semarang</a></li>
-          <li><a href="#cabang">Cabang Surabaya</a></li>
-        @endforelse
-      </ul>
-    </div>
-
-    <!-- Col 6: Hubungi Kami -->
-    <div class="footer-col">
-      <h4>Hubungi Kami</h4>
-      <ul>
-        <li>
-          <a href="{{ \App\Helpers\FormatHelper::whatsappUrl('Halo Kafa Advertising, saya ingin bertanya produk') }}" target="_blank" class="footer-link-icon wa-link">
-            <span class="link-icon-glyph">
-              <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor"><path d="M17.472 14.382c-.301-.15-1.78-.878-2.056-.978-.275-.1-.476-.15-.677.15-.2.3-.776.978-.952 1.179-.175.2-.351.225-.652.075-.301-.15-1.27-.468-2.42-1.493-.895-.798-1.5-1.784-1.676-2.085-.175-.3-.019-.463.132-.612.136-.134.301-.35.451-.525.15-.176.2-.301.301-.502.101-.2.05-.376-.025-.526-.075-.15-.677-1.631-.928-2.235-.245-.588-.493-.508-.677-.517-.175-.009-.376-.009-.577-.009-.2 0-.526.075-.802.376-.275.301-1.053 1.028-1.053 2.508 0 1.48 1.078 2.909 1.228 3.11.15.2 2.122 3.24 5.141 4.544.718.31 1.279.495 1.716.634.722.23 1.379.197 1.9.12.58-.087 1.78-.727 2.03-1.429.251-.702.251-1.304.176-1.43-.075-.125-.276-.2-.577-.35zM12.04 2C6.5 2 2 6.5 2 12.04c0 1.78.47 3.52 1.36 5.06L2 22l5.06-1.33c1.5 0.84 3.19 1.29 4.98 1.29 5.54 0 10.04-4.5 10.04-10.04S17.58 2 12.04 2zm0 18.36c-1.57 0-3.1-.42-4.44-1.21l-.32-.19-3.3.87.88-3.21-.21-.33a8.31 8.31 0 0 1-1.27-4.45c0-4.6 3.74-8.34 8.34-8.34 4.6 0 8.34 3.74 8.34 8.34 0 4.6-3.74 8.34-8.34 8.34z"/></svg>
-            </span>
-            <span>WhatsApp Chat</span>
-          </a>
-        </li>
-        <li>
-          <a href="https://www.instagram.com/kafaxgraf?utm_source=ig_web_button_share_sheet&stkn=ZDNlZDc0MzIxNw==" target="_blank" class="footer-link-icon ig-link">
-            <span class="link-icon-glyph">
-              <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
-            </span>
-            <span>Instagram</span>
-          </a>
-        </li>
-        <li>
-          <a href="https://www.facebook.com/people/Kafa-X-Graf-Adv/61555941644272/" target="_blank" class="footer-link-icon fb-link">
-            <span class="link-icon-glyph">
-              <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>
-            </span>
-            <span>Facebook Page</span>
-          </a>
-        </li>
-        <li>
-          <a href="https://www.tiktok.com/@kafaxgraf" target="_blank" class="footer-link-icon tiktok-link">
-            <span class="link-icon-glyph">
-              <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor"><path d="M12.525.02c1.31-.02 2.61-.01 3.91-.02.08 1.53.63 3.09 1.75 4.17 1.12 1.11 2.7 1.62 4.24 1.79v4.03c-1.44-.05-2.89-.35-4.2-.97-.57-.26-1.1-.59-1.62-.93-.01 2.92.01 5.84-.02 8.75-.08 1.4-.54 2.79-1.35 3.94-1.31 1.92-3.58 3.17-5.91 3.21-1.43.08-2.86-.31-4.08-1.03-2.02-1.19-3.44-3.37-3.65-5.71-.02-.5-.03-1-.01-1.49.18-1.9 1.12-3.72 2.58-4.96 1.66-1.44 3.98-2.13 6.15-1.72.02 1.48-.04 2.96-.04 4.44-.99-.32-2.15-.23-3.02.37-.63.41-1.11 1.04-1.36 1.75-.21.51-.24 1.07-.14 1.61.24 1.64 1.82 2.88 3.48 2.71 1.26-.06 2.4-1.01 2.6-2.27.09-.43.1-.87.09-1.31V.02h.01z"/></svg>
-            </span>
-            <span>TikTok Official</span>
-          </a>
-        </li>
-        <li>
-          <a href="mailto:info@kafa-adv.com" class="footer-link-icon mail-link">
-            <span class="link-icon-glyph">
-              <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor"><path d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4-8 5-8-5V6l8 5 8-5v2z"/></svg>
-            </span>
-            <span>Email Konsultasi</span>
-          </a>
-        </li>
-      </ul>
-    </div>
-  </div>
-
-  <div class="footer-bottom">
-    <div>
-      © {{ date('Y') }} <strong>Kafa Advertising</strong>. Seluruh hak cipta dilindungi.
-    </div>
-
-    <div class="footer-legal-links">
-      <span class="footer-locale-indicator">🇮🇩 Indonesia (ID)</span>
-      <a href="#">Syarat & Ketentuan</a>
-      <a href="#">Kebijakan Privasi</a>
-      <a href="#">Jaminan Mutu</a>
-    </div>
+<!-- ─── Footer ─── -->
+<footer class="footer">
+  <div class="footer-brand">💡 Kafa Advertising</div>
+  <p>© {{ date('Y') }} <strong>Kafa Advertising</strong>. Spesialis Neon Box & Signage Custom Indonesia.</p>
+  
+  <!-- Social Media Icons -->
+  <div class="footer-socials">
+    <!-- Instagram -->
+    <a href="https://www.instagram.com/kafaxgraf?utm_source=ig_web_button_share_sheet&stkn=ZDNlZDc0MzIxNw==" 
+       class="social-icon-link instagram" 
+       target="_blank" 
+       title="Instagram">
+      <img src="https://cdn.icon-icons.com/icons2/1458/png/512/instagram_99937.png" alt="Instagram">
+    </a>
+    
+    <!-- Facebook -->
+    <a href="https://www.facebook.com/people/Kafa-X-Graf-Adv/61555941644272/" 
+       class="social-icon-link facebook" 
+       target="_blank" 
+       title="Facebook">
+      <img src="https://cdn.icon-icons.com/icons2/1458/png/512/facebook_99933.png" alt="Facebook">
+    </a>
+    
+    <!-- Email -->
+    <a href="mailto:kafaadvertising@example.com" 
+       class="social-icon-link email" 
+       title="Email">
+      <img src="https://cdn.icon-icons.com/icons2/1458/png/512/email_99927.png" alt="Email">
+    </a>
+    
+    <!-- TikTok -->
+    <a href="https://www.tiktok.com/@username" 
+       class="social-icon-link tiktok" 
+       target="_blank" 
+       title="TikTok">
+      <img src="https://cdn.icon-icons.com/icons2/1458/png/512/tiktok_99952.png" alt="TikTok">
+    </a>
+    
+    <!-- WhatsApp -->
+    <a href="{{ \App\Helpers\FormatHelper::whatsappUrl('Halo Kafa Advertising') }}" 
+       class="social-icon-link whatsapp" 
+       target="_blank" 
+       title="WhatsApp">
+      <img src="https://cdn.icon-icons.com/icons2/1458/png/512/whatsapp_99960.png" alt="WhatsApp">
+    </a>
+    
+    <!-- YouTube (optional) -->
+    <a href="https://www.youtube.com/@username" 
+       class="social-icon-link youtube" 
+       target="_blank" 
+       title="YouTube">
+      <img src="https://cdn.icon-icons.com/icons2/1458/png/512/youtube_99963.png" alt="YouTube">
+    </a>
   </div>
 </footer>
 
