@@ -7,7 +7,7 @@ use App\Models\Payment;
 use App\Services\ActivityLogService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\Storage; // Gunakan Storage Facade
 use Illuminate\Support\Str;
 
 class PaymentController extends Controller
@@ -67,10 +67,14 @@ class PaymentController extends Controller
 
         $validated['user_id'] = Auth::id();
 
+        // SIMPAN BUKTI PEMBAYARAN KE STORAGE
         if ($request->hasFile('bukti')) {
             $file = $request->file('bukti');
             $filename = 'pay_' . time() . '_' . Str::random(8) . '.' . $file->getClientOriginalExtension();
-            $file->move(public_path('uploads/payments'), $filename);
+            
+            // Disimpan di storage/app/public/payments/
+            $file->storeAs('receipts', $filename, 'public');
+            
             $validated['bukti'] = $filename;
         }
 
@@ -91,7 +95,6 @@ class PaymentController extends Controller
         }
 
         return back()->with('success', "Pembayaran berhasil dicatat.");
-
     }
 
     public function destroy(Payment $payment)
@@ -99,8 +102,9 @@ class PaymentController extends Controller
         $orderId = $payment->order_id;
         $jumlah = $payment->jumlah;
 
-        if ($payment->bukti && File::exists(public_path('uploads/payments/' . $payment->bukti))) {
-            File::delete(public_path('uploads/payments/' . $payment->bukti));
+        // HAPUS BUKTI PEMBAYARAN DARI STORAGE
+        if ($payment->bukti && Storage::disk('public')->exists('payments/' . $payment->bukti)) {
+            Storage::disk('public')->delete('payments/' . $payment->bukti);
         }
 
         $payment->delete();
@@ -324,8 +328,6 @@ class PaymentController extends Controller
             ->with('success', 'Bukti pembayaran berhasil diverifikasi.');
     }
 
-
-
     public function customerUploadReceipt(Request $request, Order $order)
     {
         $authUser = Auth::guard('customer')->user() ?: Auth::guard('web')->user();
@@ -341,10 +343,18 @@ class PaymentController extends Controller
             'bukti' => 'required|image|mimes:jpeg,png,jpg,webp|max:3072',
         ]);
 
+        // UPLOAD RECEIPT KE STORAGE
         if ($request->hasFile('bukti')) {
+            // Hapus file receipt lama jika ada
+            if ($order->receipt_path && Storage::disk('public')->exists('receipts/' . $order->receipt_path)) {
+                Storage::disk('public')->delete('receipts/' . $order->receipt_path);
+            }
+
             $file = $request->file('bukti');
             $filename = 'receipt_' . time() . '_' . Str::random(8) . '.' . $file->getClientOriginalExtension();
-            $file->move(public_path('uploads/receipts'), $filename);
+            
+            // Disimpan di storage/app/public/receipts/
+            $file->storeAs('receipts', $filename, 'public');
 
             $order->receipt_path = $filename;
             $order->payment_status = 'pending';
