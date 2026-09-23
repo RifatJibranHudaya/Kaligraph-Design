@@ -341,6 +341,8 @@
     background-size: cover;
     background-position: center;
     filter: brightness(0.4);
+    /* Preload hint untuk performance */
+    content-visibility: auto;
   }
 
   .hero-overlay {
@@ -954,6 +956,8 @@
     .footer-columns { grid-template-columns: 1fr; }
   }
 </style>
+</main>
+
 @endsection
 
 @section('content')
@@ -966,17 +970,19 @@
   <span>WhatsApp</span>
 </a>
 
+  <!-- Skip to main content link for accessibility -->
+  <a href="#main-content" class="skip-link" style="position:absolute; left:-9999px; top:auto; width:1px; height:1px; overflow:hidden; z-index:999999; padding:8px 16px; background:#0a1317; color:#fff; text-decoration:none; font-weight:700; border-radius:4px;">Skip to main content</a>
 <!-- ─── Navbar ─── -->
-<nav class="navbar">
-  <a href="{{ route('home') }}" class="nav-brand">
-    <div class="brand-logo">K</div>
+<nav class="navbar" role="navigation" aria-label="Main navigation">
+  <a href="{{ route('home') }}" class="nav-brand" aria-label="Kafa Advertising - Home">
+    <div class="brand-logo" aria-hidden="true">K</div>
     <span>Kafa Advertising</span>
   </a>
 
   <div class="nav-right-wrap">
-    <button type="button" class="menu-toggle-btn" id="menuToggleBtn" onclick="toggleSideNav()" aria-label="Buka Menu Navigasi">
+    <button type="button" class="menu-toggle-btn" id="menuToggleBtn" onclick="toggleSideNav()" aria-label="Buka Menu Navigasi" aria-expanded="false" aria-controls="sideDrawerNav">
       <span>MENU</span>
-      <div class="menu-burger-icon">
+      <div class="menu-burger-icon" aria-hidden="true">
         <span class="line-1"></span>
         <span class="line-2"></span>
         <span class="line-3"></span>
@@ -1028,9 +1034,9 @@
 </aside>
 
 <!-- ─── Hero Section ─── -->
-<div class="hero-wrapper" id="home">
-  <section class="hero-band">
-    <div class="hero-bg"></div>
+<main id="main-content" tabindex="-1"><div class="hero-wrapper" id="home">
+  <section class="hero-band" aria-label="Hero section - Solusi Neon Box & Signage Custom Berkualitas">
+    <div class="hero-bg" role="img" aria-label="Background neon box showcase"></div>
     <div class="hero-overlay"></div>
 
     <div class="hero-content">
@@ -1093,9 +1099,9 @@
     @forelse($categories as $cat)
       <a href="{{ route('katalog.kategori', $cat->slug) }}" class="category-card">
         @if($cat->foto_url)
-          <img src="{{ $cat->foto_url }}" alt="{{ $cat->nama }}" class="category-img">
+          <img src="{{ $cat->foto_url }}" alt="Katalog {{ $cat->nama }} - Kafa Advertising" class="category-img" loading="lazy" width="400" height="190">
         @else
-          <div class="category-img" style="display:flex; align-items:center; justify-content:center; font-size:32px; color:var(--text-muted);">
+          <div class="category-img" style="display:flex; align-items:center; justify-content:center; font-size:32px; color:var(--text-muted);" role="img" aria-label="Kategori {{ $cat->nama }}">
             K
           </div>
         @endif
@@ -1193,10 +1199,10 @@
 </section>
 
 <!-- ─── Footer Region (DESIGN2.md Spec) ─── -->
-<footer class="footer-region">
+<footer class="footer-region" role="contentinfo">
   <div class="footer-top-brand">
-    <a href="{{ route('home') }}" class="footer-brand-left">
-      <div class="footer-brand-logo">K</div>
+    <a href="{{ route('home') }}" class="footer-brand-left" aria-label="Kafa Advertising - Home">
+      <div class="footer-brand-logo" aria-hidden="true">K</div>
       <div class="footer-brand-info">
         <h3>Kafa Advertising</h3>
         <p>Spesialis Neon Box, Signage LED & Reklame Komersial</p>
@@ -1209,26 +1215,26 @@
         <div class="footer-badge">✓ Workshop Mandiri</div>
       </div>
       <!-- Social Media Buttons -->
-      <div class="footer-social-strip">
+      <div class="footer-social-strip" role="list" aria-label="Social media links">
         <!-- WhatsApp -->
-        <a href="{{ \App\Helpers\FormatHelper::whatsappUrl('Halo Kafa Advertising, saya ingin konsultasi produk') }}" target="_blank" class="social-icon-btn btn-wa" title="WhatsApp" aria-label="WhatsApp">
-          <img src="https://cdn.jsdelivr.net/npm/simple-icons@v9.13.0/icons/whatsapp.svg" alt="WhatsApp" class="w-6 h-6" />
+        <a href="{{ \App\Helpers\FormatHelper::whatsappUrl('Halo Kafa Advertising, saya ingin konsultasi produk') }}" target="_blank" rel="noopener noreferrer" class="social-icon-btn btn-wa" title="WhatsApp" aria-label="Hubungi kami via WhatsApp" role="listitem">
+          <img src="https://cdn.jsdelivr.net/npm/simple-icons@v9.13.0/icons/whatsapp.svg" alt="" class="w-6 h-6" aria-hidden="true" />
         </a>
         <!-- Instagram -->
-        <a href="https://www.instagram.com/kafaxgraf?utm_source=ig_web_button_share_sheet&stkn=ZDNlZDc0MzIxNw==" target="_blank" class="social-icon-btn btn-ig" title="Instagram" aria-label="Instagram">
-          <img src="https://cdn.jsdelivr.net/npm/simple-icons@v9.13.0/icons/instagram.svg" alt="Instagram" class="w-6 h-6" />
+        <a href="https://www.instagram.com/kafaxgraf?utm_source=ig_web_button_share_sheet&stkn=ZDNlZDc0MzIxNw==" target="_blank" rel="noopener noreferrer" class="social-icon-btn btn-ig" title="Instagram" aria-label="Ikuti kami di Instagram" role="listitem">
+          <img src="https://cdn.jsdelivr.net/npm/simple-icons@v9.13.0/icons/instagram.svg" alt="" class="w-6 h-6" aria-hidden="true" />
         </a>
         <!-- Facebook -->
-        <a href="https://www.facebook.com/people/Kafa-X-Graf-Adv/61555941644272/" target="_blank" class="social-icon-btn btn-fb" title="Facebook" aria-label="Facebook">
-          <img src="https://cdn.jsdelivr.net/npm/simple-icons@v9.13.0/icons/facebook.svg" alt="Facebook" class="w-6 h-6" />
+        <a href="https://www.facebook.com/people/Kafa-X-Graf-Adv/61555941644272/" target="_blank" rel="noopener noreferrer" class="social-icon-btn btn-fb" title="Facebook" aria-label="Ikuti kami di Facebook" role="listitem">
+          <img src="https://cdn.jsdelivr.net/npm/simple-icons@v9.13.0/icons/facebook.svg" alt="" class="w-6 h-6" aria-hidden="true" />
         </a>
         <!-- TikTok -->
-        <a href="https://www.tiktok.com/@kafaxgraf" target="_blank" class="social-icon-btn btn-tiktok" title="TikTok" aria-label="TikTok">
-          <img src="https://cdn.jsdelivr.net/npm/simple-icons@v9.13.0/icons/tiktok.svg" alt="TikTok" class="w-6 h-6" />
+        <a href="https://www.tiktok.com/@kafaxgraf" target="_blank" rel="noopener noreferrer" class="social-icon-btn btn-tiktok" title="TikTok" aria-label="Ikuti kami di TikTok" role="listitem">
+          <img src="https://cdn.jsdelivr.net/npm/simple-icons@v9.13.0/icons/tiktok.svg" alt="" class="w-6 h-6" aria-hidden="true" />
         </a>
         <!-- Email -->
-        <a href="mailto:info@kafa-adv.com" class="social-icon-btn btn-mail" title="Email" aria-label="Email">
-          <img src="https://cdn.jsdelivr.net/npm/simple-icons@v9.13.0/icons/gmail.svg" alt="Email" class="w-6 h-6" />
+        <a href="mailto:info@kafa-adv.com" class="social-icon-btn btn-mail" title="Email" aria-label="Kirim email kepada kami" role="listitem">
+          <img src="https://cdn.jsdelivr.net/npm/simple-icons@v9.13.0/icons/gmail.svg" alt="" class="w-6 h-6" aria-hidden="true" />
         </a>
       </div>
     </div>
@@ -1290,6 +1296,8 @@
   </div>
 </footer>
 
+</main>
+
 @endsection
 
 @section('scripts')
@@ -1321,5 +1329,7 @@ document.addEventListener('keydown', function(e) {
   }
 });
 </script>
+</main>
+
 @endsection
 

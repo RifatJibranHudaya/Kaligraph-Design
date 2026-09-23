@@ -187,3 +187,6 @@ Route::middleware(['auth:customer', 'prevent.back'])->group(function () {
     // Existing routes
     Route::post('/customer/order/{order}/send-whatsapp', [PaymentController::class, 'sendWhatsapp'])->name('customer.order.send.whatsapp');
 });
+
+// Sitemap route for SEO
+Route::get('/sitemap.xml', [\App\Http\Controllers\SitemapController::class, 'index'])->name('sitemap');

@@ -3,8 +3,37 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>@yield('title', 'Kafa Advertising')</title>
   
+  <!-- SEO Meta Tags -->
+  <title>@yield('title', 'Kafa Advertising')</title>
+  <meta name="description" content="@yield('meta_description', 'Jasa pembuatan neon box, signage, dan advertising custom berkualitas tinggi dengan harga terjangkau. Melayani seluruh Indonesia.')">
+  <meta name="keywords" content="@yield('meta_keywords', 'neon box, signage, advertising, reklame, lampu kotak, jasa pembuatan neon box')">
+  <meta name="author" content="Kafa Advertising">
+  <meta name="robots" content="index, follow">
+  
+  <!-- Open Graph / Facebook -->
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="{{ url('/') }}/">
+  <meta property="og:title" content="@yield('og_title', 'Kafa Advertising - Jasa Neon Box & Signage Custom Terbaik')">
+  <meta property="og:description" content="@yield('og_description', 'Jasa pembuatan neon box, signage, dan advertising custom berkualitas tinggi dengan harga terjangkau.')">
+  <meta property="og:image" content="@yield('og_image', asset('images/neon_box_hero.jpg'))">
+  <meta property="og:locale" content="id_ID">
+  
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:url" content="{{ url('/') }}/">
+  <meta name="twitter:title" content="@yield('twitter_title', 'Kafa Advertising - Jasa Neon Box & Signage Custom Terbaik')">
+  <meta name="twitter:description" content="@yield('twitter_description', 'Jasa pembuatan neon box, signage, dan advertising custom berkualitas tinggi dengan harga terjangkau.')">
+  <meta name="twitter:image" content="@yield('twitter_image', asset('images/neon_box_hero.jpg'))">
+  
+  <!-- Canonical URL -->
+  <link rel="canonical" href="{{ url()->current() }}">
+  
+  <!-- Favicon -->
+  <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}">
+  <link rel="apple-touch-icon" sizes="180x180" href="{{ asset('apple-touch-icon.png') }}">
+  
+  <!-- Preconnect untuk Performance -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">

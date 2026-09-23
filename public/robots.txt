@@ -1,2 +1,17 @@
 User-agent: *
-Disallow:
+Allow: /
+
+# Sitemap
+Sitemap: https://kafa-advertising.com/sitemap.xml
+
+# Crawl-delay untuk mengurangi beban server
+Crawl-delay: 1
+
+# Block akses ke folder sensitif
+Disallow: /admin/
+Disallow: /api/
+Disallow: /storage/
+Disallow: /vendor/
+Disallow: /node_modules/
+Disallow: /.env
+Disallow: /.git/
