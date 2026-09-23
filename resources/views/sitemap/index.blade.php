@@ -19,7 +19,7 @@
   
   <!-- Portfolio -->
   <url>
-    <loc>{{ route('portfolio.index') }}</loc>
+    <loc>{{ route('portofolio') }}</loc>
     <lastmod>{{ now()->format('Y-m-d') }}</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
