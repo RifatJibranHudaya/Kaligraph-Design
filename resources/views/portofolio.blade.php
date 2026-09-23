@@ -598,6 +598,9 @@
     .navbar {
       padding: 10px 14px;
     }
+    .nav-quick-btn {
+      display: none;
+    }
     .page-header {
       padding: 32px 14px;
     }
@@ -662,8 +665,13 @@
   </a>
 
   <div class="nav-right-wrap">
-    <a href="{{ route('katalog') }}" class="nav-quick-btn" style="display:none; @media(min-width:768px){display:inline-flex;}">
-      
+    <a href="{{ route('katalog') }}" class="nav-quick-btn">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <rect x="3" y="3" width="7" height="7" rx="1"></rect>
+        <rect x="14" y="3" width="7" height="7" rx="1"></rect>
+        <rect x="3" y="14" width="7" height="7" rx="1"></rect>
+        <rect x="14" y="14" width="7" height="7" rx="1"></rect>
+      </svg>
       <span>Katalog Produk</span>
     </a>
     <button type="button" class="menu-toggle-btn" id="menuToggleBtn" onclick="toggleSideNav()" aria-label="Buka Menu Navigasi">
