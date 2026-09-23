@@ -709,6 +709,19 @@
     background: var(--primary-hover);
     transform: translateY(-1px);
   }
+
+  /* Ikon SVG (Bootstrap Icons - icons.getbootstrap.com) */
+  .bs-icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+  }
+
+  .bs-icon svg {
+    width: 20px;
+    height: 20px;
+  }
 </style>
 @endsection
 
@@ -723,11 +736,12 @@
   <div class="nav-right-wrap">
     <button type="button" class="menu-toggle-btn" id="menuToggleBtn" onclick="toggleSideNav()" aria-label="Buka Menu Navigasi">
       <span>MENU</span>
-      <div class="menu-burger-icon">
-        <span class="line-1"></span>
-        <span class="line-2"></span>
-        <span class="line-3"></span>
-      </div>
+      <!-- Ikon: list (Bootstrap Icons) -->
+      <span class="bs-icon">
+        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-list" viewBox="0 0 16 16">
+          <path fill-rule="evenodd" d="M2.5 12a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5m0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5m0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5"/>
+        </svg>
+      </span>
     </button>
   </div>
 </nav>
@@ -755,6 +769,7 @@
         <a href="{{ route('home') }}" class="drawer-link" onclick="closeSideNav()">
           <div class="drawer-link-left">
             <span class="drawer-link-num">01</span>
+            <span class="bs-icon"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-house-door" viewBox="0 0 16 16"><path d="M8.354 1.088a.5.5 0 0 0-.708 0L1.923 6.517A1.5 1.5 0 0 0 1.5 7.612V15.5a.5.5 0 0 0 .5.5H7v-5a1.5 1.5 0 0 1 3 0v5h5a.5.5 0 0 0 .5-.5V7.612a1.5 1.5 0 0 0-.423-1.095zM1 15.5V7.612c0-.418.105-.83.304-1.197l5.75-5.326a1.5 1.5 0 0 1 2.115 0l5.728 5.325c.2.368.303.78.303 1.198V15.5a1.5 1.5 0 0 1-1.5 1.5H9.807l.038-5h.07l.342 5h5.243a.5.5 0 0 0 .5-.5V16H8.5a.5.5 0 0 1 0-1h7v-.5H7.5V15H1.5v-1H7v-.5H1.5z"/></svg></span>
             <span>Beranda</span>
           </div>
           
@@ -764,6 +779,7 @@
         <a href="{{ route('home') }}#kategori" class="drawer-link" onclick="closeSideNav()">
           <div class="drawer-link-left">
             <span class="drawer-link-num">02</span>
+            <span class="bs-icon"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-grid-3x3-gap-fill" viewBox="0 0 16 16"><path d="M1 2a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v2a1 1 0 0 1-1 1H2a1 1 0 0 1-1-1zm5 0a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v2a1 1 0 0 1-1 1H7a1 1 0 0 1-1-1zm5 0a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v2a1 1 0 0 1-1 1h-2a1 1 0 0 1-1-1zM1 7a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v2a1 1 0 0 1-1 1H2a1 1 0 0 1-1-1zm5 0a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v2a1 1 0 0 1-1 1H7a1 1 0 0 1-1-1zm5 0a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v2a1 1 0 0 1-1 1h-2a1 1 0 0 1-1-1zM1 12a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v2a1 1 0 0 1-1 1H2a1 1 0 0 1-1-1zm5 0a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v2a1 1 0 0 1-1 1H7a1 1 0 0 1-1-1zm5 0a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v2a1 1 0 0 1-1 1h-2a1 1 0 0 1-1-1z"/></svg></span>
             <span>Kategori Layanan</span>
           </div>
           
@@ -773,6 +789,7 @@
         <a href="{{ route('katalog') }}" class="drawer-link" onclick="closeSideNav()">
           <div class="drawer-link-left">
             <span class="drawer-link-num">03</span>
+            <span class="bs-icon"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-bag-fill" viewBox="0 0 16 16"><path d="M3 2.5a2.5 2.5 0 0 1 5 0v.64c.554.002 1.07.068 1.54.186V2.5a2.5 2.5 0 0 1 5 0v.64c.554.002 1.07.068 1.54.186V2.5a2.5 2.5 0 0 1 5 0v1h1a1 1 0 0 1 1 1v6a3.5 3.5 0 0 1-3.5 3.5h-10A3.5 3.5 0 0 1 2 10.5v-6a1 1 0 0 1 1-1zm3 0v.64c.554.002 1.07.068 1.54.186q.071.018.139.04.043-.033.094-.068A2.5 2.5 0 0 1 8 3.069V2.5zm-1 8.93a2 2 0 0 0 2 2h3a2 2 0 1 0 0-4v.03c-.457-.061-.97.093-1.338.36-.183.134-.48.163-.663 0C7.6 9.4 7.03 9.1 6.5 9.1zm8.5 2a2 2 0 0 0 2-2v-.03c-.457.061-.97-.093-1.338-.36-.183-.134-.48-.163-.663 0-.397.29-.966.59-1.497.59z"/></svg></span>
             <span>Katalog & Harga Produk</span>
           </div>
           
@@ -782,6 +799,7 @@
         <a href="{{ route('portofolio') }}" class="drawer-link" onclick="closeSideNav()">
           <div class="drawer-link-left">
             <span class="drawer-link-num">04</span>
+            <span class="bs-icon"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-collection-fill" viewBox="0 0 16 16"><path d="M1 2.5A1.5 1.5 0 0 1 2.5 1h3A1.5 1.5 0 0 1 7 2.5v3A1.5 1.5 0 0 1 5.5 7h-3A1.5 1.5 0 0 1 1 5.5zM6.735 8.565a2 2 0 0 0-1.183 1.51c-.228 1.047.267 2.04 1.015 2.713C7.322 13.36 8 14.092 8 15c0 .25.202.5.5.5s.5-.25.5-.5c0-.908.678-1.64 1.433-2.212.748-.673 1.243-1.666 1.015-2.713a2 2 0 0 0-1.183-1.51c-.692-.272-1.382-.565-1.382-.565h-1.066s-.69.293-1.382.565zM.5 9h3a.5.5 0 0 1 .5.5v4a.5.5 0 0 1-.5.5h-3a.5.5 0 0 1-.5-.5v-4a.5.5 0 0 1 .5-.5m12 0h3a.5.5 0 0 1 .5.5v4a.5.5 0 0 1-.5.5h-3a.5.5 0 0 1-.5-.5v-4a.5.5 0 0 1 .5-.5m-6 0h3a.5.5 0 0 1 .5.5v4a.5.5 0 0 1-.5.5h-3a.5.5 0 0 1-.5-.5v-4a.5.5 0 0 1 .5-.5"/></svg></span>
             <span>Portofolio Proyek</span>
           </div>
           
@@ -791,6 +809,7 @@
         <a href="{{ route('home') }}#keunggulan" class="drawer-link" onclick="closeSideNav()">
           <div class="drawer-link-left">
             <span class="drawer-link-num">05</span>
+            <span class="bs-icon"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-patch-check-fill" viewBox="0 0 16 16"><path d="M9.05.93c-.37-.28-.87-.28-1.24 0l-.67.51-.73-.57a.66.66 0 0 0-.92.06L5.13 1.5l-.72-.13a.66.66 0 0 0-.79.47l-.23.75-.74.03a.66.66 0 0 0-.61.69l.04.77-.64.38a.66.66 0 0 0-.21.88l.4.66-.53.56a.66.66 0 0 0 0 .93l.53.56-.4.66a.66.66 0 0 0 .21.88l.64.38-.04.77a.66.66 0 0 0 .61.69l.74.03.23.75a.66.66 0 0 0 .79.47l.72-.13.36.57a.66.66 0 0 0 .92.06l.73-.57.67.51c.37.28.87.28 1.24 0l.67-.51.73.57a.66.66 0 0 0 .92-.06l.36-.57.72.13a.66.66 0 0 0 .79-.47l.23-.75.74-.03a.66.66 0 0 0 .61-.69l-.04-.77.64-.38a.66.66 0 0 0 .21-.88l-.4-.66.53-.56a.66.66 0 0 0 0-.93l-.53-.56.4-.66a.66.66 0 0 0-.21-.88l-.64-.38.04-.77a.66.66 0 0 0-.61-.69l-.74-.03-.23-.75a.66.66 0 0 0-.79-.47l-.72.13-.36-.57a.66.66 0 0 0-.92-.06l-.73.57zM8.27 11.03a.5.5 0 0 1-.72.03l-2.5-2.25a.5.5 0 1 1 .67-.74l2.13 1.92 3.93-4.56a.5.5 0 1 1 .76.65z"/></svg></span>
             <span>Keunggulan Layanan</span>
           </div>
           
@@ -800,6 +819,7 @@
         <a href="{{ route('home') }}#cabang" class="drawer-link" onclick="closeSideNav()">
           <div class="drawer-link-left">
             <span class="drawer-link-num">06</span>
+            <span class="bs-icon"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-geo-alt-fill" viewBox="0 0 16 16"><path d="M8 16s6-5.686 6-10A6 6 0 0 0 2 6c0 4.314 6 10 6 10m0-7a3 3 0 1 1 0-6 3 3 0 0 1 0 6"/></svg></span>
             <span>Lokasi Showroom & Maps</span>
           </div>
           
@@ -809,6 +829,7 @@
         <a href="{{ route('login.admin') }}" class="drawer-link highlight-admin" onclick="closeSideNav()">
           <div class="drawer-link-left">
             <span class="drawer-link-num">07</span>
+            <span class="bs-icon"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-shield-lock-fill" viewBox="0 0 16 16"><path fill-rule="evenodd" d="M8 0c-.535 0-1.18.193-1.918.596A15.8 15.8 0 0 0 2.212 2.62C1.656 3.022 1.2 3.43.874 3.838.547 4.247.329 4.678.329 5.161c0 .662.3 1.468.722 2.315a19 19 0 0 0 1.44 2.331c.687.95 1.408 1.781 1.967 2.433.278.324.513.589.683.783.17.194.275.31.333.372a.53.53 0 0 0 .705 0c.058-.062.163-.178.333-.372.17-.194.405-.459.683-.783.559-.652 1.28-1.483 1.967-2.433a19 19 0 0 0 1.44-2.331C14.37 6.629 14.67 5.823 14.67 5.16c0-.483-.218-.914-.545-1.322C13.8 3.43 13.344 3.022 12.788 2.62a15.8 15.8 0 0 0-3.87-2.024C9.18.193 8.535 0 8 0m0 5.5a2.5 2.5 0 0 0-1 4.8V12a1 1 0 1 0 2 0V10.3a2.5 2.5 0 0 0-1-4.8"/></svg></span>
             <span>Login Admin & Staff</span>
           </div>
           
@@ -833,7 +854,8 @@
           <button type="button" class="drawer-link" onclick="openProfileModal(); closeSideNav();" style="width: 100%; text-align: left; cursor: pointer;">
             <div class="drawer-link-left">
               <span class="drawer-link-num">08</span>
-              <span>✏️ Edit Profil</span>
+            <span class="bs-icon"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pencil-square" viewBox="0 0 16 16"><path d="M15 12a1 1 0 0 1-1 1H6a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1h9a1 1 0 0 1 1 1zm-6 3a1 1 0 0 1-1-1v-1H3a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h1v3a2 2 0 0 0 2 2h3v3a2 2 0 0 1-2 2zm1-9a1 1 0 0 0-1 1v1h3a1 1 0 0 1 1 1v3h1a1 1 0 0 0 1-1V7a2 2 0 0 0-2-2z"/></svg></span>
+            <span>Edit Profil</span>
             </div>
             
           </button>
@@ -844,7 +866,8 @@
             <button type="submit" class="drawer-link" style="width: 100%; text-align: left; cursor: pointer; background: rgba(239, 68, 68, 0.1); border-color: rgba(239, 68, 68, 0.2); color: #f87171;">
               <div class="drawer-link-left">
                 <span class="drawer-link-num">09</span>
-                <span>Keluar</span>
+            <span class="bs-icon"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-box-arrow-right" viewBox="0 0 16 16"><path fill-rule="evenodd" d="M10 12.5a.5.5 0 0 1-.5.5h-8a.5.5 0 0 1-.5-.5v-9a.5.5 0 0 1 .5-.5h8a.5.5 0 0 1 .5.5v2a.5.5 0 0 0 1 0v-2A1.5 1.5 0 0 0 9.5 2h-8A1.5 1.5 0 0 0 0 3.5v9A1.5 1.5 0 0 0 1.5 14h8a1.5 1.5 0 0 0 1.5-1.5v-2a.5.5 0 0 0-1 0z"/></svg></span>
+            <span>Keluar</span>
               </div>
               
             </button>

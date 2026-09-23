@@ -179,6 +179,19 @@
       text-align: center;
     }
 
+    /* Ikon SVG (Bootstrap Icons - icons.getbootstrap.com) */
+    .bs-icon {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+
+    .bs-icon svg {
+      width: 18px;
+      height: 18px;
+    }
+
     /* Submenu Dropdown */
     .menu-group {
       display: flex;
@@ -852,6 +865,11 @@
     <nav class="sidebar-menu">
       <div class="menu-header">Utama</div>
       <a href="{{ route('dashboard') }}" class="menu-item {{ request()->routeIs('dashboard') ? 'active' : '' }}">
+        <!-- Ikon: speedometer2 (Bootstrap Icons) -->
+        <span class="bs-icon"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-speedometer2" viewBox="0 0 16 16">
+          <path d="M8 4a.5.5 0 0 1 .5.5V6a.5.5 0 0 1-1 0V4.5A.5.5 0 0 1 8 4M3.732 5.732a.5.5 0 0 1 .707 0l.915.914a.5.5 0 1 1-.708.708l-.914-.915a.5.5 0 0 1 0-.707M2 10a.5.5 0 0 1 .5-.5h1.5a.5.5 0 0 1 0 1H2.5A.5.5 0 0 1 2 10m10 0a.5.5 0 0 1 .5-.5h1.5a.5.5 0 0 1 0 1H12.5a.5.5 0 0 1-.5-.5m2.071-4.243a.5.5 0 0 1 0 .708l-.915.914a.5.5 0 1 1-.708-.708l.914-.915a.5.5 0 0 1 .708 0M8 9a.5.5 0 0 1 .5.5v4.5a.5.5 0 0 1-1 0V9.5A.5.5 0 0 1 8 9"/>
+          <path d="M7.293 1.5a1 1 0 0 1 1.414 0L11 3.793A8 8 0 1 1 5.207 4.5zM8 16A6 6 0 1 0 8 4a6 6 0 0 0 0 12m-1.639-3.63a.5.5 0 0 1 .708 0l2.5 2.5a.5.5 0 1 1-.708.708l-2.5-2.5a.5.5 0 0 1 0-.708"/>
+        </svg></span>
         Dashboard
       </a>
 
@@ -984,7 +1002,12 @@
     <!-- Topbar -->
     <header class="topbar">
       <div class="topbar-left">
-        <button class="toggle-sidebar-btn" onclick="toggleSidebar()">☰</button>
+        <button class="toggle-sidebar-btn" onclick="toggleSidebar()" aria-label="Buka Menu Navigasi" title="Menu">
+          <!-- Ikon: list (Bootstrap Icons) -->
+          <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="currentColor" class="bi bi-list" viewBox="0 0 16 16">
+            <path fill-rule="evenodd" d="M2.5 12a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5m0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5m0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5"/>
+          </svg>
+        </button>
         <h1 class="page-title">@yield('title', 'Dashboard')</h1>
       </div>
 
