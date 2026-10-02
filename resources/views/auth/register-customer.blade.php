@@ -161,50 +161,50 @@
 <div class="auth-container">
   <div class="auth-card">
     <div class="auth-header">
-      <div class="auth-logo">K</div>
-      <span class="auth-badge">Registrasi Akun</span>
+      <div class="auth-logo"><i class="bi bi-person-plus-fill" style="color:#fff;"></i></div>
+      <span class="auth-badge"><i class="bi bi-stars"></i> Registrasi Akun</span>
       <h1 class="auth-title">Daftar Pelanggan</h1>
       <p class="auth-subtitle">Buat akun untuk memesan & memantau neon box Anda</p>
     </div>
 
     @if($errors->any())
-      <div class="alert-error">
-         {{ $errors->first() }}
+      <div class="alert-error" style="display:flex; align-items:center; gap:8px;">
+        <i class="bi bi-x-circle-fill"></i> {{ $errors->first() }}
       </div>
     @endif
 
     <form method="POST" action="{{ route('register.customer.post') }}">
       @csrf
       <div class="form-group">
-        <label class="form-label">Nama Lengkap / Perusahaan</label>
+        <label class="form-label"><i class="bi bi-person"></i> Nama Lengkap / Perusahaan</label>
         <input type="text" name="name" class="form-control" placeholder="contoh: Rahmat Hidayat / PT ABC" value="{{ old('name') }}" required autofocus>
       </div>
 
       <div class="form-group">
-        <label class="form-label">Alamat Email</label>
+        <label class="form-label"><i class="bi bi-envelope"></i> Alamat Email</label>
         <input type="email" name="email" class="form-control" placeholder="contoh: nama@email.com" value="{{ old('email') }}" required>
       </div>
 
       <div class="form-group">
-        <label class="form-label">Nomor WhatsApp / HP</label>
+        <label class="form-label"><i class="bi bi-whatsapp"></i> Nomor WhatsApp / HP</label>
         <input type="text" name="phone" class="form-control" placeholder="contoh: 081234567890" value="{{ old('phone') }}" required>
       </div>
 
       <div class="form-group">
-        <label class="form-label">Kata Sandi (Min. 6 Karakter)</label>
+        <label class="form-label"><i class="bi bi-lock"></i> Kata Sandi (Min. 6 Karakter)</label>
         <input type="password" name="password" class="form-control" placeholder="Buat kata sandi baru" required>
       </div>
 
       <div class="form-group">
-        <label class="form-label">Konfirmasi Kata Sandi</label>
+        <label class="form-label"><i class="bi bi-shield-check"></i> Konfirmasi Kata Sandi</label>
         <input type="password" name="password_confirmation" class="form-control" placeholder="Ulangi kata sandi" required>
       </div>
 
-      <button type="submit" class="btn-submit">Daftar Sekarang</button>
+      <button type="submit" class="btn-submit"><i class="bi bi-person-check-fill"></i> Daftar Sekarang</button>
     </form>
 
     <div class="auth-footer">
-      Sudah memiliki akun? <a href="{{ route('login.customer') }}">Masuk di Sini</a>
+      Sudah memiliki akun? <a href="{{ route('login.customer') }}"><i class="bi bi-box-arrow-in-right"></i> Masuk di Sini</a>
     </div>
   </div>
 </div>

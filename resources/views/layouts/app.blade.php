@@ -11,11 +11,23 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
   
+  <!-- Bootstrap Icons -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+
   <!-- DataTables CSS -->
   <link rel="stylesheet" href="https://cdn.datatables.net/1.13.7/css/dataTables.bootstrap5.min.css">
   <link rel="stylesheet" href="https://cdn.datatables.net/responsive/2.5.0/css/responsive.bootstrap5.min.css">
   
   <style>
+    /* ─── Bootstrap Icon Global Style ─── */
+    .bi {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      vertical-align: middle;
+      line-height: 1;
+    }
+
     :root {
       --bg-main: #f1f4f7;
       --bg-card: #ffffff;
@@ -70,11 +82,20 @@
       font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
     }
 
+    html {
+      width: 100%;
+      max-width: 100vw;
+      overflow-x: hidden;
+    }
+
     body {
       background-color: var(--bg-main);
       color: var(--text-body);
       display: flex;
       min-height: 100vh;
+      width: 100%;
+      max-width: 100vw;
+      overflow-x: hidden;
       transition: background-color 0.3s, color 0.3s;
       letter-spacing: -0.16px;
       -webkit-font-smoothing: antialiased;
@@ -321,6 +342,9 @@
       display: flex;
       flex-direction: column;
       min-width: 0;
+      max-width: 100%;
+      overflow-x: hidden;
+      width: calc(100% - 260px);
     }
 
     /* Topbar */
@@ -401,6 +425,11 @@
     .content-area {
       padding: 28px;
       flex: 1;
+      min-width: 0;
+      max-width: 100%;
+      width: 100%;
+      box-sizing: border-box;
+      overflow-x: hidden;
     }
 
     /* UI Components - Cards */
@@ -411,6 +440,11 @@
       padding: 24px;
       box-shadow: var(--shadow-sm);
       margin-bottom: 24px;
+      min-width: 0;
+      max-width: 100%;
+      width: 100%;
+      box-sizing: border-box;
+      overflow: hidden;
     }
 
     .card-header {
@@ -587,40 +621,74 @@
       background: transparent;
     }
 
-    /* Tables */
+    /* ─── Responsive Tables & Smooth Horizontal Scroll ─── */
     .table-responsive {
+      width: 100%;
       overflow-x: auto;
       -webkit-overflow-scrolling: touch;
       scrollbar-width: thin;
       scrollbar-color: var(--hairline) transparent;
+      margin-bottom: 16px;
+      position: relative;
+    }
+
+    .table-responsive::-webkit-scrollbar {
+      height: 6px;
+      width: 6px;
+    }
+
+    .table-responsive::-webkit-scrollbar-track {
+      background: var(--surface-soft);
+      border-radius: 10px;
+    }
+
+    .table-responsive::-webkit-scrollbar-thumb {
+      background: var(--hairline);
+      border-radius: 10px;
+    }
+
+    .table-responsive::-webkit-scrollbar-thumb:hover {
+      background: var(--text-stone);
     }
 
     .table {
       width: 100%;
       border-collapse: collapse;
-      font-size: 14px;
+      font-size: 13.5px;
     }
 
     .table th {
       background-color: var(--surface-soft);
       color: var(--text-muted);
       font-weight: 700;
-      font-size: 12.5px;
+      font-size: 12px;
       text-transform: uppercase;
       letter-spacing: 0.5px;
       text-align: left;
       padding: 12px 16px;
       border-bottom: 1px solid var(--border-color);
+      white-space: nowrap;
     }
 
     .table td {
       padding: 14px 16px;
       border-bottom: 1px solid var(--border-color);
       color: var(--text-body);
+      vertical-align: middle;
     }
 
     .table tr:hover {
       background-color: var(--surface-soft);
+    }
+
+    /* Helper for wrapping text in specific columns */
+    .table .text-wrap {
+      white-space: normal !important;
+      min-width: 180px;
+    }
+
+    .table .nowrap {
+      white-space: nowrap !important;
     }
 
     /* Badges - Meta Pill Style */
@@ -666,17 +734,29 @@
     .grid {
       display: grid;
       gap: 20px;
+      min-width: 0;
+      max-width: 100%;
+      width: 100%;
+      box-sizing: border-box;
     }
-    .grid-2 { grid-template-columns: repeat(2, 1fr); }
-    .grid-3 { grid-template-columns: repeat(3, 1fr); }
-    .grid-4 { grid-template-columns: repeat(4, 1fr); }
+    .grid > * {
+      min-width: 0;
+      max-width: 100%;
+    }
+    .grid-2 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .grid-3 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+    .grid-4 { grid-template-columns: repeat(4, minmax(0, 1fr)); }
 
     /* ─── DataTables Meta Custom Styling ─── */
     .dataTables_wrapper {
-      width: 100%;
+      width: 100% !important;
+      max-width: 100% !important;
+      overflow-x: auto !important;
+      -webkit-overflow-scrolling: touch !important;
       position: relative;
       clear: both;
       padding: 4px 0;
+      box-sizing: border-box;
     }
 
     .dataTables_wrapper .dataTables_length {
@@ -808,12 +888,50 @@
     @media (max-width: 768px) {
       .sidebar { transform: translateX(-100%); }
       .sidebar.open { transform: translateX(0); }
-      .main-wrapper { margin-left: 0; }
-      .topbar { padding: 12px 14px; }
-      .content-area { padding: 14px 12px; }
-      .card { padding: 16px 14px; margin-bottom: 16px; }
+      .main-wrapper {
+        margin-left: 0 !important;
+        width: 100% !important;
+        max-width: 100vw !important;
+        overflow-x: hidden !important;
+      }
+      .topbar {
+        padding: 12px 14px;
+        max-width: 100vw;
+      }
+      .content-area {
+        padding: 14px 12px !important;
+        max-width: 100vw !important;
+        overflow-x: hidden !important;
+      }
+      .card {
+        padding: 16px 14px;
+        margin-bottom: 16px;
+        max-width: 100% !important;
+        overflow: hidden !important;
+      }
       .toggle-sidebar-btn { display: block; }
-      .grid-2, .grid-4 { grid-template-columns: 1fr; }
+      .grid-2, .grid-3, .grid-4 { grid-template-columns: 1fr; }
+
+      /* Mobile Table Horizontal Scroll Rules */
+      .table-responsive {
+        border: 1px solid var(--border-color);
+        border-radius: var(--radius);
+        -webkit-overflow-scrolling: touch;
+        width: 100% !important;
+        max-width: 100% !important;
+        overflow-x: auto !important;
+        display: block;
+      }
+
+      .table-responsive .table,
+      .dataTables_wrapper table.dataTable,
+      .dataTables_wrapper .table {
+        min-width: 660px !important;
+      }
+
+      .table th, .table td {
+        padding: 10px 12px;
+      }
 
       .dataTables_wrapper .dataTables_length,
       .dataTables_wrapper .dataTables_filter,
@@ -852,26 +970,26 @@
     <nav class="sidebar-menu">
       <div class="menu-header">Utama</div>
       <a href="{{ route('dashboard') }}" class="menu-item {{ request()->routeIs('dashboard') ? 'active' : '' }}">
-        Dashboard
+        <i class="bi bi-grid-1x2-fill icon"></i> Dashboard
       </a>
 
       <div class="menu-header">Produk & Katalog</div>
 
       @if(auth()->user()->hasPermission('produk'))
       <a href="{{ route('produk.index') }}" class="menu-item {{ request()->routeIs('produk.*') ? 'active' : '' }}">
-        Kelola Produk
+        <i class="bi bi-box-seam-fill icon"></i> Kelola Produk
       </a>
       @endif
 
       @if(auth()->user()->hasPermission('kategori'))
       <a href="{{ route('kategori.index') }}" class="menu-item {{ request()->routeIs('kategori.*') ? 'active' : '' }}">
-        Kelola Kategori
+        <i class="bi bi-tags-fill icon"></i> Kelola Kategori
       </a>
       @endif
 
       @if(auth()->user()->hasPermission('portfolio'))
       <a href="{{ route('portfolio.index') }}" class="menu-item {{ request()->routeIs('portfolio.*') ? 'active' : '' }}">
-        Kelola Portofolio
+        <i class="bi bi-images icon"></i> Kelola Portofolio
       </a>
       @endif
 
@@ -879,7 +997,7 @@
 
       @if(auth()->user()->hasPermission('status_order'))
       <a href="{{ route('status_order.index') }}" class="menu-item {{ request()->routeIs('status_order.*', 'pembayaran.*') ? 'active' : '' }}">
-        Status Pengerjaan
+        <i class="bi bi-clipboard2-check-fill icon"></i> Status Pengerjaan
       </a>
       @endif
 
@@ -890,6 +1008,7 @@
       <div class="menu-group {{ request()->routeIs('users.*', 'pelanggan.*') ? 'active open' : '' }}">
         <div class="menu-group-header" onclick="toggleSubmenu(this)">
           <div class="menu-group-left">
+            <i class="bi bi-people-fill icon"></i>
             <span>Manajemen User</span>
           </div>
           <span class="menu-group-arrow">▼</span>
@@ -897,12 +1016,12 @@
         <ul class="submenu-list">
           <li class="submenu-item">
             <a href="{{ route('users.index') }}" class="submenu-link {{ request()->routeIs('users.*') ? 'active' : '' }}">
-              Admin & Staf
+              <i class="bi bi-person-badge-fill"></i> Admin & Staf
             </a>
           </li>
           <li class="submenu-item">
             <a href="{{ route('pelanggan.index') }}" class="submenu-link {{ request()->routeIs('pelanggan.*') ? 'active' : '' }}">
-              Pelanggan
+              <i class="bi bi-person-hearts"></i> Pelanggan
             </a>
           </li>
         </ul>
@@ -914,6 +1033,7 @@
       <div class="menu-group {{ request()->routeIs('akses.*') ? 'active open' : '' }}">
         <div class="menu-group-header" onclick="toggleSubmenu(this)">
           <div class="menu-group-left">
+            <i class="bi bi-shield-lock-fill icon"></i>
             <span>Kelola Akses</span>
           </div>
           <span class="menu-group-arrow">▼</span>
@@ -921,12 +1041,12 @@
         <ul class="submenu-list">
           <li class="submenu-item">
             <a href="{{ route('akses.index') }}" class="submenu-link {{ request()->routeIs('akses.index') && !request()->routeIs('akses.pelanggan*') ? 'active' : '' }}">
-              Admin & Staf
+              <i class="bi bi-key-fill"></i> Admin & Staf
             </a>
           </li>
           <li class="submenu-item">
             <a href="{{ route('akses.pelanggan') }}" class="submenu-link {{ request()->routeIs('akses.pelanggan*') ? 'active' : '' }}">
-              Pelanggan
+              <i class="bi bi-person-lock"></i> Pelanggan
             </a>
           </li>
         </ul>
@@ -935,30 +1055,30 @@
 
       @if(auth()->user()->isOwner())
       <a href="{{ route('branches.index') }}" class="menu-item {{ request()->routeIs('branches.*') ? 'active' : '' }}">
-        Cabang & Showroom
+        <i class="bi bi-building-fill icon"></i> Cabang & Showroom
       </a>
       @endif
 
       @if(auth()->user()->hasPermission('home_manager'))
       <a href="{{ route('home_manager.index') }}" class="menu-item {{ request()->routeIs('home_manager.*') ? 'active' : '' }}">
-        Landing Page Manager
+        <i class="bi bi-house-gear-fill icon"></i> Landing Page Manager
       </a>
       @endif
 
       @if(auth()->user()->hasPermission('activity_log'))
       <a href="{{ route('activity_log.index') }}" class="menu-item {{ request()->routeIs('activity_log.*') ? 'active' : '' }}">
-        Log Aktivitas
+        <i class="bi bi-clock-history icon"></i> Log Aktivitas
       </a>
       @endif
 
       @if(auth()->user()->isAdmin())
       <a href="{{ route('settings.whatsapp') }}" class="menu-item {{ request()->routeIs('settings.whatsapp*') ? 'active' : '' }}">
-        Pengaturan Kontak WA
+        <i class="bi bi-whatsapp icon"></i> Pengaturan Kontak WA
       </a>
       @endif
 
       <a href="{{ route('home') }}" target="_blank" class="menu-item">
-        Lihat Website
+        <i class="bi bi-globe2 icon"></i> Lihat Website
       </a>
     </nav>
 
@@ -973,7 +1093,7 @@
         </div>
         <form method="POST" action="{{ route('logout') }}">
           @csrf
-          <button type="submit" class="btn btn-sm btn-secondary" title="Keluar">Keluar</button>
+          <button type="submit" class="btn btn-sm btn-secondary" title="Keluar"><i class="bi bi-box-arrow-right" style="margin-right:4px;"></i> Keluar</button>
         </form>
       </div>
     </div>
@@ -984,13 +1104,14 @@
     <!-- Topbar -->
     <header class="topbar">
       <div class="topbar-left">
-        <button class="toggle-sidebar-btn" onclick="toggleSidebar()">☰</button>
+        <button class="toggle-sidebar-btn" onclick="toggleSidebar()"><i class="bi bi-list" style="font-size:22px;"></i></button>
         <h1 class="page-title">@yield('title', 'Dashboard')</h1>
       </div>
 
       <div class="topbar-right">
         <button class="theme-toggle-btn" onclick="toggleTheme()" id="themeBtn" title="Toggle Mode Dark/Light">
-          Mode
+          <i class="bi bi-moon-stars-fill" id="themeBtnIcon" style="margin-right:6px;"></i>
+          <span id="themeBtnText">Mode</span>
         </button>
       </div>
     </header>
@@ -1043,8 +1164,13 @@
 
     function updateThemeBtn(theme) {
       const btn = document.getElementById('themeBtn');
-      if (btn) {
-        btn.textContent = theme === 'dark' ? 'Terang' : 'Gelap';
+      const icon = document.getElementById('themeBtnIcon');
+      const text = document.getElementById('themeBtnText');
+      if (text) {
+        text.textContent = theme === 'dark' ? 'Terang' : 'Gelap';
+      }
+      if (icon) {
+        icon.className = theme === 'dark' ? 'bi bi-sun-fill' : 'bi bi-moon-stars-fill';
       }
     }
 

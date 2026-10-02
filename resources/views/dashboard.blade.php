@@ -13,7 +13,8 @@
           {{ number_format($totalOrders, 0, ',', '.') }}
         </div>
       </div>
-      <div style="width:48px; height:48px; border-radius:12px; background:#dbeafe; display:flex; align-items:center; justify-content:center; font-size:24px;">
+      <div style="width:48px; height:48px; border-radius:12px; background:#dbeafe; display:flex; align-items:center; justify-content:center; font-size:24px; color:#0064e0;">
+        <i class="bi bi-receipt-cutoff"></i>
       </div>
     </div>
   </div>
@@ -26,7 +27,8 @@
           Rp {{ number_format($totalPembayaran, 0, ',', '.') }}
         </div>
       </div>
-      <div style="width:48px; height:48px; border-radius:12px; background:#d1fae5; display:flex; align-items:center; justify-content:center; font-size:24px;">
+      <div style="width:48px; height:48px; border-radius:12px; background:#d1fae5; display:flex; align-items:center; justify-content:center; font-size:24px; color:#15803d;">
+        <i class="bi bi-cash-stack"></i>
       </div>
     </div>
   </div>
@@ -39,7 +41,8 @@
           {{ $totalCategories }}
         </div>
       </div>
-      <div style="width:48px; height:48px; border-radius:12px; background:#ede9fe; display:flex; align-items:center; justify-content:center; font-size:24px;">
+      <div style="width:48px; height:48px; border-radius:12px; background:#ede9fe; display:flex; align-items:center; justify-content:center; font-size:24px; color:#7e22ce;">
+        <i class="bi bi-grid-3x3-gap-fill"></i>
       </div>
     </div>
   </div>
@@ -52,7 +55,8 @@
           {{ $totalProducts }}
         </div>
       </div>
-      <div style="width:48px; height:48px; border-radius:12px; background:#e0f2fe; display:flex; align-items:center; justify-content:center; font-size:24px;">
+      <div style="width:48px; height:48px; border-radius:12px; background:#e0f2fe; display:flex; align-items:center; justify-content:center; font-size:24px; color:#0369a1;">
+        <i class="bi bi-box-seam-fill"></i>
       </div>
     </div>
   </div>
@@ -62,7 +66,7 @@
 <div class="card" style="margin-bottom:24px;">
   <div class="card-header">
     <h3 class="card-title">Status Alur Pengerjaan Pesanan</h3>
-    <a href="{{ route('status_order.index') }}" class="btn btn-sm btn-secondary">Kelola Status</a>
+    <a href="{{ route('status_order.index') }}" class="btn btn-sm btn-secondary"><i class="bi bi-gear-fill" style="margin-right:4px;"></i> Kelola Status</a>
   </div>
   <div class="grid grid-4" style="gap:16px;">
     <div style="background:#fef9c3; border:1px solid #fef08a; border-radius:var(--radius); padding:18px;">
@@ -94,7 +98,7 @@
   <div class="card">
     <div class="card-header">
       <h3 class="card-title">Pesanan Terbaru</h3>
-      <a href="{{ route('status_order.index') }}" class="btn btn-sm btn-secondary">Lihat Semua</a>
+      <a href="{{ route('status_order.index') }}" class="btn btn-sm btn-secondary"><i class="bi bi-arrow-right" style="margin-right:4px;"></i> Lihat Semua</a>
     </div>
     <div class="table-responsive">
       <table class="table">
@@ -141,13 +145,13 @@
   <div class="card">
     <div class="card-header">
       <h3 class="card-title">Log Aktivitas Terbaru</h3>
-      <a href="{{ route('activity_log.index') }}" class="btn btn-sm btn-secondary">Lihat Semua</a>
+      <a href="{{ route('activity_log.index') }}" class="btn btn-sm btn-secondary"><i class="bi bi-arrow-right" style="margin-right:4px;"></i> Lihat Semua</a>
     </div>
     <div style="display:flex; flex-direction:column; gap:12px;">
       @forelse($recentLogs as $log)
         <div style="display:flex; align-items:flex-start; gap:12px; padding-bottom:12px; border-bottom:1px solid var(--border-color);">
-          <div style="width:32px; height:32px; border-radius:50%; background:var(--bg-main); display:flex; align-items:center; justify-content:center; font-size:14px;">
-            
+          <div style="width:32px; height:32px; border-radius:50%; background:var(--bg-main); display:flex; align-items:center; justify-content:center; font-size:14px; color:var(--primary);">
+            <i class="bi bi-activity"></i>
           </div>
           <div style="flex:1;">
             <div style="font-size:13px; font-weight:600; color:var(--text-main);">

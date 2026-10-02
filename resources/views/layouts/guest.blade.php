@@ -9,7 +9,18 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
 
+  <!-- Bootstrap Icons -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+
   <style>
+    /* ─── Bootstrap Icon Global Style ─── */
+    .bi {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      vertical-align: middle;
+      line-height: 1;
+    }
     :root {
       --bg-main: #ffffff;
       --bg-card: #ffffff;
@@ -120,6 +131,36 @@
     }
     .btn-meta-ghost:hover {
       background: rgba(10, 19, 23, 0.05);
+    }
+
+    /* ─── Table Responsive & Horizontal Scroll ─── */
+    .table-responsive {
+      width: 100%;
+      overflow-x: auto;
+      -webkit-overflow-scrolling: touch;
+      scrollbar-width: thin;
+      scrollbar-color: var(--hairline) transparent;
+      margin-bottom: 16px;
+    }
+    .table-responsive::-webkit-scrollbar {
+      height: 6px;
+      width: 6px;
+    }
+    .table-responsive::-webkit-scrollbar-track {
+      background: var(--surface-soft);
+      border-radius: 10px;
+    }
+    .table-responsive::-webkit-scrollbar-thumb {
+      background: var(--hairline);
+      border-radius: 10px;
+    }
+    @media (max-width: 768px) {
+      .table-responsive .table {
+        min-width: 650px !important;
+      }
+      .table th, .table td {
+        white-space: nowrap;
+      }
     }
   </style>
   @yield('styles')

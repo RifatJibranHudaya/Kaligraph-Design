@@ -657,13 +657,13 @@
 <!-- Navbar -->
 <nav class="navbar">
   <a href="{{ route('home') }}" class="nav-brand">
-    <div class="brand-logo">K</div>
+    <div class="brand-logo"><i class="bi bi-lightning-charge-fill" style="color:#fff; font-size:18px;"></i></div>
     <span>Kafa Advertising</span>
   </a>
 
   <div class="nav-right-wrap">
     <a href="{{ route('katalog') }}" class="nav-quick-btn" style="display:none; @media(min-width:768px){display:inline-flex;}">
-      
+      <i class="bi bi-grid-fill"></i>
       <span>Katalog Produk</span>
     </a>
     <button type="button" class="menu-toggle-btn" id="menuToggleBtn" onclick="toggleSideNav()" aria-label="Buka Menu Navigasi">
@@ -684,13 +684,13 @@
 <aside class="side-drawer-nav" id="sideDrawerNav" aria-label="Menu Navigasi Samping">
   <div class="drawer-header">
     <div class="drawer-brand">
-      <div class="drawer-brand-logo">K</div>
+      <div class="drawer-brand-logo"><i class="bi bi-lightning-charge-fill" style="color:#fff; font-size:16px;"></i></div>
       <div>
         <div class="drawer-brand-title">Kafa Advertising</div>
         <div class="drawer-brand-sub">Advertising & Reklame</div>
       </div>
     </div>
-    <button type="button" class="drawer-close-btn" onclick="closeSideNav()" aria-label="Tutup Menu">✕</button>
+    <button type="button" class="drawer-close-btn" onclick="closeSideNav()" aria-label="Tutup Menu"><i class="bi bi-x-lg"></i></button>
   </div>
 
   <div class="drawer-body">
@@ -700,72 +700,64 @@
         <a href="{{ route('home') }}" class="drawer-link" onclick="closeSideNav()">
           <div class="drawer-link-left">
             <span class="drawer-link-num">01</span>
-            <span>Beranda</span>
+            <span><i class="bi bi-house-fill" style="margin-right:6px;"></i> Beranda</span>
           </div>
-          
         </a>
       </li>
       <li class="drawer-menu-item">
         <a href="{{ route('home') }}#kategori" class="drawer-link" onclick="closeSideNav()">
           <div class="drawer-link-left">
             <span class="drawer-link-num">02</span>
-            <span>Kategori Layanan</span>
+            <span><i class="bi bi-tags-fill" style="margin-right:6px;"></i> Kategori Layanan</span>
           </div>
-          
         </a>
       </li>
       <li class="drawer-menu-item">
         <a href="{{ route('katalog') }}" class="drawer-link" onclick="closeSideNav()">
           <div class="drawer-link-left">
             <span class="drawer-link-num">03</span>
-            <span>Katalog & Harga Produk</span>
+            <span><i class="bi bi-grid-fill" style="margin-right:6px;"></i> Katalog & Harga Produk</span>
           </div>
-          
         </a>
       </li>
       <li class="drawer-menu-item">
         <a href="{{ route('portofolio') }}" class="drawer-link" onclick="closeSideNav()" style="background:rgba(37,99,235,0.15); border-color:rgba(37,99,235,0.3); color:#60a5fa;">
           <div class="drawer-link-left">
             <span class="drawer-link-num" style="color:#60a5fa;">04</span>
-            <span>Portofolio Proyek</span>
+            <span><i class="bi bi-images" style="margin-right:6px;"></i> Portofolio Proyek</span>
           </div>
-          
         </a>
       </li>
       <li class="drawer-menu-item">
         <a href="{{ route('home') }}#keunggulan" class="drawer-link" onclick="closeSideNav()">
           <div class="drawer-link-left">
             <span class="drawer-link-num">05</span>
-            <span>Keunggulan Layanan</span>
+            <span><i class="bi bi-award-fill" style="margin-right:6px;"></i> Keunggulan Layanan</span>
           </div>
-          
         </a>
       </li>
       <li class="drawer-menu-item">
         <a href="{{ route('home') }}#cabang" class="drawer-link" onclick="closeSideNav()">
           <div class="drawer-link-left">
             <span class="drawer-link-num">06</span>
-            <span>Lokasi Showroom & Maps</span>
+            <span><i class="bi bi-building" style="margin-right:6px;"></i> Lokasi Showroom & Maps</span>
           </div>
-          
         </a>
       </li>
       <li class="drawer-menu-item">
         <a href="{{ route('login.customer') }}" class="drawer-link highlight-customer" onclick="closeSideNav()">
           <div class="drawer-link-left">
             <span class="drawer-link-num">07</span>
-            <span>Portal Pelanggan</span>
+            <span><i class="bi bi-person-circle" style="margin-right:6px;"></i> Portal Pelanggan</span>
           </div>
-          
         </a>
       </li>
       <li class="drawer-menu-item">
         <a href="{{ route('login.admin') }}" class="drawer-link highlight-admin" onclick="closeSideNav()">
           <div class="drawer-link-left">
             <span class="drawer-link-num">08</span>
-            <span>Login Admin & Staff</span>
+            <span><i class="bi bi-shield-lock" style="margin-right:6px;"></i> Login Admin & Staff</span>
           </div>
-          
         </a>
       </li>
     </ul>
@@ -777,7 +769,7 @@
       <div>Melayani Demak, Semarang, Surabaya & sekitarnya. Pengiriman ke seluruh Indonesia.</div>
     </div>
     <a href="{{ \App\Helpers\FormatHelper::whatsappUrl('Halo Kafa Advertising, saya ingin konsultasi pesanan dari melihat Portofolio') }}" target="_blank" class="drawer-wa-cta">
-      <span>💬</span>
+      <i class="bi bi-whatsapp" style="font-size:16px;"></i>
       <span>Chat WhatsApp Sekarang</span>
     </a>
   </div>
@@ -785,24 +777,24 @@
 
 <!-- Page Header -->
 <div class="page-header">
-  <div style="display:inline-block; padding:6px 14px; border-radius:20px; font-size:12px; font-weight:700; margin-bottom:12px; background:rgba(255,255,255,0.1); color:#60a5fa;">
-    PORTOFOLIO PROYEK
+  <div style="display:inline-flex; align-items:center; gap:6px; padding:6px 14px; border-radius:20px; font-size:12px; font-weight:700; margin-bottom:12px; background:rgba(255,255,255,0.1); color:#60a5fa;">
+    <i class="bi bi-images"></i> PORTOFOLIO PROYEK
   </div>
   <h1>Hasil Karya & Proyek Kami</h1>
   <p>Lihat koleksi proyek neon box, signage, dan advertising yang telah kami kerjakan untuk berbagai klien di seluruh Indonesia.</p>
 </div>
 
 <div class="portfolio-container">
-  <div class="breadcrumb">
-    <a href="{{ route('home') }}">Beranda</a>
-    <span>/</span>
+  <div class="breadcrumb" style="display:flex; align-items:center; gap:8px;">
+    <a href="{{ route('home') }}" style="display:inline-flex; align-items:center; gap:4px;"><i class="bi bi-house-door"></i> Beranda</a>
+    <i class="bi bi-chevron-right" style="font-size:11px; opacity:0.6;"></i>
     <span>Portofolio</span>
   </div>
 
   <!-- Category Filter -->
   @if($categories->count() > 0)
   <div class="filter-tabs">
-    <span class="filter-tab active" onclick="filterPortfolio('all')">Semua</span>
+    <span class="filter-tab active" onclick="filterPortfolio('all')"><i class="bi bi-grid" style="margin-right:4px;"></i> Semua</span>
     @foreach($categories as $cat)
       <span class="filter-tab" onclick="filterPortfolio('cat-{{ $cat->id }}')" data-cat="{{ $cat->id }}">
         {{ $cat->nama }}
@@ -814,18 +806,18 @@
   <div class="portfolio-grid" id="portfolioGrid">
     @forelse($portfolios as $p)
       <div class="port-card" data-category="cat-{{ $p->category_id }}">
-        <div class="port-card-img">
+        <div class="port-card-img" style="display:flex; align-items:center; justify-content:center; background:#1e293b;">
           @if($p->foto_url)
             <img src="{{ $p->foto_url }}" alt="{{ $p->nama }}">
           @else
-            
+            <i class="bi bi-image" style="font-size:40px; color:#64748b;"></i>
           @endif
           <div class="port-card-overlay">
             @if($p->category)
-              <span class="port-card-tag">{{ $p->category ? $p->category->nama : '' }}</span>
+              <span class="port-card-tag"><i class="bi bi-tag-fill" style="margin-right:3px;"></i> {{ $p->category ? $p->category->nama : '' }}</span>
             @endif
             @if($p->tahun)
-              <span class="port-card-tag">{{ $p->tahun }}</span>
+              <span class="port-card-tag"><i class="bi bi-calendar3" style="margin-right:3px;"></i> {{ $p->tahun }}</span>
             @endif
           </div>
         </div>
@@ -833,10 +825,10 @@
           <div class="port-card-title">{{ $p->nama }}</div>
           <div class="port-card-meta">
             @if($p->client)
-              <span>{{ $p->client }}</span>
+              <span><i class="bi bi-building"></i> {{ $p->client }}</span>
             @endif
             @if($p->lokasi)
-              <span>{{ $p->lokasi }}</span>
+              <span><i class="bi bi-geo-alt"></i> {{ $p->lokasi }}</span>
             @endif
           </div>
           <p class="port-card-desc">{{ Str::limit($p->deskripsi ?: 'Proyek custom signage & advertising berkualitas premium.', 120) }}</p>
@@ -844,19 +836,19 @@
         @if($p->category || $p->tahun)
         <div class="port-card-footer">
           @if($p->category)
-            <span class="port-card-category">{{ $p->category ? $p->category->nama : '' }}</span>
+            <span class="port-card-category"><i class="bi bi-tag"></i> {{ $p->category ? $p->category->nama : '' }}</span>
           @else
             <span></span>
           @endif
           @if($p->tahun)
-            <span class="port-card-year">{{ $p->tahun }}</span>
+            <span class="port-card-year"><i class="bi bi-calendar-event"></i> {{ $p->tahun }}</span>
           @endif
         </div>
         @endif
       </div>
     @empty
       <div style="grid-column:1/-1; text-align:center; padding:80px 20px; color:var(--text-muted);">
-        
+        <i class="bi bi-folder2-open" style="font-size:48px; color:var(--text-muted); display:block; margin-bottom:12px;"></i>
         <p style="font-size:16px; font-weight:600;">Portofolio sedang diperbarui.</p>
         <p style="font-size:14px; margin-top:8px;">Hubungi kami via WhatsApp untuk melihat contoh proyek yang telah kami kerjakan.</p>
       </div>
@@ -866,7 +858,7 @@
 
 <!-- Footer -->
 <footer class="footer">
-  <div><strong>Kafa Advertising</strong> — Spesialis Neon Box & Signage Custom</div>
+  <div><strong><i class="bi bi-award"></i> Kafa Advertising</strong> — Spesialis Neon Box & Signage Custom</div>
   <p>© {{ date('Y') }} All rights reserved.</p>
 </footer>
 

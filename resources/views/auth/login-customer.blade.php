@@ -191,33 +191,33 @@
 <div class="auth-container">
   <div class="auth-card">
     <div class="auth-header">
-      <div class="auth-logo">K</div>
-      <span class="auth-badge">Portal Pelanggan</span>
+      <div class="auth-logo"><i class="bi bi-person-badge-fill" style="color:#fff;"></i></div>
+      <span class="auth-badge"><i class="bi bi-stars"></i> Portal Pelanggan</span>
       <h1 class="auth-title">Login Pelanggan</h1>
       <p class="auth-subtitle">Pantau pesanan neon box & signage custom Anda</p>
     </div>
 
     @if(session('success'))
       <div class="alert alert-success">
-         {{ session('success') }}
+        <i class="bi bi-check-circle-fill"></i> {{ session('success') }}
       </div>
     @endif
 
     @if($errors->any())
       <div class="alert alert-error">
-         {{ $errors->first() }}
+        <i class="bi bi-x-circle-fill"></i> {{ $errors->first() }}
       </div>
     @endif
 
     <form method="POST" action="{{ route('login.customer.post') }}">
       @csrf
       <div class="form-group">
-        <label class="form-label">Email atau Username</label>
+        <label class="form-label"><i class="bi bi-envelope"></i> Email atau Username</label>
         <input type="text" name="email" class="form-control" placeholder="contoh: nama@email.com" value="{{ old('email') }}" required autofocus>
       </div>
 
       <div class="form-group">
-        <label class="form-label">Kata Sandi</label>
+        <label class="form-label"><i class="bi bi-lock"></i> Kata Sandi</label>
         <input type="password" name="password" class="form-control" placeholder="Masukkan kata sandi" required>
       </div>
 
@@ -228,12 +228,12 @@
         <a href="{{ route('password.request') }}">Lupa Password?</a>
       </div>
 
-      <button type="submit" class="btn-submit">Masuk ke Portal Pelanggan</button>
+      <button type="submit" class="btn-submit"><i class="bi bi-box-arrow-in-right"></i> Masuk ke Portal Pelanggan</button>
     </form>
 
     <div class="auth-footer">
-      Belum memiliki akun? <a href="{{ route('register.customer') }}">Daftar Akun Baru</a><br>
-      <a href="{{ route('login') }}" style="display: inline-block; margin-top: 8px; color: var(--text-muted); font-weight: normal;">← Pilih Jalur Login Lain</a>
+      Belum memiliki akun? <a href="{{ route('register.customer') }}"><i class="bi bi-person-plus-fill"></i> Daftar Akun Baru</a><br>
+      <a href="{{ route('login') }}" style="display: inline-flex; align-items: center; gap: 4px; margin-top: 8px; color: var(--text-muted); font-weight: normal;"><i class="bi bi-arrow-left"></i> Pilih Jalur Login Lain</a>
     </div>
   </div>
 </div>

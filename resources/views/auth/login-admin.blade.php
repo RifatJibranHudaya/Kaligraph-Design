@@ -191,33 +191,33 @@
 <div class="auth-container">
   <div class="auth-card">
     <div class="auth-header">
-      <div class="auth-logo">K</div>
-      <span class="auth-badge">Staff & Manajemen</span>
+      <div class="auth-logo"><i class="bi bi-shield-lock-fill" style="color:#fff;"></i></div>
+      <span class="auth-badge"><i class="bi bi-shield-check"></i> Staff & Manajemen</span>
       <h1 class="auth-title">Login Admin</h1>
       <p class="auth-subtitle">Sistem Manajemen POS & Operasional Neon Box</p>
     </div>
 
     @if(session('success'))
       <div class="alert alert-success">
-         {{ session('success') }}
+        <i class="bi bi-check-circle-fill"></i> {{ session('success') }}
       </div>
     @endif
 
     @if($errors->any())
       <div class="alert alert-error">
-         {{ $errors->first() }}
+        <i class="bi bi-x-circle-fill"></i> {{ $errors->first() }}
       </div>
     @endif
 
     <form method="POST" action="{{ route('login.admin.post') }}">
       @csrf
       <div class="form-group">
-        <label class="form-label">Username atau Email Admin</label>
+        <label class="form-label"><i class="bi bi-person-fill"></i> Username atau Email Admin</label>
         <input type="text" name="username" class="form-control" placeholder="Masukkan username / email" value="{{ old('username') }}" required autofocus>
       </div>
 
       <div class="form-group">
-        <label class="form-label">Password</label>
+        <label class="form-label"><i class="bi bi-lock-fill"></i> Password</label>
         <input type="password" name="password" class="form-control" placeholder="Masukkan password" required>
       </div>
 
@@ -228,12 +228,12 @@
         <a href="{{ route('password.request') }}">Lupa Password?</a>
       </div>
 
-      <button type="submit" class="btn-submit">Masuk ke Sistem Admin</button>
+      <button type="submit" class="btn-submit"><i class="bi bi-box-arrow-in-right"></i> Masuk ke Sistem Admin</button>
     </form>
 
     <div class="auth-footer">
-      Bukan staff/admin? <a href="{{ route('login.customer') }}">Masuk Portal Pelanggan</a><br>
-      <a href="{{ route('login') }}" style="display: inline-block; margin-top: 8px; color: var(--text-muted); font-weight: normal;">← Kembali ke Pilihan Login</a>
+      Bukan staff/admin? <a href="{{ route('login.customer') }}"><i class="bi bi-person-badge"></i> Masuk Portal Pelanggan</a><br>
+      <a href="{{ route('login') }}" style="display: inline-flex; align-items: center; gap: 4px; margin-top: 8px; color: var(--text-muted); font-weight: normal;"><i class="bi bi-arrow-left"></i> Kembali ke Pilihan Login</a>
     </div>
   </div>
 </div>

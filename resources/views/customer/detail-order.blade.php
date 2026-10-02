@@ -403,10 +403,10 @@
 
   $ps = $order->payment_status ?? null;
   $psLabel = match($ps) {
-    'pending'  => ['label' => '⏳ Menunggu Verifikasi Admin', 'class' => 'chip-pending'],
-    'verified' => ['label' => '✅ Bukti Terverifikasi',       'class' => 'chip-verified'],
-    'rejected' => ['label' => '❌ Bukti Ditolak',             'class' => 'chip-rejected'],
-    default    => ['label' => '📄 Belum Ada Bukti',           'class' => 'chip-none'],
+    'pending'  => ['label' => '<i class="bi bi-hourglass-split"></i> Menunggu Verifikasi Admin', 'class' => 'chip-pending'],
+    'verified' => ['label' => '<i class="bi bi-patch-check-fill"></i> Bukti Terverifikasi',       'class' => 'chip-verified'],
+    'rejected' => ['label' => '<i class="bi bi-x-octagon-fill"></i> Bukti Ditolak',             'class' => 'chip-rejected'],
+    default    => ['label' => '<i class="bi bi-file-earmark"></i> Belum Ada Bukti',           'class' => 'chip-none'],
   };
 @endphp
 
@@ -415,35 +415,39 @@
   {{-- Navbar --}}
   <nav class="co-nav">
     <a href="{{ route('customer.dashboard') }}" class="co-nav-brand">
-      <div class="icon-box">K</div>
+      <div class="icon-box"><i class="bi bi-person-badge-fill" style="color:#fff; font-size:16px;"></i></div>
       Kafa Advertising
     </a>
-    <a href="{{ route('customer.dashboard') }}" class="co-nav-back">← Dashboard</a>
+    <a href="{{ route('customer.dashboard') }}" class="co-nav-back"><i class="bi bi-arrow-left"></i> Dashboard</a>
   </nav>
 
   <div class="co-body">
 
     {{-- Flash messages --}}
     @if(session('success'))
-      <div class="alert-co alert-co-success"><span>✅</span> {{ session('success') }}</div>
+      <div class="alert-co alert-co-success"><i class="bi bi-check-circle-fill"></i> {{ session('success') }}</div>
     @endif
     @if($errors->any())
-      <div class="alert-co alert-co-error"><span>❌</span> {{ $errors->first() }}</div>
+      <div class="alert-co alert-co-error"><i class="bi bi-x-circle-fill"></i> {{ $errors->first() }}</div>
     @endif
 
     {{-- Hero Header --}}
     <div class="co-hero">
       <div>
-        <div class="co-hero-title">Order #{{ $order->id }}</div>
+        <div class="co-hero-title"><i class="bi bi-receipt"></i> Order #{{ $order->id }}</div>
         <div class="co-hero-sub">
-          {{ $order->nama_pelanggan }}
-          @if($order->no_hp) &nbsp;•&nbsp; {{ $order->no_hp }} @endif
-          @if($order->kategori) &nbsp;•&nbsp; {{ $order->kategori }} @endif
+          <i class="bi bi-person-fill"></i> {{ $order->nama_pelanggan }}
+          @if($order->no_hp) &nbsp;•&nbsp; <i class="bi bi-telephone"></i> {{ $order->no_hp }} @endif
+          @if($order->kategori) &nbsp;•&nbsp; <i class="bi bi-tag"></i> {{ $order->kategori }} @endif
         </div>
       </div>
       <div class="co-hero-right">
         <span class="co-status-badge {{ $isLunas ? 'badge-lunas' : 'badge-belum-lunas' }}">
-          {{ $isLunas ? 'LUNAS' : 'BELUM LUNAS' }}
+          @if($isLunas)
+            <i class="bi bi-check-circle-fill"></i> LUNAS
+          @else
+            <i class="bi bi-clock-history"></i> BELUM LUNAS
+          @endif
         </span>
         <div class="co-status-progress">
           Status Pengerjaan
@@ -460,27 +464,27 @@
 
         {{-- Upload Nota --}}
         <div class="co-card">
-          <div class="co-card-head">📤 Upload Bukti Pembayaran</div>
+          <div class="co-card-head"><i class="bi bi-cloud-arrow-up-fill" style="color:#0064e0;"></i> Upload Bukti Pembayaran</div>
           <div class="co-card-body">
 
-            <div class="pmt-status-chip {{ $psLabel['class'] }}">{{ $psLabel['label'] }}</div>
+            <div class="pmt-status-chip {{ $psLabel['class'] }}">{!! $psLabel['label'] !!}</div>
 
             @if($order->receipt_path)
               <div class="receipt-uploaded-box">
-                <div class="ub-icon">✅</div>
+                <div class="ub-icon"><i class="bi bi-check-lg" style="color:#fff;"></i></div>
                 <div class="ub-info">
                   <strong>Bukti sudah diunggah</strong>
                   <span>Menunggu konfirmasi dari admin</span>
                 </div>
                 <a href="{{ $order->receipt_url }}" target="_blank"
-                   class="btn-co btn-co-success btn-co-sm">Lihat</a>
+                   class="btn-co btn-co-success btn-co-sm"><i class="bi bi-eye"></i> Lihat</a>
               </div>
               <p style="font-size:12.5px;color:#5d6c7b;text-align:center;margin-bottom:14px;">
                 Ingin mengganti? Unggah ulang di bawah.
               </p>
             @else
               <div class="receipt-preview-box">
-                <div class="up-icon">🖼️</div>
+                <div class="up-icon"><i class="bi bi-image" style="font-size:36px; color:#6366f1;"></i></div>
                 <p>Belum ada bukti pembayaran.<br>
                   <strong>Upload nota/struk</strong> untuk dikonfirmasi admin.</p>
               </div>
@@ -494,14 +498,14 @@
               </span>
               <div class="file-input-wrap">
                 <input type="file" name="bukti" accept="image/*" required>
-                <div class="fi-icon">📎</div>
+                <div class="fi-icon"><i class="bi bi-paperclip" style="font-size:28px; color:#0064e0;"></i></div>
                 <div class="fi-text">
                   <strong>Klik atau seret</strong> file ke sini<br>
                   <span style="font-size:11.5px;">JPEG, PNG, WebP — maks. 3 MB</span>
                 </div>
               </div>
               <button type="submit" class="btn-co btn-co-primary btn-co-full" style="margin-top:14px;">
-                📤 Unggah Nota Pembayaran
+                <i class="bi bi-upload"></i> Unggah Nota Pembayaran
               </button>
             </form>
 
@@ -510,30 +514,30 @@
 
         {{-- Riwayat Pembayaran --}}
         <div class="co-card">
-          <div class="co-card-head">🗂️ Riwayat Pembayaran</div>
+          <div class="co-card-head"><i class="bi bi-clock-history" style="color:#0064e0;"></i> Riwayat Pembayaran</div>
           <div class="co-card-body">
             @forelse($allPayments as $pay)
               <div class="pay-item">
                 <div style="flex:1;">
                   <div class="pay-badge-pill pay-badge-{{ $pay->metode }}">{{ strtoupper($pay->metode) }}</div>
                   <div class="pay-amount">Rp {{ number_format($pay->jumlah, 0, ',', '.') }}</div>
-                  <div class="pay-date">{{ $pay->tanggal_bayar ? $pay->tanggal_bayar->format('d M Y, H:i') : '-' }}</div>
+                  <div class="pay-date"><i class="bi bi-calendar3" style="font-size:10.5px; margin-right:3px;"></i>{{ $pay->tanggal_bayar ? $pay->tanggal_bayar->format('d M Y, H:i') : '-' }}</div>
                   @if($pay->keterangan)
                     <div class="pay-note">{{ $pay->keterangan }}</div>
                   @endif
                 </div>
                 <div class="pay-actions">
                   <a href="{{ route('pembayaran.nota', $pay->id) }}" target="_blank"
-                     class="btn-co btn-co-secondary btn-co-sm">🖨️ Nota</a>
+                     class="btn-co btn-co-secondary btn-co-sm"><i class="bi bi-printer"></i> Nota</a>
                   @if($pay->bukti_url)
                     <a href="{{ $pay->bukti_url }}" target="_blank"
-                       class="btn-co btn-co-secondary btn-co-sm">📷 Bukti</a>
+                       class="btn-co btn-co-secondary btn-co-sm"><i class="bi bi-image"></i> Bukti</a>
                   @endif
                 </div>
               </div>
             @empty
               <div class="empty-state">
-                <div class="es-icon">💳</div>
+                <div class="es-icon"><i class="bi bi-credit-card" style="font-size:36px; color:#94a3b8;"></i></div>
                 <p>Belum ada riwayat pembayaran.</p>
               </div>
             @endforelse
@@ -545,7 +549,7 @@
       {{-- RIGHT column --}}
       <div class="co-sticky">
         <div class="co-card">
-          <div class="co-card-head">📊 Ringkasan Tagihan</div>
+          <div class="co-card-head"><i class="bi bi-calculator" style="color:#0064e0;"></i> Ringkasan Tagihan</div>
           <div class="co-card-body">
 
             <div class="sum-row">
@@ -581,11 +585,11 @@
               border:1px solid {{ $isLunas ? '#86efac' : '#fcd34d' }};
             ">
               @if($isLunas)
-                ✅ Order ini sudah <strong>LUNAS</strong>
+                <i class="bi bi-check-circle-fill"></i> Order ini sudah <strong>LUNAS</strong>
               @elseif($totalPaid > 0)
-                ⚠️ DP diterima — sisa Rp {{ number_format($sisaTagihan, 0, ',', '.') }}
+                <i class="bi bi-exclamation-triangle-fill"></i> DP diterima — sisa Rp {{ number_format($sisaTagihan, 0, ',', '.') }}
               @else
-                ℹ️ Belum ada pembayaran yang tercatat
+                <i class="bi bi-info-circle-fill"></i> Belum ada pembayaran yang tercatat
               @endif
             </div>
 
@@ -593,17 +597,17 @@
               @if($firstPayment)
                 <a href="{{ route('pembayaran.nota', $firstPayment->id) }}" target="_blank"
                    class="btn-co btn-co-secondary btn-co-full">
-                  🖨️ Cetak Nota
+                  <i class="bi bi-printer"></i> Cetak Nota
                 </a>
               @endif
               <button type="button"
                       class="btn-co btn-co-primary btn-co-full"
                       onclick="document.getElementById('sendWaModal').style.display='flex'">
-                💬 Kirim Nota ke WhatsApp
+                <i class="bi bi-whatsapp"></i> Kirim Nota ke WhatsApp
               </button>
               <a href="{{ route('customer.dashboard') }}"
                  class="btn-co btn-co-secondary btn-co-full">
-                ← Dashboard
+                <i class="bi bi-arrow-left"></i> Dashboard
               </a>
             </div>
 
@@ -619,9 +623,9 @@
 <div id="sendWaModal" class="modal-backdrop">
   <div class="modal-box">
     <div class="modal-head">
-      <h3>💬 Kirim Nota ke WhatsApp</h3>
+      <h3><i class="bi bi-whatsapp" style="color:#22c55e;"></i> Kirim Nota ke WhatsApp</h3>
       <button class="modal-close-btn"
-              onclick="document.getElementById('sendWaModal').style.display='none'">✕</button>
+              onclick="document.getElementById('sendWaModal').style.display='none'"><i class="bi bi-x-lg"></i></button>
     </div>
     <div class="modal-body">
       <form method="POST" action="{{ route('customer.order.send.whatsapp', $order->id) }}">
@@ -639,7 +643,7 @@
         </div>
 
         <div class="preview-nota">
-          <div class="pn-title">📋 Preview Pesan</div>
+          <div class="pn-title"><i class="bi bi-card-text"></i> Preview Pesan</div>
           *NOTA PEMBAYARAN ORDER #{{ $order->id }}*<br>
           ━━━━━━━━━━━━━━━━━━━━<br>
           Nama: {{ $order->nama_pelanggan }}<br>
@@ -654,14 +658,14 @@
           <div style="text-align:center;padding:12px;background:#d1fae5;border-radius:10px;margin-bottom:14px;">
             <div style="font-size:13px;font-weight:700;color:#065f46;margin-bottom:8px;">Nota berhasil disiapkan!</div>
             <a href="{{ session('wa_url') }}" target="_blank"
-               class="btn-co btn-co-success btn-co-full">💬 Buka WhatsApp Sekarang</a>
+               class="btn-co btn-co-success btn-co-full"><i class="bi bi-whatsapp"></i> Buka WhatsApp Sekarang</a>
           </div>
         @endif
 
         <div style="display:flex;gap:10px;margin-top:4px;">
           <button type="button" class="btn-co btn-co-secondary" style="flex:1;"
                   onclick="document.getElementById('sendWaModal').style.display='none'">Batal</button>
-          <button type="submit" class="btn-co btn-co-primary" style="flex:1;">💬 Kirim</button>
+          <button type="submit" class="btn-co btn-co-primary" style="flex:1;"><i class="bi bi-send"></i> Kirim</button>
         </div>
       </form>
     </div>

@@ -716,7 +716,7 @@
 <!-- Navigation Bar -->
 <nav class="customer-navbar">
   <a href="{{ route('home') }}" class="nav-brand">
-    <div class="brand-icon">K</div>
+    <div class="brand-icon"><i class="bi bi-person-badge-fill" style="color:#fff; font-size:18px;"></i></div>
     <span>Kafa Advertising</span>
   </a>
 
@@ -739,13 +739,13 @@
 <aside class="side-drawer-nav" id="sideDrawerNav" aria-label="Menu Navigasi Samping">
   <div class="drawer-header">
     <div class="drawer-brand">
-      <div class="drawer-brand-logo">K</div>
+      <div class="drawer-brand-logo"><i class="bi bi-person-badge-fill" style="color:#fff; font-size:16px;"></i></div>
       <div>
         <div class="drawer-brand-title">Kafa Advertising</div>
-        <div class="drawer-brand-sub">Advertising & Reklame</div>
+        <div class="drawer-brand-sub">Portal Pelanggan</div>
       </div>
     </div>
-    <button type="button" class="drawer-close-btn" onclick="closeSideNav()" aria-label="Tutup Menu">✕</button>
+    <button type="button" class="drawer-close-btn" onclick="closeSideNav()" aria-label="Tutup Menu"><i class="bi bi-x-lg"></i></button>
   </div>
 
   <div class="drawer-body">
@@ -755,63 +755,56 @@
         <a href="{{ route('home') }}" class="drawer-link" onclick="closeSideNav()">
           <div class="drawer-link-left">
             <span class="drawer-link-num">01</span>
-            <span>Beranda</span>
+            <span><i class="bi bi-house-fill" style="margin-right:6px;"></i> Beranda</span>
           </div>
-          
         </a>
       </li>
       <li class="drawer-menu-item">
         <a href="{{ route('home') }}#kategori" class="drawer-link" onclick="closeSideNav()">
           <div class="drawer-link-left">
             <span class="drawer-link-num">02</span>
-            <span>Kategori Layanan</span>
+            <span><i class="bi bi-tags-fill" style="margin-right:6px;"></i> Kategori Layanan</span>
           </div>
-          
         </a>
       </li>
       <li class="drawer-menu-item">
         <a href="{{ route('katalog') }}" class="drawer-link" onclick="closeSideNav()">
           <div class="drawer-link-left">
             <span class="drawer-link-num">03</span>
-            <span>Katalog & Harga Produk</span>
+            <span><i class="bi bi-grid-fill" style="margin-right:6px;"></i> Katalog & Harga Produk</span>
           </div>
-          
         </a>
       </li>
       <li class="drawer-menu-item">
         <a href="{{ route('portofolio') }}" class="drawer-link" onclick="closeSideNav()">
           <div class="drawer-link-left">
             <span class="drawer-link-num">04</span>
-            <span>Portofolio Proyek</span>
+            <span><i class="bi bi-images" style="margin-right:6px;"></i> Portofolio Proyek</span>
           </div>
-          
         </a>
       </li>
       <li class="drawer-menu-item">
         <a href="{{ route('home') }}#keunggulan" class="drawer-link" onclick="closeSideNav()">
           <div class="drawer-link-left">
             <span class="drawer-link-num">05</span>
-            <span>Keunggulan Layanan</span>
+            <span><i class="bi bi-award-fill" style="margin-right:6px;"></i> Keunggulan Layanan</span>
           </div>
-          
         </a>
       </li>
       <li class="drawer-menu-item">
         <a href="{{ route('home') }}#cabang" class="drawer-link" onclick="closeSideNav()">
           <div class="drawer-link-left">
             <span class="drawer-link-num">06</span>
-            <span>Lokasi Showroom & Maps</span>
+            <span><i class="bi bi-building" style="margin-right:6px;"></i> Lokasi Showroom & Maps</span>
           </div>
-          
         </a>
       </li>
       <li class="drawer-menu-item">
         <a href="{{ route('login.admin') }}" class="drawer-link highlight-admin" onclick="closeSideNav()">
           <div class="drawer-link-left">
             <span class="drawer-link-num">07</span>
-            <span>Login Admin & Staff</span>
+            <span><i class="bi bi-shield-lock" style="margin-right:6px;"></i> Login Admin & Staff</span>
           </div>
-          
         </a>
       </li>
     </ul>
@@ -825,7 +818,7 @@
         </div>
         <div style="flex: 1; min-width: 0;">
           <div style="font-size: 14px; font-weight: 700; color: #fff; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">{{ $user->username }}</div>
-          <div style="font-size: 11px; color: #94a3b8;">Pelanggan</div>
+          <div style="font-size: 11px; color: #94a3b8;"><i class="bi bi-person-check"></i> Pelanggan</div>
         </div>
       </div>
       <ul class="drawer-menu-list">
@@ -833,9 +826,8 @@
           <button type="button" class="drawer-link" onclick="openProfileModal(); closeSideNav();" style="width: 100%; text-align: left; cursor: pointer;">
             <div class="drawer-link-left">
               <span class="drawer-link-num">08</span>
-              <span>✏️ Edit Profil</span>
+              <span><i class="bi bi-pencil-square" style="margin-right:6px;"></i> Edit Profil</span>
             </div>
-            
           </button>
         </li>
         <li class="drawer-menu-item">
@@ -844,9 +836,8 @@
             <button type="submit" class="drawer-link" style="width: 100%; text-align: left; cursor: pointer; background: rgba(239, 68, 68, 0.1); border-color: rgba(239, 68, 68, 0.2); color: #f87171;">
               <div class="drawer-link-left">
                 <span class="drawer-link-num">09</span>
-                <span>Keluar</span>
+                <span><i class="bi bi-box-arrow-right" style="margin-right:6px;"></i> Keluar</span>
               </div>
-              
             </button>
           </form>
         </li>
@@ -859,7 +850,7 @@
       Butuh bantuan? Hubungi kami untuk konsultasi gratis.
     </div>
     <a href="{{ \App\Helpers\FormatHelper::whatsappUrl('Halo Kafa Advertising, saya butuh bantuan') }}" target="_blank" class="drawer-wa-cta">
-      💬 Hubungi via WhatsApp
+      <i class="bi bi-whatsapp"></i> Hubungi via WhatsApp
     </a>
   </div>
 </aside>
@@ -868,29 +859,29 @@
 <div class="profile-edit-modal" id="profileEditModal">
   <div class="profile-edit-card">
     <div class="profile-edit-header">
-      <h3 class="profile-edit-title">Edit Profil Pelanggan</h3>
-      <button type="button" class="profile-edit-close" onclick="closeProfileModal()">✕</button>
+      <h3 class="profile-edit-title"><i class="bi bi-pencil-square" style="margin-right:6px; color:var(--primary);"></i> Edit Profil Pelanggan</h3>
+      <button type="button" class="profile-edit-close" onclick="closeProfileModal()"><i class="bi bi-x-lg"></i></button>
     </div>
 
     <form method="POST" action="{{ route('customer.profile.update') }}">
       @csrf
 
       <div class="form-group">
-        <label class="form-label" for="edit-username">Username</label>
+        <label class="form-label" for="edit-username"><i class="bi bi-person"></i> Username</label>
         <input type="text" class="form-input" id="edit-username" name="username" value="{{ $user->username }}" required>
       </div>
 
       <div class="form-group">
-        <label class="form-label" for="edit-email">Email</label>
+        <label class="form-label" for="edit-email"><i class="bi bi-envelope"></i> Email</label>
         <input type="email" class="form-input" id="edit-email" name="email" value="{{ $user->email }}" required>
       </div>
 
       <div class="form-group">
-        <label class="form-label" for="edit-phone">Nomor Telepon / WhatsApp</label>
+        <label class="form-label" for="edit-phone"><i class="bi bi-telephone"></i> Nomor Telepon / WhatsApp</label>
         <input type="text" class="form-input" id="edit-phone" name="phone" value="{{ $user->phone ?? '' }}" placeholder="+62...">
       </div>
 
-      <button type="submit" class="btn-save-profile">Simpan Perubahan</button>
+      <button type="submit" class="btn-save-profile"><i class="bi bi-check2-circle"></i> Simpan Perubahan</button>
     </form>
   </div>
 </div>
@@ -898,27 +889,28 @@
 <!-- Portal Content -->
 <div class="portal-content">
   @if(session('success'))
-    <div style="padding: 14px 18px; border-radius: 12px; background: #d1fae5; color: #065f46; font-size: 14px; font-weight: 600; margin-bottom: 24px;">
-      {{ session('success') }}
+    <div style="padding: 14px 18px; border-radius: 12px; background: #d1fae5; color: #065f46; font-size: 14px; font-weight: 600; margin-bottom: 24px; display:flex; align-items:center; gap:8px;">
+      <i class="bi bi-check-circle-fill" style="font-size:18px;"></i>
+      <span>{{ session('success') }}</span>
     </div>
   @endif
 
   <!-- Welcome Banner -->
   <div class="welcome-banner">
-    <div class="welcome-badge">Portal Pelanggan Kafa Advertising</div>
+    <div class="welcome-badge"><i class="bi bi-stars"></i> Portal Pelanggan Kafa Advertising</div>
     <h1 class="welcome-title">Halo, {{ $user->username }}!</h1>
     <p class="welcome-subtitle">
       Selamat datang di pusat layanan pelanggan Kafa Advertising. Anda dapat melihat riwayat pengerjaan pesanan neon box Anda atau melakukan konsultasi proyek baru.
     </p>
     <a href="{{ \App\Helpers\FormatHelper::whatsappUrl('Halo Kafa Advertising, saya pelanggan (' . $user->username . ') ingin konsultasi pesanan neon box') }}" target="_blank" class="btn-cta-wa">
-      💬 Konsultasi & Pesan Custom via WhatsApp
+      <i class="bi bi-whatsapp"></i> Konsultasi & Pesan Custom via WhatsApp
     </a>
   </div>
 
   <!-- Orders Section -->
   <div class="section-card">
     <div class="section-header">
-      <h2 class="section-title">Riwayat & Status Pesanan Anda</h2>
+      <h2 class="section-title"><i class="bi bi-receipt" style="margin-right:6px; color:var(--primary);"></i> Riwayat & Status Pesanan Anda</h2>
     </div>
 
     @if($orders->count() > 0)
@@ -953,13 +945,13 @@
               @endphp
               <tr>
                 <td><span class="order-id-badge">#ORD-{{ str_pad($order->id, 5, '0', STR_PAD_LEFT) }}</span></td>
-                <td>{{ $order->created_at->format('d M Y, H:i') }}</td>
-                <td>{{ $order->branch ? $order->branch->nama_cabang : 'Pusat' }}</td>
+                <td><i class="bi bi-calendar3" style="font-size:11px; margin-right:4px;"></i>{{ $order->created_at->format('d M Y, H:i') }}</td>
+                <td><i class="bi bi-building" style="font-size:11px; margin-right:4px;"></i>{{ $order->branch ? $order->branch->nama_cabang : 'Pusat' }}</td>
                 <td>
                   @if($order->items->count() > 0)
-                    {{ $order->items->pluck('product.nama')->filter()->join(', ') ?: 'Pesanan Custom' }}
+                    <i class="bi bi-box-seam" style="font-size:11px; margin-right:4px;"></i>{{ $order->items->pluck('product.nama')->filter()->join(', ') ?: 'Pesanan Custom' }}
                   @else
-                    Pesanan Signage
+                    <i class="bi bi-box-seam" style="font-size:11px; margin-right:4px;"></i>Pesanan Signage
                   @endif
                 </td>
                 <td style="font-weight: 800; color: var(--primary);">
@@ -967,24 +959,31 @@
                 </td>
                 <td>
                   <span class="badge-status {{ $order->status === 'selesai' ? 'badge-selesai' : ($order->status === 'on_progress' ? 'badge-proses' : 'badge-pending') }}">
+                    @if($order->status === 'selesai')
+                      <i class="bi bi-check-circle" style="margin-right:3px;"></i>
+                    @elseif($order->status === 'on_progress')
+                      <i class="bi bi-gear-wide-connected" style="margin-right:3px;"></i>
+                    @else
+                      <i class="bi bi-hourglass-split" style="margin-right:3px;"></i>
+                    @endif
                     {{ $statusLabel }}
                   </span>
                 </td>
                 <td>
                   @if($isLunas)
-                    <span class="badge-status badge-selesai">Lunas</span>
+                    <span class="badge-status badge-selesai"><i class="bi bi-check-circle-fill" style="margin-right:3px;"></i> Lunas</span>
                   @elseif($dibayar > 0)
-                    <span class="badge-status badge-proses">DP</span>
+                    <span class="badge-status badge-proses"><i class="bi bi-clock-history" style="margin-right:3px;"></i> DP</span>
                     <div style="font-size:10px; color:var(--text-muted); margin-top:2px;">
                       Sisa: Rp {{ number_format($sisa, 0, ',', '.') }}
                     </div>
                   @else
-                    <span class="badge-status badge-pending">Belum Bayar</span>
+                    <span class="badge-status badge-pending"><i class="bi bi-exclamation-circle" style="margin-right:3px;"></i> Belum Bayar</span>
                   @endif
                 </td>
                 <td>
-                  <a href="{{ route('customer.order.detail', $order->id) }}" class="btn-order-wa" style="padding:6px 10px; font-size:11px;">
-                    Detail & Bayar
+                  <a href="{{ route('customer.order.detail', $order->id) }}" class="btn-order-wa" style="padding:6px 12px; font-size:11px; display:inline-flex; align-items:center; gap:4px;">
+                    <i class="bi bi-eye"></i> Detail & Bayar
                   </a>
                 </td>
               </tr>
@@ -997,7 +996,7 @@
       </div>
     @else
       <div class="empty-state">
-        
+        <i class="bi bi-inbox" style="font-size:48px; color:var(--text-muted); display:block; margin-bottom:12px;"></i>
         <h3 style="font-size: 16px; font-weight: 700; margin-bottom: 6px; color: var(--text-main);">Belum Ada Pesanan Terdaftar</h3>
         <p style="font-size: 13px; max-width: 400px; margin: 0 auto 16px;">
           Anda belum memiliki riwayat pesanan neon box. Silakan pilih produk di bawah atau hubungi tim kami untuk membuat pesanan custom.
@@ -1009,9 +1008,9 @@
   <!-- Catalog Section -->
   <div class="section-card">
     <div class="section-header">
-      <h2 class="section-title">Katalog Pilihan Neon Box</h2>
-      <a href="{{ route('home') }}#produk" style="font-size: 13px; color: var(--primary); font-weight: 700; text-decoration: none;">
-        Lihat Semua Produk
+      <h2 class="section-title"><i class="bi bi-grid-fill" style="margin-right:6px; color:var(--primary);"></i> Katalog Pilihan Neon Box</h2>
+      <a href="{{ route('home') }}#produk" style="font-size: 13px; color: var(--primary); font-weight: 700; text-decoration: none; display:inline-flex; align-items:center; gap:4px;">
+        Lihat Semua Produk <i class="bi bi-arrow-right"></i>
       </a>
     </div>
 
@@ -1021,13 +1020,15 @@
           @if($prod->foto_url)
             <img src="{{ $prod->foto_url }}" alt="{{ $prod->nama }}" style="width:100%; height:140px; object-fit:cover; border-radius:10px; margin-bottom:12px; border:1px solid var(--border-color);">
           @else
-            
+            <div style="width:100%; height:140px; background:#1e293b; border-radius:10px; margin-bottom:12px; display:flex; align-items:center; justify-content:center; border:1px solid var(--border-color);">
+              <i class="bi bi-image" style="font-size:36px; color:#64748b;"></i>
+            </div>
           @endif
           <div class="product-mini-name">{{ $prod->nama }}</div>
           <div class="product-mini-price">{{ $prod->harga_display }}</div>
           <div class="product-mini-desc">{{ $prod->deskripsi ?: 'Produk neon box berkualitas tinggi' }}</div>
-          <a href="{{ \App\Helpers\FormatHelper::whatsappUrl('Halo Kafa Advertising, saya tertarik dengan produk *' . $prod->nama . '*') }}" target="_blank" class="btn-order-wa">
-            💬 Pesan Sekarang
+          <a href="{{ \App\Helpers\FormatHelper::whatsappUrl('Halo Kafa Advertising, saya tertarik dengan produk *' . $prod->nama . '*') }}" target="_blank" class="btn-order-wa" style="display:inline-flex; align-items:center; justify-content:center; gap:6px;">
+            <i class="bi bi-whatsapp"></i> Pesan Sekarang
           </a>
         </div>
       @endforeach

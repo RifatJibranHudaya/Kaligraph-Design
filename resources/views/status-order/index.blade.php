@@ -75,33 +75,38 @@
 <!-- Header & Add Order Button -->
 <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:24px; flex-wrap:wrap; gap:16px;">
   <div>
-    <h2 style="font-size:22px; font-weight:800; color:var(--text-main);">Tracking Pengerjaan</h2>
+    <h2 style="font-size:22px; font-weight:800; color:var(--text-main);"><i class="bi bi-clipboard2-check-fill" style="color:var(--primary); margin-right:6px;"></i> Tracking Pengerjaan</h2>
     <p style="font-size:13px; color:var(--text-muted); margin-top:2px;">Pantau progres pengerjaan mulai dari pesanan masuk, on progress pengerjaan, selesai, hingga cancelled.</p>
   </div>
   <button type="button" class="btn btn-primary" onclick="document.getElementById('newOrderModal').style.display='flex'">
-    Buat Pesanan / Order Baru
+    <i class="bi bi-plus-lg"></i> Buat Pesanan / Order Baru
   </button>
 </div>
 
 <!-- Status Tabs Filter -->
 <div class="status-tabs">
   <a href="{{ route('status_order.index', ['status' => 'semua']) }}" class="status-tab {{ !request('status') || request('status') === 'semua' ? 'active' : '' }}">
+    <i class="bi bi-grid-fill"></i>
     <span>Semua</span>
     <span class="tab-badge">{{ $statusCounts['semua'] }}</span>
   </a>
   <a href="{{ route('status_order.index', ['status' => 'order']) }}" class="status-tab {{ request('status') === 'order' ? 'active' : '' }}">
+    <i class="bi bi-hourglass"></i>
     <span>Order Baru</span>
     <span class="tab-badge">{{ $statusCounts['order'] }}</span>
   </a>
   <a href="{{ route('status_order.index', ['status' => 'on_progress']) }}" class="status-tab {{ request('status') === 'on_progress' ? 'active' : '' }}">
+    <i class="bi bi-gear-wide-connected"></i>
     <span>On Progress</span>
     <span class="tab-badge">{{ $statusCounts['on_progress'] }}</span>
   </a>
   <a href="{{ route('status_order.index', ['status' => 'selesai']) }}" class="status-tab {{ request('status') === 'selesai' ? 'active' : '' }}">
+    <i class="bi bi-check2-all"></i>
     <span>Selesai</span>
     <span class="tab-badge">{{ $statusCounts['selesai'] }}</span>
   </a>
   <a href="{{ route('status_order.index', ['status' => 'cancelled']) }}" class="status-tab {{ request('status') === 'cancelled' ? 'active' : '' }}">
+    <i class="bi bi-x-octagon"></i>
     <span>Cancelled</span>
     <span class="tab-badge">{{ $statusCounts['cancelled'] }}</span>
   </a>
@@ -114,113 +119,116 @@
       <input type="hidden" name="status" value="{{ request('status') }}">
     @endif
     <input type="text" name="search" class="form-control" placeholder="Cari nama pelanggan, nomor HP, atau ID Order..." value="{{ request('search') }}" style="flex:1;">
-    <button type="submit" class="btn btn-primary">Cari</button>
+    <button type="submit" class="btn btn-primary"><i class="bi bi-search"></i> Cari</button>
     @if(request('search'))
-      <a href="{{ route('status_order.index', ['status' => request('status')]) }}" class="btn btn-secondary">Reset</a>
+      <a href="{{ route('status_order.index', ['status' => request('status')]) }}" class="btn btn-secondary"><i class="bi bi-arrow-counterclockwise"></i> Reset</a>
     @endif
   </form>
 </div>
 
 <!-- Order List -->
-<div class="table-responsive card" style="padding:0; overflow:hidden;">
-  <table class="table">
-    <thead>
-      <tr>
-        <th>No. Order & Pelanggan</th>
-        <th>Alamat & Kategori</th>
-        <th>Nilai Proyek</th>
-        <th>Status Pembayaran</th>
-        <th>Status Pengerjaan</th>
-        <th>Aksi</th>
-      </tr>
-    </thead>
-    <tbody>
-      @forelse($orders as $ord)
+<div class="card" style="padding:0; overflow:hidden;">
+  <div class="table-responsive" style="margin-bottom:0;">
+    <table class="table">
+      <thead>
         <tr>
-          <td>
-            <div style="font-weight:800; font-size:15px; color:var(--text-main);">
-              Order #{{ $ord->id }}
-            </div>
-            <div style="font-size:13px; font-weight:600; color:var(--primary); margin-top:2px;">
-              {{ $ord->nama_pelanggan }}
-            </div>
-            @if($ord->no_hp)
-              <div style="font-size:12px; color:var(--text-muted); margin-top:2px;">
-                {{ $ord->no_hp }}
-              </div>
-            @endif
-            <div style="font-size:11px; color:var(--text-muted); margin-top:4px;">
-              {{ $ord->created_at ? $ord->created_at->format('d/m/Y H:i') : '-' }}
-            </div>
-          </td>
-          <td>
-            @if($ord->kategori)
-              <span class="badge badge-purple" style="margin-bottom:4px;">{{ $ord->kategori }}</span>
-            @endif
-            <div style="font-size:12px; color:var(--text-muted); max-width:240px; line-height:1.4;">
-              {{ $ord->alamat ?: '-' }}
-            </div>
-            @if($ord->keterangan)
-              <div style="font-size:11px; color:var(--text-muted); margin-top:4px; font-style:italic;">
-                Catatan: {{ Str::limit($ord->keterangan, 50) }}
-              </div>
-            @endif
-          </td>
-          <td>
-            <div style="font-weight:800; font-size:15px; color:var(--text-main);">
-              Rp {{ number_format($ord->total, 0, ',', '.') }}
-            </div>
-          </td>
-          <td>
-            @php
-              $dibayar = $ord->total_dibayar;
-              $total = $ord->total;
-              $sisa = $ord->sisa_tagihan;
-            @endphp
-            @if($dibayar >= $total && $total > 0)
-              <span class="badge badge-success">Lunas (100%)</span>
-            @elseif($dibayar > 0)
-              <span class="badge badge-warning">DP Rp {{ number_format($dibayar, 0, ',', '.') }}</span>
-              <div style="font-size:11px; color:var(--danger); font-weight:600; margin-top:2px;">
-                Sisa: Rp {{ number_format($sisa, 0, ',', '.') }}
-              </div>
-            @else
-              <span class="badge badge-danger">Belum Bayar</span>
-            @endif
-          </td>
-          <td>
-            <form method="POST" action="{{ route('status_order.update_status', $ord->id) }}">
-              @csrf
-              @method('PUT')
-              <select name="status" class="status-select" onchange="this.form.submit()" style="
-                @if($ord->status === 'selesai') background:#d1fae5; color:#065f46; border-color:#a7f3d0;
-                @elseif($ord->status === 'on_progress') background:#dbeafe; color:#1e40af; border-color:#bfdbfe;
-                @elseif($ord->status === 'cancelled') background:#fee2e2; color:#991b1b; border-color:#fecaca;
-                @else background:#fef3c7; color:#92400e; border-color:#fde68a;
-                @endif
-              ">
-                <option value="order" {{ $ord->status === 'order' ? 'selected' : '' }}>Order (Baru)</option>
-                <option value="on_progress" {{ $ord->status === 'on_progress' ? 'selected' : '' }}>On Progress</option>
-                <option value="selesai" {{ $ord->status === 'selesai' ? 'selected' : '' }}>Selesai</option>
-                <option value="cancelled" {{ $ord->status === 'cancelled' ? 'selected' : '' }}>Cancelled</option>
-              </select>
-            </form>
-          </td>
-          <td>
-            <a href="{{ route('pembayaran.detail.order', $ord->id) }}" class="btn btn-sm btn-primary" style="font-size:12px; font-weight:700; padding:6px 12px; white-space:nowrap;">
-              Detail & Bayar →
-            </a>
-          </td>
+          <th>No. Order & Pelanggan</th>
+          <th>Alamat & Kategori</th>
+          <th>Nilai Proyek</th>
+          <th>Status Pembayaran</th>
+          <th>Status Pengerjaan</th>
+          <th>Aksi</th>
         </tr>
-      @empty
-        <tr>
-          <td colspan="6" style="text-align:center; color:var(--text-muted); padding:40px;">
-            Tidak ada data order untuk filter ini.
-          </td>
-        </tr>
-      @endforelse
-    </tbody>
-  </table>
+      </thead>
+      <tbody>
+        @forelse($orders as $ord)
+          <tr>
+            <td>
+              <div style="font-weight:800; font-size:15px; color:var(--text-main);">
+                Order #{{ $ord->id }}
+              </div>
+              <div style="font-size:13px; font-weight:600; color:var(--primary); margin-top:2px;">
+                <i class="bi bi-person-fill" style="font-size:12px;"></i> {{ $ord->nama_pelanggan }}
+              </div>
+              @if($ord->no_hp)
+                <div style="font-size:12px; color:var(--text-muted); margin-top:2px;">
+                  <i class="bi bi-telephone" style="font-size:11px;"></i> {{ $ord->no_hp }}
+                </div>
+              @endif
+              <div style="font-size:11px; color:var(--text-muted); margin-top:4px;">
+                <i class="bi bi-calendar3" style="font-size:10px;"></i> {{ $ord->created_at ? $ord->created_at->format('d/m/Y H:i') : '-' }}
+              </div>
+            </td>
+            <td>
+              @if($ord->kategori)
+                <span class="badge badge-purple" style="margin-bottom:4px;"><i class="bi bi-tag-fill" style="font-size:10px; margin-right:3px;"></i>{{ $ord->kategori }}</span>
+              @endif
+              <div style="font-size:12px; color:var(--text-muted); max-width:240px; line-height:1.4;">
+                <i class="bi bi-geo-alt" style="font-size:11px;"></i> {{ $ord->alamat ?: '-' }}
+              </div>
+              @if($ord->keterangan)
+                <div style="font-size:11px; color:var(--text-muted); margin-top:4px; font-style:italic;">
+                  Catatan: {{ Str::limit($ord->keterangan, 50) }}
+                </div>
+              @endif
+            </td>
+            <td>
+              <div style="font-weight:800; font-size:15px; color:var(--text-main);">
+                Rp {{ number_format($ord->total, 0, ',', '.') }}
+              </div>
+            </td>
+            <td>
+              @php
+                $dibayar = $ord->total_dibayar;
+                $total = $ord->total;
+                $sisa = $ord->sisa_tagihan;
+              @endphp
+              @if($dibayar >= $total && $total > 0)
+                <span class="badge badge-success"><i class="bi bi-check-circle-fill" style="margin-right:3px;"></i> Lunas (100%)</span>
+              @elseif($dibayar > 0)
+                <span class="badge badge-warning"><i class="bi bi-clock-history" style="margin-right:3px;"></i> DP Rp {{ number_format($dibayar, 0, ',', '.') }}</span>
+                <div style="font-size:11px; color:var(--danger); font-weight:600; margin-top:2px;">
+                  Sisa: Rp {{ number_format($sisa, 0, ',', '.') }}
+                </div>
+              @else
+                <span class="badge badge-danger"><i class="bi bi-exclamation-circle" style="margin-right:3px;"></i> Belum Bayar</span>
+              @endif
+            </td>
+            <td>
+              <form method="POST" action="{{ route('status_order.update_status', $ord->id) }}">
+                @csrf
+                @method('PUT')
+                <select name="status" class="status-select" onchange="this.form.submit()" style="
+                  @if($ord->status === 'selesai') background:#d1fae5; color:#065f46; border-color:#a7f3d0;
+                  @elseif($ord->status === 'on_progress') background:#dbeafe; color:#1e40af; border-color:#bfdbfe;
+                  @elseif($ord->status === 'cancelled') background:#fee2e2; color:#991b1b; border-color:#fecaca;
+                  @else background:#fef3c7; color:#92400e; border-color:#fde68a;
+                  @endif
+                ">
+                  <option value="order" {{ $ord->status === 'order' ? 'selected' : '' }}>Order (Baru)</option>
+                  <option value="on_progress" {{ $ord->status === 'on_progress' ? 'selected' : '' }}>On Progress</option>
+                  <option value="selesai" {{ $ord->status === 'selesai' ? 'selected' : '' }}>Selesai</option>
+                  <option value="cancelled" {{ $ord->status === 'cancelled' ? 'selected' : '' }}>Cancelled</option>
+                </select>
+              </form>
+            </td>
+            <td>
+              <a href="{{ route('pembayaran.detail.order', $ord->id) }}" class="btn btn-sm btn-primary" style="font-size:12px; font-weight:700; padding:6px 12px; white-space:nowrap; display:inline-flex; align-items:center; gap:4px;">
+                <i class="bi bi-eye"></i> Detail & Bayar
+              </a>
+            </td>
+          </tr>
+        @empty
+          <tr>
+            <td colspan="6" style="text-align:center; color:var(--text-muted); padding:40px;">
+              <i class="bi bi-folder2-open" style="font-size:36px; color:var(--text-muted); display:block; margin-bottom:8px;"></i>
+              Tidak ada data order untuk filter ini.
+            </td>
+          </tr>
+        @endforelse
+      </tbody>
+    </table>
+  </div>
 </div>
 
 <div style="margin-top:20px;">
