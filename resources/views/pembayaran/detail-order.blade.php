@@ -499,6 +499,143 @@
     max-height: calc(85vh - 70px);
   }
 
+  /* ─── Bukti Pelanggan Card ─── */
+  .receipt-card {
+    background: var(--bg-card);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius);
+    overflow: hidden;
+    margin-bottom: 20px;
+    box-shadow: var(--shadow-sm);
+  }
+
+  .receipt-card-head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 14px 20px;
+    background: var(--surface-soft);
+    border-bottom: 1px solid var(--border-color);
+  }
+
+  .receipt-card-head .rch-title {
+    font-size: 14px;
+    font-weight: 700;
+    color: var(--text-main);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .receipt-status-chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 4px 12px;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: 700;
+  }
+  .chip-pending  { background:#fef3c7; color:#92400e; border:1px solid #fcd34d; }
+  .chip-verified { background:#d1fae5; color:#065f46; border:1px solid #6ee7b7; }
+  .chip-rejected { background:#fee2e2; color:#991b1b; border:1px solid #fca5a5; }
+  .chip-none     { background:#f3f4f6; color:#6b7280; border:1px solid #e5e7eb; }
+
+  .receipt-card-body {
+    padding: 20px;
+    display: flex;
+    gap: 20px;
+    align-items: flex-start;
+    flex-wrap: wrap;
+  }
+
+  .receipt-img-col { flex-shrink: 0; }
+
+  .receipt-img-thumb {
+    width: 160px;
+    height: 160px;
+    object-fit: cover;
+    border-radius: 12px;
+    border: 2px solid var(--border-color);
+    cursor: pointer;
+    transition: transform 0.2s, box-shadow 0.2s;
+    display: block;
+  }
+
+  .receipt-img-thumb:hover {
+    transform: scale(1.03);
+    box-shadow: 0 8px 24px rgba(0,0,0,0.15);
+  }
+
+  .receipt-info-col { flex: 1; min-width: 200px; }
+
+  .receipt-meta {
+    font-size: 13px;
+    color: var(--text-muted);
+    margin-bottom: 16px;
+    line-height: 1.7;
+  }
+  .receipt-meta strong { color: var(--text-main); }
+
+  .receipt-actions { display: flex; gap: 10px; flex-wrap: wrap; }
+
+  .btn-verify {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    padding: 9px 20px;
+    border-radius: var(--radius-full);
+    font-size: 13px;
+    font-weight: 700;
+    cursor: pointer;
+    border: none;
+    transition: all 0.2s;
+    background: #22c55e;
+    color: #fff;
+  }
+  .btn-verify:hover { background: #16a34a; transform: translateY(-1px); box-shadow: 0 4px 12px rgba(34,197,94,0.3); }
+
+  .btn-reject {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    padding: 9px 20px;
+    border-radius: var(--radius-full);
+    font-size: 13px;
+    font-weight: 700;
+    cursor: pointer;
+    border: none;
+    transition: all 0.2s;
+    background: var(--danger);
+    color: #fff;
+  }
+  .btn-reject:hover { background: #cc1836; transform: translateY(-1px); box-shadow: 0 4px 12px rgba(228,30,63,0.3); }
+
+  .btn-view-receipt {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    padding: 7px 14px;
+    border-radius: var(--radius-full);
+    font-size: 12px;
+    font-weight: 700;
+    cursor: pointer;
+    text-decoration: none;
+    transition: all 0.2s;
+    background: var(--bg-card);
+    color: var(--text-main);
+    border: 1px solid var(--hairline);
+  }
+  .btn-view-receipt:hover { background: var(--surface-soft); border-color: var(--text-muted); }
+
+  /* Badge di tabel riwayat */
+  .badge-receipt { background: #f0f4ff; color: #4338ca; border: 1px solid #c7d2fe; }
+
+  /* Highlight row bukti pelanggan */
+  .tr-receipt-row { background: linear-gradient(90deg, rgba(99,102,241,0.05) 0%, transparent 100%) !important; }
+  .tr-receipt-row td:first-child { border-left: 3px solid #6366f1; }
+  .tr-receipt-row:hover { background: linear-gradient(90deg, rgba(99,102,241,0.09) 0%, transparent 100%) !important; }
+
   /* Status badge inside info table */
   .status-pill {
     display: inline-flex;
@@ -746,6 +883,87 @@
   </div>
 </div>
 
+{{-- ═══════════════════════════════════════════════ --}}
+{{-- BUKTI BAYAR DARI PELANGGAN                     --}}
+{{-- ═══════════════════════════════════════════════ --}}
+@php
+  $psLabel = match($order->payment_status ?? null) {
+    'pending'  => ['label' => '<i class="bi bi-hourglass-split"></i> Menunggu Verifikasi', 'class' => 'chip-pending'],
+    'verified' => ['label' => '<i class="bi bi-patch-check-fill"></i> Terverifikasi',       'class' => 'chip-verified'],
+    'rejected' => ['label' => '<i class="bi bi-x-octagon-fill"></i> Ditolak / Diganti',    'class' => 'chip-rejected'],
+    default    => ['label' => '<i class="bi bi-file-earmark"></i> Belum Ada Bukti',         'class' => 'chip-none'],
+  };
+@endphp
+<div class="receipt-card">
+  <div class="receipt-card-head">
+    <div class="rch-title">
+      <i class="bi bi-image-fill" style="color:#6366f1;"></i>
+      Bukti Bayar dari Pelanggan
+    </div>
+    <span class="receipt-status-chip {{ $psLabel['class'] }}">{!! $psLabel['label'] !!}</span>
+  </div>
+  <div class="receipt-card-body">
+    @if($order->receipt_path)
+      <div class="receipt-img-col">
+        <img src="{{ $order->receipt_url }}"
+             alt="Bukti Bayar"
+             class="receipt-img-thumb"
+             onclick="window.open('{{ $order->receipt_url }}', '_blank')">
+        <div style="margin-top:8px; text-align:center;">
+          <a href="{{ $order->receipt_url }}" target="_blank"
+             class="btn-view-receipt" style="width:100%; justify-content:center;">
+            <i class="bi bi-arrows-fullscreen"></i> Perbesar
+          </a>
+        </div>
+      </div>
+      <div class="receipt-info-col">
+        <div class="receipt-meta">
+          <strong>Pelanggan:</strong> {{ $order->nama_pelanggan }}<br>
+          <strong>No. HP:</strong> {{ $order->no_hp ?: '-' }}<br>
+          <strong>Total Tagihan:</strong> Rp {{ number_format($orderTotal, 0, ',', '.') }}<br>
+          @if($order->payment_verified_at)
+            <strong>Diverifikasi:</strong>
+            {{ \Carbon\Carbon::parse($order->payment_verified_at)->format('d M Y, H:i') }}
+          @endif
+        </div>
+        @if(($order->payment_status ?? null) === 'pending')
+          <div class="receipt-actions">
+            <form method="POST" action="{{ route('pembayaran.verify.receipt', $order->id) }}" style="display:inline;">
+              @csrf
+              <button type="submit" class="btn-verify" onclick="return confirm('Verifikasi bukti pembayaran ini?')">
+                <i class="bi bi-patch-check-fill"></i> Verifikasi & Terima
+              </button>
+            </form>
+            <form method="POST" action="{{ route('pembayaran.reject.receipt', $order->id) }}" style="display:inline;">
+              @csrf
+              <button type="submit" class="btn-reject" onclick="return confirm('Tolak bukti pembayaran ini?')">
+                <i class="bi bi-x-octagon-fill"></i> Tolak Bukti
+              </button>
+            </form>
+          </div>
+        @elseif(($order->payment_status ?? null) === 'verified')
+          <div style="padding:10px 16px; background:#d1fae5; border-radius:10px; font-size:13px; font-weight:700; color:#065f46;">
+            <i class="bi bi-check-circle-fill"></i> Bukti telah diverifikasi. Buat catatan pembayaran di atas.
+          </div>
+        @elseif(($order->payment_status ?? null) === 'rejected')
+          <div style="display:flex; flex-direction:column; gap:10px;">
+            <div style="padding:10px 16px; background:#fee2e2; border-radius:10px; font-size:13px; font-weight:700; color:#991b1b;">
+              <i class="bi bi-x-octagon-fill"></i> Bukti telah ditolak. Pelanggan perlu upload ulang.
+            </div>
+            {{-- Admin bisa verif ulang jika pelanggan sudah upload baru --}}
+          </div>
+        @endif
+      </div>
+    @else
+      <div style="flex:1; text-align:center; padding:30px 20px; color:var(--text-muted);">
+        <i class="bi bi-image" style="font-size:40px; display:block; margin-bottom:10px; color:var(--border-color);"></i>
+        <div style="font-size:13.5px; font-weight:600;">Pelanggan belum mengunggah bukti pembayaran.</div>
+        <div style="font-size:12px; margin-top:4px;">Bukti akan muncul di sini setelah pelanggan mengupload.</div>
+      </div>
+    @endif
+  </div>
+</div>
+
 {{-- Ringkasan Pembayaran Section --}}
 <div class="ticket-section">
   <div class="ticket-section-title">
@@ -838,6 +1056,68 @@
         </tr>
       </thead>
       <tbody>
+        {{-- Row: Bukti Bayar dari Pelanggan (jika ada) --}}
+        @if($order->receipt_path)
+          <tr class="tr-receipt-row">
+            <td>
+              <span style="font-size:10px; background:#ede9fe; color:#5b21b6; font-weight:800; padding:2px 8px; border-radius:20px;">BUKTI</span>
+            </td>
+            <td style="color:var(--text-muted); font-size:12px;">
+              @if($order->payment_verified_at)
+                {{ \Carbon\Carbon::parse($order->payment_verified_at)->format('d-m-Y') }}
+              @else
+                <em>Menunggu</em>
+              @endif
+            </td>
+            <td>
+              <span class="badge badge-receipt">Bukti Pelanggan</span>
+            </td>
+            <td>
+              <span style="font-size:13px; color:var(--text-muted); font-weight:600;">—</span>
+            </td>
+            <td>
+              @php
+                $receiptStatusMap = [
+                  'pending'  => '<span style="color:#92400e;font-weight:700;"><i class="bi bi-hourglass-split"></i> Menunggu Verifikasi</span>',
+                  'verified' => '<span style="color:#065f46;font-weight:700;"><i class="bi bi-patch-check-fill"></i> Terverifikasi</span>',
+                  'rejected' => '<span style="color:#991b1b;font-weight:700;"><i class="bi bi-x-octagon-fill"></i> Ditolak</span>',
+                ];
+              @endphp
+              {!! $receiptStatusMap[$order->payment_status] ?? '<span style="color:var(--text-muted);">—</span>' !!}
+            </td>
+            <td>
+              <a href="{{ $order->receipt_url }}" target="_blank">
+                <img src="{{ $order->receipt_url }}" alt="Bukti" class="bukti-thumb">
+              </a>
+            </td>
+            <td>
+              <span style="font-size:12px; color:var(--text-muted);">Pelanggan</span>
+            </td>
+            <td>
+              <div class="riwayat-actions">
+                @if(($order->payment_status ?? null) === 'pending')
+                  <form method="POST" action="{{ route('pembayaran.verify.receipt', $order->id) }}" style="display:inline;">
+                    @csrf
+                    <button type="submit" class="btn-icon" style="background:#22c55e;color:#fff;border:none;" title="Verifikasi" onclick="return confirm('Verifikasi bukti ini?')">
+                      ✓ Verif
+                    </button>
+                  </form>
+                  <form method="POST" action="{{ route('pembayaran.reject.receipt', $order->id) }}" style="display:inline;">
+                    @csrf
+                    <button type="submit" class="btn-icon danger" title="Tolak" onclick="return confirm('Tolak bukti ini?')">
+                      ✕ Tolak
+                    </button>
+                  </form>
+                @elseif(($order->payment_status ?? null) === 'verified')
+                  <span style="font-size:12px; font-weight:700; color:#065f46;">✓ Verified</span>
+                @else
+                  <span style="font-size:12px; color:var(--text-muted);">Ditolak</span>
+                @endif
+              </div>
+            </td>
+          </tr>
+        @endif
+        {{-- Rows: Riwayat Pembayaran biasa --}}
         @forelse($allPayments as $index => $pay)
           <tr>
             <td>

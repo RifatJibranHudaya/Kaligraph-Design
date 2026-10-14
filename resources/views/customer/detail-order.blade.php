@@ -501,11 +501,11 @@
                 <div class="fi-icon"><i class="bi bi-paperclip" style="font-size:28px; color:#0064e0;"></i></div>
                 <div class="fi-text">
                   <strong>Klik atau seret</strong> file ke sini<br>
-                  <span style="font-size:11.5px;">JPEG, PNG, WebP — maks. 3 MB</span>
+                  <span style="font-size:11.5px;">JPEG, PNG, WebP — maks. 3 MB<br><span style="color:#059669;font-weight:700;">✓ Otomatis dikompres ke ≤1MB</span></span>
                 </div>
               </div>
               <button type="submit" class="btn-co btn-co-primary btn-co-full" style="margin-top:14px;">
-                <i class="bi bi-upload"></i> Unggah Nota Pembayaran
+                <i class="bi bi-upload"></i> Unggah Bukti Pembayaran
               </button>
             </form>
 
@@ -527,8 +527,6 @@
                   @endif
                 </div>
                 <div class="pay-actions">
-                  <a href="{{ route('pembayaran.nota', $pay->id) }}" target="_blank"
-                     class="btn-co btn-co-secondary btn-co-sm"><i class="bi bi-printer"></i> Nota</a>
                   @if($pay->bukti_url)
                     <a href="{{ $pay->bukti_url }}" target="_blank"
                        class="btn-co btn-co-secondary btn-co-sm"><i class="bi bi-image"></i> Bukti</a>
@@ -594,17 +592,6 @@
             </div>
 
             <div style="display:flex;flex-direction:column;gap:9px;">
-              @if($firstPayment)
-                <a href="{{ route('pembayaran.nota', $firstPayment->id) }}" target="_blank"
-                   class="btn-co btn-co-secondary btn-co-full">
-                  <i class="bi bi-printer"></i> Cetak Nota
-                </a>
-              @endif
-              <button type="button"
-                      class="btn-co btn-co-primary btn-co-full"
-                      onclick="document.getElementById('sendWaModal').style.display='flex'">
-                <i class="bi bi-whatsapp"></i> Kirim Nota ke WhatsApp
-              </button>
               <a href="{{ route('customer.dashboard') }}"
                  class="btn-co btn-co-secondary btn-co-full">
                 <i class="bi bi-arrow-left"></i> Dashboard
@@ -619,64 +606,4 @@
   </div><!-- /.co-body -->
 </div><!-- /.co-wrap -->
 
-{{-- Modal WhatsApp --}}
-<div id="sendWaModal" class="modal-backdrop">
-  <div class="modal-box">
-    <div class="modal-head">
-      <h3><i class="bi bi-whatsapp" style="color:#22c55e;"></i> Kirim Nota ke WhatsApp</h3>
-      <button class="modal-close-btn"
-              onclick="document.getElementById('sendWaModal').style.display='none'"><i class="bi bi-x-lg"></i></button>
-    </div>
-    <div class="modal-body">
-      <form method="POST" action="{{ route('customer.order.send.whatsapp', $order->id) }}">
-        @csrf
-        <div class="form-grp">
-          <label>Nomor WhatsApp *</label>
-          <input type="text" name="nomor_wa"
-                 value="{{ old('nomor_wa', session('nomor_wa', $order->no_hp)) }}"
-                 placeholder="cth. 081234567890" required>
-        </div>
-        <div class="form-grp">
-          <label>Pesan Tambahan (opsional)</label>
-          <textarea name="pesan_tambahan" rows="3"
-                    placeholder="Tambahkan pesan untuk pelanggan...">{{ old('pesan_tambahan') }}</textarea>
-        </div>
-
-        <div class="preview-nota">
-          <div class="pn-title"><i class="bi bi-card-text"></i> Preview Pesan</div>
-          *NOTA PEMBAYARAN ORDER #{{ $order->id }}*<br>
-          ━━━━━━━━━━━━━━━━━━━━<br>
-          Nama: {{ $order->nama_pelanggan }}<br>
-          Total: Rp {{ number_format($orderTotal, 0, ',', '.') }}<br>
-          Dibayar: Rp {{ number_format($totalPaid, 0, ',', '.') }}<br>
-          Sisa: Rp {{ number_format($sisaTagihan, 0, ',', '.') }}<br>
-          Status: {{ $isLunas ? 'LUNAS ✅' : 'BELUM LUNAS ⚠️' }}<br>
-          Progress: {{ $statusLabel }}
-        </div>
-
-        @if(session('wa_url'))
-          <div style="text-align:center;padding:12px;background:#d1fae5;border-radius:10px;margin-bottom:14px;">
-            <div style="font-size:13px;font-weight:700;color:#065f46;margin-bottom:8px;">Nota berhasil disiapkan!</div>
-            <a href="{{ session('wa_url') }}" target="_blank"
-               class="btn-co btn-co-success btn-co-full"><i class="bi bi-whatsapp"></i> Buka WhatsApp Sekarang</a>
-          </div>
-        @endif
-
-        <div style="display:flex;gap:10px;margin-top:4px;">
-          <button type="button" class="btn-co btn-co-secondary" style="flex:1;"
-                  onclick="document.getElementById('sendWaModal').style.display='none'">Batal</button>
-          <button type="submit" class="btn-co btn-co-primary" style="flex:1;"><i class="bi bi-send"></i> Kirim</button>
-        </div>
-      </form>
-    </div>
-  </div>
-</div>
-
-@if(session('success') && session('wa_url'))
-<script>
-  document.addEventListener('DOMContentLoaded', function() {
-    document.getElementById('sendWaModal').style.display = 'flex';
-  });
-</script>
-@endif
 @endsection

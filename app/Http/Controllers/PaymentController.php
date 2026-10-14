@@ -53,7 +53,7 @@ class PaymentController extends Controller
             'jumlah.min'             => 'Jumlah pembayaran minimal Rp 1.',
             'tanggal_bayar.required' => 'Tanggal bayar wajib diisi.',
             'bukti.image'            => 'File bukti harus berupa gambar.',
-            'bukti.max'              => 'Ukuran bukti maksimal 3 MB.',
+            'bukti.max'              => 'Ukuran gambar upload maksimal 3 MB (akan dikompres otomatis ke ≤1MB).',
         ]);
 
         $order = Order::findOrFail($validated['order_id']);
@@ -67,14 +67,13 @@ class PaymentController extends Controller
 
         $validated['user_id'] = Auth::id();
 
-        // SIMPAN BUKTI PEMBAYARAN KE STORAGE
+        // SIMPAN BUKTI PEMBAYARAN KE STORAGE (dengan auto-compress ≤1MB)
         if ($request->hasFile('bukti')) {
             $file = $request->file('bukti');
-            $filename = 'pay_' . time() . '_' . Str::random(8) . '.' . $file->getClientOriginalExtension();
-            
-            // Disimpan di storage/app/public/payments/
-            $file->storeAs('receipts', $filename, 'public');
-            
+            $filename = 'pay_' . time() . '_' . Str::random(8) . '.jpg';
+            $destPath = storage_path('app/public/receipts/');
+            if (!is_dir($destPath)) mkdir($destPath, 0755, true);
+            $this->compressImage($file->getRealPath(), $destPath . $filename, 1024);
             $validated['bukti'] = $filename;
         }
 
@@ -328,6 +327,29 @@ class PaymentController extends Controller
             ->with('success', 'Bukti pembayaran berhasil diverifikasi.');
     }
 
+    public function rejectReceipt(Request $request, Order $order)
+    {
+        $authUser = Auth::guard('web')->user();
+        if (!$authUser) {
+            return redirect()->route('login.admin')->with('error', 'Silakan login terlebih dahulu.');
+        }
+
+        $order->payment_status = 'rejected';
+        $order->payment_verified_by = $authUser->id;
+        $order->payment_verified_at = now();
+        $order->save();
+
+        ActivityLogService::log(
+            'reject_receipt',
+            'pembayaran',
+            "Tolak bukti pembayaran untuk Order #{$order->id}",
+            $order->id
+        );
+
+        return redirect()->route('pembayaran.detail.order', $order->id)
+            ->with('success', 'Bukti pembayaran berhasil ditolak.');
+    }
+
     public function customerUploadReceipt(Request $request, Order $order)
     {
         $authUser = Auth::guard('customer')->user() ?: Auth::guard('web')->user();
@@ -343,7 +365,7 @@ class PaymentController extends Controller
             'bukti' => 'required|image|mimes:jpeg,png,jpg,webp|max:3072',
         ]);
 
-        // UPLOAD RECEIPT KE STORAGE
+        // UPLOAD RECEIPT KE STORAGE (dengan auto-compress ≤1MB)
         if ($request->hasFile('bukti')) {
             // Hapus file receipt lama jika ada
             if ($order->receipt_path && Storage::disk('public')->exists('receipts/' . $order->receipt_path)) {
@@ -351,10 +373,10 @@ class PaymentController extends Controller
             }
 
             $file = $request->file('bukti');
-            $filename = 'receipt_' . time() . '_' . Str::random(8) . '.' . $file->getClientOriginalExtension();
-            
-            // Disimpan di storage/app/public/receipts/
-            $file->storeAs('receipts', $filename, 'public');
+            $filename = 'receipt_' . time() . '_' . Str::random(8) . '.jpg';
+            $destPath = storage_path('app/public/receipts/');
+            if (!is_dir($destPath)) mkdir($destPath, 0755, true);
+            $this->compressImage($file->getRealPath(), $destPath . $filename, 1024);
 
             $order->receipt_path = $filename;
             $order->payment_status = 'pending';
@@ -370,5 +392,63 @@ class PaymentController extends Controller
 
         return redirect()->route($authUser->isCustomer() ? 'customer.order.detail' : 'pembayaran.detail.order', $order->id)
             ->with('success', 'Bukti pembayaran berhasil diunggah, menunggu verifikasi.');
+    }
+
+    /**
+     * Kompres gambar menggunakan GD Library agar ukuran file ≤ target KB.
+     * Output selalu dalam format JPEG untuk kompresi maksimal.
+     *
+     * @param string $sourcePath  Path file asli yang diupload
+     * @param string $destPath    Path tujuan penyimpanan file hasil kompresi
+     * @param int    $maxKB       Ukuran maksimal file dalam KB (default: 1024 = 1MB)
+     */
+    private function compressImage(string $sourcePath, string $destPath, int $maxKB = 1024): void
+    {
+        $imageInfo = @getimagesize($sourcePath);
+        if (!$imageInfo) {
+            // Bukan gambar valid, copy saja apa adanya
+            copy($sourcePath, $destPath);
+            return;
+        }
+
+        $mime = $imageInfo['mime'];
+
+        // Buat resource gambar dari file sumber
+        $img = match ($mime) {
+            'image/jpeg', 'image/jpg' => @imagecreatefromjpeg($sourcePath),
+            'image/png'               => @imagecreatefrompng($sourcePath),
+            'image/webp'              => @imagecreatefromwebp($sourcePath),
+            'image/gif'               => @imagecreatefromgif($sourcePath),
+            default                   => false,
+        };
+
+        if (!$img) {
+            copy($sourcePath, $destPath);
+            return;
+        }
+
+        // Pastikan gambar PNG/GIF dengan transparansi dikonversi dengan benar
+        $width  = imagesx($img);
+        $height = imagesy($img);
+        $canvas = imagecreatetruecolor($width, $height);
+        $white  = imagecolorallocate($canvas, 255, 255, 255);
+        imagefill($canvas, 0, 0, $white);
+        imagecopy($canvas, $img, 0, 0, 0, 0, $width, $height);
+        imagedestroy($img);
+
+        // Cari quality terbaik agar ukuran file ≤ maxKB
+        // Mulai dari quality 85 turun 5 setiap iterasi
+        $maxBytes = $maxKB * 1024;
+        $quality  = 85;
+
+        do {
+            ob_start();
+            imagejpeg($canvas, null, $quality);
+            $output = ob_get_clean();
+            $quality -= 5;
+        } while (strlen($output) > $maxBytes && $quality >= 20);
+
+        imagedestroy($canvas);
+        file_put_contents($destPath, $output);
     }
 }

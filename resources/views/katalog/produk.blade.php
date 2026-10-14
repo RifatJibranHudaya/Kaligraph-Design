@@ -412,34 +412,49 @@
   }
 
   /* Category pills */
-  .category-pills {
+  /* ─── Filter Select Dropdowns (Style like Image 3) ─── */
+  .filter-select-row {
     display: flex;
-    gap: 10px;
-    overflow-x: auto;
-    padding-bottom: 16px;
-    margin-bottom: 30px;
-    scrollbar-width: thin;
-  }
-  .cat-pill {
-    display: inline-flex;
     align-items: center;
-    gap: 8px;
-    padding: 8px 18px;
-    border-radius: 30px;
-    background: var(--bg-card);
-    border: 1px solid var(--border-color);
-    color: var(--text-main);
-    text-decoration: none;
-    font-size: 13px;
-    font-weight: 600;
-    white-space: nowrap;
-    transition: all 0.2s;
+    gap: 12px;
+    margin-bottom: 28px;
+    flex-wrap: wrap;
   }
-  .cat-pill:hover, .cat-pill.active {
-    background: var(--primary);
-    color: #fff;
-    border-color: var(--primary);
-    box-shadow: 0 4px 12px rgba(37,99,235,0.25);
+  .filter-select-col {
+    position: relative;
+    display: inline-block;
+  }
+  .filter-select {
+    display: block;
+    width: auto;
+    min-width: 170px;
+    padding: 7px 34px 7px 12px;
+    font-size: 13.5px;
+    font-weight: 500;
+    line-height: 1.5;
+    color: #1f2937;
+    background-color: #ffffff;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%23374151' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 10px center;
+    background-size: 11px 11px;
+    border: 1px solid #d1d5db;
+    border-radius: 6px;
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    cursor: pointer;
+    box-shadow: 0 1px 2px rgba(0,0,0,0.04);
+    transition: border-color 0.15s ease, box-shadow 0.15s ease;
+    font-family: inherit;
+  }
+  .filter-select:hover {
+    border-color: #9ca3af;
+  }
+  .filter-select:focus {
+    outline: none;
+    border-color: #2563eb;
+    box-shadow: 0 0 0 3px rgba(37,99,235,0.15);
   }
 
   .products-grid {
@@ -552,14 +567,19 @@
     .catalog-container {
       padding: 20px 14px;
     }
-    .category-pills {
-      gap: 6px;
-      padding-bottom: 10px;
+    .filter-select-row {
+      gap: 8px;
       margin-bottom: 20px;
     }
-    .cat-pill {
-      padding: 6px 14px;
-      font-size: 12px;
+    .filter-select-col {
+      flex: 1 1 calc(50% - 8px);
+      min-width: 140px;
+    }
+    .filter-select {
+      width: 100%;
+      min-width: unset;
+      padding: 7px 28px 7px 10px;
+      font-size: 12.5px;
     }
     .products-grid {
       grid-template-columns: 1fr;
@@ -745,21 +765,38 @@
     <span>{{ $category->nama }}</span>
   </div>
 
-  <!-- Category Filter Pills -->
-  <div class="category-pills">
-    <a href="{{ route('katalog') }}" class="cat-pill">Semua Kategori</a>
-    @foreach($categories as $cat)
-      <a href="{{ route('katalog.kategori', $cat->slug) }}" class="cat-pill {{ $cat->id === $category->id ? 'active' : '' }}">
-        
-        <span>{{ $cat->nama }}</span>
-      </a>
-    @endforeach
+  <!-- Category & Sort Filter Selects (Image 3 Style) -->
+  <div class="filter-select-row">
+    <div class="filter-select-col">
+      <select class="filter-select" id="catalogCategorySelect" onchange="if(this.value) window.location.href=this.value;">
+        <option value="{{ route('katalog.kategori', 'semua') }}" {{ (isset($category) && $category->slug === 'semua') ? 'selected' : '' }}>-Semua Kategori-</option>
+        @foreach($categories as $cat)
+          <option value="{{ route('katalog.kategori', $cat->slug) }}" {{ (isset($category) && $cat->id === $category->id) ? 'selected' : '' }}>
+            {{ $cat->nama }}
+          </option>
+        @endforeach
+      </select>
+    </div>
+
+    <div class="filter-select-col">
+      <select class="filter-select" id="catalogSortSelect" onchange="sortCatalogProducts(this.value)">
+        <option value="default">-Semua Urutan-</option>
+        <option value="price-asc">Harga: Terendah</option>
+        <option value="price-desc">Harga: Tertinggi</option>
+        <option value="name-asc">Nama: A - Z</option>
+        <option value="name-desc">Nama: Z - A</option>
+      </select>
+    </div>
   </div>
 
   <!-- Products Grid -->
   <div class="products-grid">
     @forelse($products as $prod)
-      <a href="{{ route('katalog.detail', [$category->slug, $prod->id]) }}" class="product-card">
+      <a href="{{ route('katalog.detail', [$prod->category ? $prod->category->slug : ($category->slug ?? 'produk'), $prod->id]) }}" 
+         class="product-card"
+         data-index="{{ $loop->index }}"
+         data-price="{{ $prod->harga_min ?: $prod->harga_default }}"
+         data-name="{{ $prod->nama }}">
         <div class="product-img">
           @if($prod->foto_url)
             <img src="{{ $prod->foto_url }}" alt="{{ $prod->nama }}">
@@ -768,6 +805,11 @@
           @endif
         </div>
         <div class="product-body">
+          @if(isset($category) && $category->slug === 'semua' && $prod->category)
+            <div style="font-size:11px; font-weight:700; color:var(--primary); text-transform:uppercase; letter-spacing:0.5px; margin-bottom:4px;">
+              {{ $prod->category->nama }}
+            </div>
+          @endif
           <div class="product-name">{{ $prod->nama }}</div>
           <div class="product-price">{{ $prod->harga_display }}</div>
           <p class="product-desc">{{ Str::limit($prod->deskripsi ?: 'Kualitas terjamin, siap survey lokasi dan melayani pengiriman.', 100) }}</p>
@@ -822,6 +864,30 @@ document.addEventListener('keydown', function(e) {
     closeSideNav();
   }
 });
+
+// Sort Catalog Products (Client-Side)
+function sortCatalogProducts(sortBy) {
+  const grid = document.querySelector('.products-grid');
+  if (!grid) return;
+  const cards = Array.from(grid.querySelectorAll('.product-card'));
+  if (cards.length === 0) return;
+
+  cards.sort((a, b) => {
+    if (sortBy === 'price-asc') {
+      return (parseFloat(a.dataset.price) || 0) - (parseFloat(b.dataset.price) || 0);
+    } else if (sortBy === 'price-desc') {
+      return (parseFloat(b.dataset.price) || 0) - (parseFloat(a.dataset.price) || 0);
+    } else if (sortBy === 'name-asc') {
+      return (a.dataset.name || '').localeCompare(b.dataset.name || '');
+    } else if (sortBy === 'name-desc') {
+      return (b.dataset.name || '').localeCompare(a.dataset.name || '');
+    } else {
+      return (parseInt(a.dataset.index) || 0) - (parseInt(b.dataset.index) || 0);
+    }
+  });
+
+  cards.forEach(card => grid.appendChild(card));
+}
 </script>
 
 

@@ -96,7 +96,7 @@ class Order extends Model
      */
     public function getReceiptUrlAttribute()
     {
-        return $this->receipt_path ? asset('storage/' . $this->receipt_path) : null;
+        return $this->receipt_path ? asset('storage/receipts/' . $this->receipt_path) : null;
     }
 
     /**

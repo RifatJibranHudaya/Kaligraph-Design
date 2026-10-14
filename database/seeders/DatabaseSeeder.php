@@ -19,12 +19,13 @@ class DatabaseSeeder extends Seeder
         // 1. Create Default Branch
         $branchUtama = Branch::firstOrCreate(
             ['nama_cabang' => 'Showroom Utama - Pusat'],
-            ['alamat' => 'Jl. Raya Signage No. 1, Jakarta Selatan', 'map_url' => null]
+            ['alamat' => 'Plosokrajan, Ploso, Kec. Karangtengah, Kabupaten Demak, Jawa Tengah 59561',
+             'map_url' => 'https://maps.app.goo.gl/s3bop6MTSWfp8yCt8']
         );
 
         Branch::firstOrCreate(
             ['nama_cabang' => 'Workshop Kaligraph - Cabang Barat'],
-            ['alamat' => 'Jl. HR Muhammad No. 45, Surabaya Barat', 'map_url' => null]
+            ['alamat' => '', 'map_url' => null]
         );
 
         // 2. Create Initial Accounts
@@ -32,7 +33,7 @@ class DatabaseSeeder extends Seeder
             ['username' => 'admin'],
             [
                 'email'     => 'admin@kaligraphdesign.com',
-                'phone'     => '081234567890',
+                'phone'     => '082242871692',
                 'password'  => Hash::make('admin'),
                 'level'     => 'superadmin',
                 'branch_id' => $branchUtama->id,
@@ -43,7 +44,7 @@ class DatabaseSeeder extends Seeder
             ['username' => 'owner'],
             [
                 'email'     => 'owner@kaligraphdesign.com',
-                'phone'     => '081234567891',
+                'phone'     => '082242871692',
                 'password'  => Hash::make('owner'),
                 'level'     => 'owner',
                 'branch_id' => $branchUtama->id,
@@ -54,7 +55,7 @@ class DatabaseSeeder extends Seeder
             ['username' => 'kasir'],
             [
                 'email'     => 'kasir@kaligraphdesign.com',
-                'phone'     => '081234567892',
+                'phone'     => '082242871692',
                 'password'  => Hash::make('kasir'),
                 'level'     => 'kasir',
                 'branch_id' => $branchUtama->id,
@@ -82,7 +83,7 @@ class DatabaseSeeder extends Seeder
             ['section' => 'about'],
             [
                 'title'       => 'Tentang Kafa Advertising',
-                'subtitle'    => 'Pengalaman 8+ Tahun di Industri Signage',
+                'subtitle'    => 'Pengalaman 8+ Tahun di Industri Advertising',
                 'content'     => 'Kami berkomitmen menghadirkan solusi neon box dan signage berkualitas tinggi dengan material premium, pengerjaan presisi, dan layanan purna jual terpercaya.',
                 'icon'        => '🏪',
                 'order_index' => 2,

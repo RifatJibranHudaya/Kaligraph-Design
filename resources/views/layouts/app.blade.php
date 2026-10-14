@@ -152,6 +152,25 @@
       letter-spacing: 0.8px;
     }
 
+    .close-sidebar-btn {
+      display: none;
+      background: rgba(255, 255, 255, 0.1);
+      border: none;
+      color: #fff;
+      font-size: 16px;
+      width: 32px;
+      height: 32px;
+      border-radius: 8px;
+      cursor: pointer;
+      align-items: center;
+      justify-content: center;
+      transition: background 0.2s;
+    }
+
+    .close-sidebar-btn:hover {
+      background: rgba(255, 255, 255, 0.2);
+    }
+
     .sidebar-menu {
       flex: 1;
       padding: 16px 12px;
@@ -879,6 +898,79 @@
       border-bottom: 1px solid var(--border-color) !important;
     }
 
+    /* ─── Laravel Native Pagination Styles ─── */
+    nav .d-flex.justify-content-between {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      margin-top: 10px;
+    }
+    
+    .pagination {
+      display: flex;
+      gap: 6px;
+      align-items: center;
+      flex-wrap: wrap;
+      list-style: none;
+      padding: 0;
+      margin: 14px 0 0 0;
+      justify-content: flex-end;
+    }
+
+    .page-item {
+      margin: 0;
+      padding: 0;
+    }
+
+    .page-link {
+      padding: 6px 14px;
+      border-radius: var(--radius-full) !important;
+      border: 1px solid var(--hairline);
+      background: var(--bg-card);
+      color: var(--text-main);
+      font-size: 13px;
+      font-weight: 700;
+      cursor: pointer;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-width: 36px;
+      transition: all 0.2s;
+      margin-left: 0 !important;
+      outline: none;
+    }
+
+    .page-link:hover {
+      background: var(--surface-soft);
+      border-color: var(--text-muted);
+      color: var(--text-main);
+    }
+
+    .page-item.active .page-link {
+      background: var(--ink-deep);
+      color: #ffffff;
+      border-color: var(--ink-deep);
+      z-index: 1;
+    }
+
+    .page-item.disabled .page-link {
+      opacity: 0.4;
+      cursor: not-allowed;
+      background: var(--surface-soft);
+      color: var(--text-main);
+      pointer-events: none;
+    }
+
+    /* Menyembunyikan text bawaan Bootstrap yang bentrok di layout custom */
+    p.small.text-muted {
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--text-muted);
+      margin-top: 16px;
+    }
+    
     /* Responsive */
     @media (max-width: 1024px) {
       .grid-4 { grid-template-columns: repeat(2, 1fr); }
@@ -910,6 +1002,7 @@
         overflow: hidden !important;
       }
       .toggle-sidebar-btn { display: block; }
+      .close-sidebar-btn { display: flex; }
       .grid-2, .grid-3, .grid-4 { grid-template-columns: 1fr; }
 
       /* Mobile Table Horizontal Scroll Rules */
@@ -959,12 +1052,17 @@
 
   <!-- Sidebar -->
   <aside class="sidebar" id="sidebar">
-    <div class="sidebar-brand">
-      <div class="logo-icon">K</div>
-      <div>
-        <div class="brand-title">Kafa Advertising</div>
-        <div class="brand-sub">Neon Box & Signage</div>
+    <div class="sidebar-brand" style="display:flex; align-items:center; justify-content:space-between;">
+      <div style="display:flex; align-items:center; gap:12px;">
+        <div class="logo-icon">K</div>
+        <div>
+          <div class="brand-title">Kafa Advertising</div>
+          <div class="brand-sub">Neon Box & Signage</div>
+        </div>
       </div>
+      <button type="button" class="close-sidebar-btn" onclick="toggleSidebar()" title="Tutup Menu">
+        <i class="bi bi-x-lg"></i>
+      </button>
     </div>
 
     <nav class="sidebar-menu">

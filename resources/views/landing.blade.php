@@ -1202,13 +1202,13 @@
     <div class="footer-brand-right">
       <div class="footer-brand-badges">
         <div class="footer-badge"><i class="bi bi-patch-check-fill" style="color:var(--success); margin-right:4px;"></i> Garansi Resmi 12 Bulan</div>
-        <div class="footer-badge"><i class="bi bi-truck" style="color:var(--primary); margin-right:4px;"></i> Pengiriman Seluruh Indonesia</div>
+        <div class="footer-badge"><i class="bi bi-truck" style="color:var(--primary); margin-right:4px;"></i> Melayani Jasa Pengiriman</div>
         <div class="footer-badge"><i class="bi bi-tools" style="color:var(--warning); margin-right:4px;"></i> Workshop Mandiri</div>
       </div>
       <!-- Social Media Buttons -->
       <div class="footer-social-strip">
         <!-- WhatsApp -->
-        <a href="{{ \App\Helpers\FormatHelper::whatsappUrl('Halo Kafa Advertising, saya ingin konsultasi produk') }}" target="_blank" class="social-icon-btn btn-wa" title="WhatsApp" aria-label="WhatsApp">
+        <a href="{{ \App\Helpers\FormatHelper::whatsappUrl('Halo Kafa Advertising, saya ingin konsultasi produk') }}" target="082242871692" class="social-icon-btn btn-wa" title="WhatsApp" aria-label="WhatsApp">
           <i class="bi bi-whatsapp" style="font-size:18px;"></i>
         </a>
         <!-- Instagram -->

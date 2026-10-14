@@ -109,7 +109,8 @@ Route::middleware(['auth:web', 'prevent.back'])->group(function () {
         Route::delete('/{payment}', [PaymentController::class, 'destroy'])->name('destroy');
         Route::get('/order/{order}/detail', [PaymentController::class, 'detailOrder'])->name('detail.order');
         Route::post('/order/{order}/send-whatsapp', [PaymentController::class, 'sendWhatsapp'])->name('send.whatsapp');
-        Route::post('/order/{order}/verify-receipt', [PaymentController::class, 'verifyReceipt'])->name('pembayaran.verify.receipt');
+        Route::post('/order/{order}/verify-receipt', [PaymentController::class, 'verifyReceipt'])->name('verify.receipt');
+        Route::post('/order/{order}/reject-receipt', [PaymentController::class, 'rejectReceipt'])->name('reject.receipt');
     });
 
     // Status Pengerjaan Order

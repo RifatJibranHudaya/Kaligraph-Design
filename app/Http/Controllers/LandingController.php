@@ -33,8 +33,26 @@ class LandingController extends Controller
      */
     public function productsByCategory(string $slug)
     {
+        if ($slug === 'semua' || $slug === 'all') {
+            $category = (object)[
+                'id' => 0,
+                'nama' => 'Semua Produk',
+                'slug' => 'semua',
+                'deskripsi' => 'Pilihan lengkap seluruh produk dan varian advertising custom dari Kafa Advertising.'
+            ];
+            $products = Product::with('category')
+                ->active()
+                ->ordered()
+                ->get();
+
+            $categories = Category::active()->ordered()->get();
+
+            return view('katalog.produk', compact('category', 'products', 'categories'));
+        }
+
         $category = Category::where('slug', $slug)->firstOrFail();
-        $products = Product::where('category_id', $category->id)
+        $products = Product::with('category')
+            ->where('category_id', $category->id)
             ->active()
             ->ordered()
             ->get();

@@ -400,6 +400,51 @@
     margin: 0 auto;
   }
 
+  /* ─── Filter Select Dropdowns (Style like Image 3) ─── */
+  .filter-select-row {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 28px;
+    flex-wrap: wrap;
+  }
+  .filter-select-col {
+    position: relative;
+    display: inline-block;
+  }
+  .filter-select {
+    display: block;
+    width: auto;
+    min-width: 170px;
+    padding: 7px 34px 7px 12px;
+    font-size: 13.5px;
+    font-weight: 500;
+    line-height: 1.5;
+    color: #1f2937;
+    background-color: #ffffff;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%23374151' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 10px center;
+    background-size: 11px 11px;
+    border: 1px solid #d1d5db;
+    border-radius: 6px;
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    cursor: pointer;
+    box-shadow: 0 1px 2px rgba(0,0,0,0.04);
+    transition: border-color 0.15s ease, box-shadow 0.15s ease;
+    font-family: inherit;
+  }
+  .filter-select:hover {
+    border-color: #9ca3af;
+  }
+  .filter-select:focus {
+    outline: none;
+    border-color: #2563eb;
+    box-shadow: 0 0 0 3px rgba(37,99,235,0.15);
+  }
+
   .category-grid {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
@@ -520,6 +565,20 @@
     }
     .catalog-container {
       padding: 20px 14px;
+    }
+    .filter-select-row {
+      gap: 8px;
+      margin-bottom: 20px;
+    }
+    .filter-select-col {
+      flex: 1 1 100%;
+      min-width: 140px;
+    }
+    .filter-select {
+      width: 100%;
+      min-width: unset;
+      padding: 7px 28px 7px 10px;
+      font-size: 12.5px;
     }
     .category-grid {
       grid-template-columns: 1fr;
@@ -693,6 +752,18 @@
     <a href="{{ route('home') }}">Beranda</a>
     <span>/</span>
     <span>Kategori Produk</span>
+  </div>
+
+  <!-- Filter Select Dropdown (Image 3 Style) -->
+  <div class="filter-select-row">
+    <div class="filter-select-col">
+      <select class="filter-select" onchange="if(this.value) window.location.href=this.value;">
+        <option value="{{ route('katalog.kategori', 'semua') }}" selected>-Semua Kategori-</option>
+        @foreach($categories as $category)
+          <option value="{{ route('katalog.kategori', $category->slug) }}">{{ $category->nama }}</option>
+        @endforeach
+      </select>
+    </div>
   </div>
 
   <div class="category-grid">

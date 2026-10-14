@@ -429,34 +429,49 @@
     color: var(--primary);
   }
 
-  /* Filter Tabs (Meta Pill Tabs) */
-  .filter-tabs {
+  /* ─── Filter Select Dropdowns (Style like Image 3) ─── */
+  .filter-select-row {
     display: flex;
-    gap: 8px;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 30px;
     flex-wrap: wrap;
-    margin-bottom: 36px;
   }
-  .filter-tab {
-    padding: 8px 20px;
-    border-radius: var(--radius-full);
-    border: 1px solid var(--hairline);
-    background: var(--bg-card);
-    color: var(--text-body);
+  .filter-select-col {
+    position: relative;
+    display: inline-block;
+  }
+  .filter-select {
+    display: block;
+    width: auto;
+    min-width: 170px;
+    padding: 7px 34px 7px 12px;
     font-size: 13.5px;
-    font-weight: 700;
-    letter-spacing: -0.14px;
+    font-weight: 500;
+    line-height: 1.5;
+    color: #1f2937;
+    background-color: #ffffff;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%23374151' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 10px center;
+    background-size: 11px 11px;
+    border: 1px solid #d1d5db;
+    border-radius: 6px;
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
     cursor: pointer;
-    transition: all 0.2s ease;
-    text-decoration: none;
+    box-shadow: 0 1px 2px rgba(0,0,0,0.04);
+    transition: border-color 0.15s ease, box-shadow 0.15s ease;
+    font-family: inherit;
   }
-  .filter-tab:hover {
-    background: var(--surface-soft);
-    border-color: var(--text-muted);
+  .filter-select:hover {
+    border-color: #9ca3af;
   }
-  .filter-tab.active {
-    background: var(--ink-deep);
-    color: #ffffff;
-    border-color: var(--ink-deep);
+  .filter-select:focus {
+    outline: none;
+    border-color: #2563eb;
+    box-shadow: 0 0 0 3px rgba(37,99,235,0.15);
   }
 
   .portfolio-grid {
@@ -611,13 +626,19 @@
     .portfolio-container {
       padding: 20px 14px 40px;
     }
-    .filter-tabs {
-      gap: 6px;
+    .filter-select-row {
+      gap: 8px;
       margin-bottom: 20px;
     }
-    .filter-tab {
-      padding: 6px 14px;
-      font-size: 12px;
+    .filter-select-col {
+      flex: 1 1 calc(50% - 8px);
+      min-width: 140px;
+    }
+    .filter-select {
+      width: 100%;
+      min-width: unset;
+      padding: 7px 28px 7px 10px;
+      font-size: 12.5px;
     }
     .portfolio-grid {
       grid-template-columns: 1fr;
@@ -791,21 +812,35 @@
     <span>Portofolio</span>
   </div>
 
-  <!-- Category Filter -->
-  @if($categories->count() > 0)
-  <div class="filter-tabs">
-    <span class="filter-tab active" onclick="filterPortfolio('all')"><i class="bi bi-grid" style="margin-right:4px;"></i> Semua</span>
-    @foreach($categories as $cat)
-      <span class="filter-tab" onclick="filterPortfolio('cat-{{ $cat->id }}')" data-cat="{{ $cat->id }}">
-        {{ $cat->nama }}
-      </span>
-    @endforeach
+  <!-- Category & Year Filter Selects (Image 3 Style) -->
+  <div class="filter-select-row">
+    <div class="filter-select-col">
+      <select class="filter-select" id="portfolioCategorySelect" onchange="filterPortfolio()">
+        <option value="all">-Semua Kategori-</option>
+        @foreach($categories as $cat)
+          <option value="cat-{{ $cat->id }}">{{ $cat->nama }}</option>
+        @endforeach
+      </select>
+    </div>
+
+    @php
+      $years = $portfolios->pluck('tahun')->filter()->unique()->sortDesc();
+    @endphp
+    @if($years->count() > 0)
+    <div class="filter-select-col">
+      <select class="filter-select" id="portfolioYearSelect" onchange="filterPortfolio()">
+        <option value="all">-Semua Tahun-</option>
+        @foreach($years as $yr)
+          <option value="{{ $yr }}">{{ $yr }}</option>
+        @endforeach
+      </select>
+    </div>
+    @endif
   </div>
-  @endif
 
   <div class="portfolio-grid" id="portfolioGrid">
     @forelse($portfolios as $p)
-      <div class="port-card" data-category="cat-{{ $p->category_id }}">
+      <div class="port-card" data-category="cat-{{ $p->category_id }}" data-year="{{ $p->tahun }}">
         <div class="port-card-img" style="display:flex; align-items:center; justify-content:center; background:#1e293b;">
           @if($p->foto_url)
             <img src="{{ $p->foto_url }}" alt="{{ $p->nama }}">
@@ -894,23 +929,45 @@ document.addEventListener('keydown', function(e) {
   }
 });
 
-// Portfolio Category Filter
-function filterPortfolio(category) {
+// Portfolio Filter (Multi-Criteria: Category & Year)
+function filterPortfolio() {
+  const catSelect = document.getElementById('portfolioCategorySelect');
+  const yrSelect = document.getElementById('portfolioYearSelect');
+
+  const selectedCat = catSelect ? catSelect.value : 'all';
+  const selectedYr = yrSelect ? yrSelect.value : 'all';
+
   const cards = document.querySelectorAll('.port-card');
-  const tabs = document.querySelectorAll('.filter-tab');
+  let visibleCount = 0;
 
-  // Update active tab
-  tabs.forEach(tab => tab.classList.remove('active'));
-  event.target.classList.add('active');
-
-  // Filter cards
   cards.forEach(card => {
-    if (category === 'all' || card.getAttribute('data-category') === category) {
+    const cardCat = card.getAttribute('data-category');
+    const cardYr = card.getAttribute('data-year');
+
+    const matchCat = (selectedCat === 'all' || cardCat === selectedCat);
+    const matchYr = (selectedYr === 'all' || cardYr === selectedYr);
+
+    if (matchCat && matchYr) {
       card.style.display = '';
+      visibleCount++;
     } else {
       card.style.display = 'none';
     }
   });
+
+  let emptyMsg = document.getElementById('portfolioEmptyFilter');
+  if (visibleCount === 0) {
+    if (!emptyMsg) {
+      emptyMsg = document.createElement('div');
+      emptyMsg.id = 'portfolioEmptyFilter';
+      emptyMsg.style.cssText = 'grid-column: 1 / -1; text-align: center; padding: 60px 20px; color: var(--text-muted);';
+      emptyMsg.innerHTML = '<i class="bi bi-search" style="font-size: 32px; display: block; margin-bottom: 12px; opacity: 0.5;"></i><p>Tidak ada proyek yang sesuai dengan filter yang dipilih.</p>';
+      document.getElementById('portfolioGrid').appendChild(emptyMsg);
+    }
+    emptyMsg.style.display = '';
+  } else if (emptyMsg) {
+    emptyMsg.style.display = 'none';
+  }
 }
 </script>
 @endsection
