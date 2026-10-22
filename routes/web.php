@@ -167,6 +167,9 @@ Route::middleware(['auth:web', 'prevent.back'])->group(function () {
     Route::prefix('activity-log')->name('activity_log.')->middleware('permission:activity_log')->group(function () {
         Route::get('/', [ActivityLogController::class, 'index'])->name('index');
         Route::post('/clear', [ActivityLogController::class, 'clear'])->name('clear');
+        Route::get('/export-csv', [ActivityLogController::class, 'exportCsv'])->name('export_csv');
+        Route::post('/archive', [ActivityLogController::class, 'archive'])->name('archive');
+        Route::get('/download-archive/{filename}', [ActivityLogController::class, 'downloadArchive'])->name('download_archive')->where('filename', '.+');
     });
 
     // WhatsApp Contact Settings

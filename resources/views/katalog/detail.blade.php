@@ -76,37 +76,7 @@
     gap: 12px;
   }
 
-  .menu-toggle-btn {
-    display: inline-flex;
-    align-items: center;
-    gap: 8px;
-    padding: 9px 20px;
-    background: var(--ink-deep);
-    color: #fff;
-    border: none;
-    border-radius: var(--radius-full);
-    font-size: 13px;
-    font-weight: 700;
-    letter-spacing: 0.5px;
-    cursor: pointer;
-  }
 
-  .menu-burger-icon {
-    width: 16px;
-    height: 12px;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-  }
-  .menu-burger-icon span {
-    display: block;
-    height: 2px;
-    background: #fff;
-    border-radius: 2px;
-  }
-  .menu-burger-icon .line-1 { width: 100%; }
-  .menu-burger-icon .line-2 { width: 70%; margin-left: auto; }
-  .menu-burger-icon .line-3 { width: 100%; }
 
   /* ─── Breadcrumbs ─── */
   .breadcrumb-nav {
@@ -390,25 +360,8 @@
 
 @section('content')
 
-<!-- Navbar -->
-<nav class="navbar">
-  <a href="{{ route('home') }}" class="nav-brand">
-    <div class="brand-logo">K</div>
-    <span>Kafa Advertising</span>
-  </a>
-
-  <div class="nav-pills-center">
-    <a href="{{ route('home') }}" class="nav-pill-btn">Beranda</a>
-    <a href="{{ route('katalog') }}" class="nav-pill-btn">Katalog Produk</a>
-    <a href="{{ route('portofolio') }}" class="nav-pill-btn">Portofolio</a>
-  </div>
-
-  <div class="nav-right-wrap">
-    <a href="{{ route('login.customer') }}" class="nav-pill-btn" style="border-color: var(--primary); color: var(--primary); font-weight: 700;">
-      Portal Pelanggan
-    </a>
-  </div>
-</nav>
+<!-- ─── Navbar: Desktop (Gambar 1) & Mobile (Gambar 2) ─── -->
+@include('partials.guest-navbar')
 
 <!-- Breadcrumb -->
 <div class="breadcrumb-nav">

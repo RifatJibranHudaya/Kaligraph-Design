@@ -72,65 +72,7 @@
     color: #ffffff;
   }
 
-  /* Center category pills */
-  .nav-pills-center {
-    display: none;
-    gap: 8px;
-    align-items: center;
-  }
-  @media(min-width: 900px) {
-    .nav-pills-center {
-      display: flex;
-    }
-  }
 
-  .nav-pill-btn {
-    padding: 8px 18px;
-    border-radius: var(--radius-full);
-    font-size: 13.5px;
-    font-weight: 700;
-    letter-spacing: -0.14px;
-    text-decoration: none;
-    color: var(--text-body);
-    background: var(--bg-card);
-    border: 1px solid var(--hairline);
-    transition: all 0.2s ease;
-  }
-  .nav-pill-btn:hover {
-    background: var(--surface-soft);
-    border-color: var(--text-muted);
-  }
-  .nav-pill-btn.active {
-    background: var(--ink-deep);
-    color: #ffffff;
-    border-color: var(--ink-deep);
-  }
-
-  .nav-right-wrap {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-  }
-
-  .menu-toggle-btn {
-    display: inline-flex;
-    align-items: center;
-    gap: 8px;
-    padding: 9px 20px;
-    background: var(--ink-deep);
-    color: #fff;
-    border: none;
-    border-radius: var(--radius-full);
-    font-size: 13px;
-    font-weight: 700;
-    letter-spacing: 0.5px;
-    cursor: pointer;
-    transition: all 0.2s ease;
-  }
-
-  .menu-toggle-btn:hover {
-    background: #444950;
-  }
 
   .menu-burger-icon {
     width: 16px;
@@ -964,64 +906,8 @@
   <span>WhatsApp</span>
 </a>
 
-<!-- ─── Navbar ─── -->
-<nav class="navbar">
-  <a href="{{ route('home') }}" class="nav-brand">
-    <div class="brand-logo">K</div>
-    <span>Kafa Advertising</span>
-  </a>
-
-  <div class="nav-right-wrap">
-    <button type="button" class="menu-toggle-btn" id="menuToggleBtn" onclick="toggleSideNav()" aria-label="Buka Menu Navigasi">
-      <span>MENU</span>
-      <div class="menu-burger-icon">
-        <span class="line-1"></span>
-        <span class="line-2"></span>
-        <span class="line-3"></span>
-      </div>
-    </button>
-  </div>
-</nav>
-
-<!-- ─── Side Drawer Backdrop ─── -->
-<div class="side-drawer-backdrop" id="sideDrawerBackdrop" onclick="closeSideNav()"></div>
-
-<!-- ─── Side Drawer Nav ─── -->
-<aside class="side-drawer-nav" id="sideDrawerNav" aria-label="Menu Navigasi Samping">
-  <div class="drawer-header">
-    <div class="drawer-brand">
-      <div class="drawer-brand-logo">K</div>
-      <div>
-        <div class="drawer-brand-title">Kafa Advertising</div>
-      </div>
-    </div>
-    <button type="button" class="drawer-close-btn" onclick="closeSideNav()" aria-label="Tutup Menu"><i class="bi bi-x-lg"></i></button>
-  </div>
-
-  <div class="drawer-body">
-    <div class="drawer-nav-label">Navigasi Utama</div>
-    <ul class="drawer-menu-list">
-      <li><a href="{{ route('home') }}" class="drawer-link" onclick="closeSideNav()"><i class="bi bi-house-fill" style="margin-right:8px;"></i> 01. Beranda</a></li>
-      <li><a href="{{ route('katalog') }}" class="drawer-link" onclick="closeSideNav()"><i class="bi bi-grid-fill" style="margin-right:8px;"></i> 02. Katalog & Harga</a></li>
-      <li><a href="{{ route('portofolio') }}" class="drawer-link" onclick="closeSideNav()"><i class="bi bi-images" style="margin-right:8px;"></i> 03. Portofolio Proyek</a></li>
-      <li><a href="#keunggulan" class="drawer-link" onclick="closeSideNav()"><i class="bi bi-award-fill" style="margin-right:8px;"></i> 04. Keunggulan</a></li>
-      <li><a href="#cabang" class="drawer-link" onclick="closeSideNav()"><i class="bi bi-building" style="margin-right:8px;"></i> 05. Cabang Showroom</a></li>
-      <li><a href="{{ route('login.customer') }}" class="drawer-link" style="color: #60a5fa;" onclick="closeSideNav()"><i class="bi bi-person-circle" style="margin-right:8px;"></i> 06. Portal Pelanggan</a></li>
-      <li><a href="{{ route('login.admin') }}" class="drawer-link" style="color: var(--text-stone);" onclick="closeSideNav()"><i class="bi bi-shield-lock" style="margin-right:8px;"></i> 07. Login Staf / Admin</a></li>
-    </ul>
-  </div>
-
-  <div class="drawer-footer">
-    <div class="drawer-footer-info">
-      <div><strong>Workshop & Showroom</strong></div>
-      <div>Melayani Demak, Semarang, Surabaya & seluruh Indonesia.</div>
-    </div>
-    <a href="{{ \App\Helpers\FormatHelper::whatsappUrl('Halo Kafa Advertising, saya ingin konsultasi pesanan') }}" target="_blank" class="drawer-wa-cta">
-      <i class="bi bi-whatsapp" style="font-size:16px;"></i>
-      <span>Chat WhatsApp Sekarang</span>
-    </a>
-  </div>
-</aside>
+<!-- ─── Navbar: Desktop (Gambar 1) & Mobile (Gambar 2) ─── -->
+@include('partials.guest-navbar')
 
 <!-- ─── Hero Section ─── -->
 <div class="hero-wrapper" id="home">

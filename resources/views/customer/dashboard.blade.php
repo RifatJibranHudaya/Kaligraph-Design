@@ -4,75 +4,154 @@
 
 @section('styles')
 <style>
-  /* Customer Navbar with Menu Button */
+  /* ─── Customer Navbar (Desktop & Mobile) ─── */
   .customer-navbar {
     display: flex;
     align-items: center;
     justify-content: space-between;
     padding: 16px 6%;
-    background: var(--bg-card);
+    background: rgba(255, 255, 255, 0.96);
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
     border-bottom: 1px solid var(--border-color);
     position: sticky;
     top: 0;
-    z-index: 100;
-    box-shadow: 0 2px 10px rgba(0,0,0,0.03);
+    z-index: 1000;
+    box-shadow: 0 4px 20px rgba(15, 23, 42, 0.04);
   }
 
   .nav-brand {
     display: flex;
     align-items: center;
-    gap: 10px;
-    font-size: 18px;
+    gap: 12px;
+    font-size: 19px;
     font-weight: 800;
     color: var(--primary);
     text-decoration: none;
+    letter-spacing: -0.5px;
+    flex-shrink: 0;
   }
 
   .brand-icon {
-    width: 36px;
-    height: 36px;
-    background: linear-gradient(135deg, #2563eb, #7c3aed);
+    width: 38px;
+    height: 38px;
+    background: var(--primary);
     border-radius: 10px;
     display: flex;
     align-items: center;
     justify-content: center;
     font-size: 18px;
+    font-weight: 800;
+    color: #ffffff;
+    box-shadow: 0 4px 12px rgba(0, 100, 224, 0.25);
   }
 
-  .nav-right-wrap {
+  /* Desktop Menu (Horizontal Links) */
+  .nav-desktop-menu {
     display: flex;
     align-items: center;
-    gap: 14px;
+    gap: 28px;
+    list-style: none;
+    margin: 0;
+    padding: 0;
   }
 
-  /* Menu Toggle Button - Same as Home Page */
+  .nav-desktop-item {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .nav-desktop-link {
+    display: inline-block;
+    font-size: 14.5px;
+    font-weight: 600;
+    color: #0f172a;
+    text-decoration: none;
+    padding: 6px 0;
+    position: relative;
+    transition: color 0.2s ease;
+  }
+
+  .nav-desktop-link:hover,
+  .nav-desktop-link.active {
+    color: var(--primary);
+  }
+
+  .nav-desktop-link::after {
+    content: '';
+    position: absolute;
+    bottom: -2px;
+    left: 0;
+    width: 0;
+    height: 2px;
+    background: var(--primary);
+    transition: width 0.25s ease;
+    border-radius: 2px;
+  }
+
+  .nav-desktop-link:hover::after,
+  .nav-desktop-link.active::after {
+    width: 100%;
+  }
+
+  /* Portal button (user info) di desktop */
+  .nav-desktop-portal {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 7px 16px;
+    border-radius: 20px;
+    font-size: 13px;
+    font-weight: 700;
+    color: #10b981;
+    background: rgba(16, 185, 129, 0.1);
+    border: 1px solid rgba(16, 185, 129, 0.25);
+    text-decoration: none;
+    transition: all 0.2s ease;
+    margin-left: 6px;
+    cursor: pointer;
+  }
+
+  .nav-desktop-portal:hover {
+    background: rgba(16, 185, 129, 0.2);
+    border-color: rgba(16, 185, 129, 0.5);
+    box-shadow: 0 4px 12px rgba(16, 185, 129, 0.2);
+  }
+
+  /* Mobile Right Wrap */
+  .nav-right-mobile {
+    display: none;
+  }
+
+  /* Menu Toggle Button */
   .menu-toggle-btn {
     display: inline-flex;
     align-items: center;
-    gap: 10px;
-    padding: 10px 20px;
+    gap: 8px;
+    padding: 8px 18px;
     background: #0f172a;
-    color: #fff;
-    border: 1px solid rgba(255,255,255,0.1);
+    color: #ffffff;
+    border: 1px solid rgba(255, 255, 255, 0.1);
     border-radius: 30px;
     font-size: 13px;
     font-weight: 800;
-    letter-spacing: 1.5px;
+    letter-spacing: 1px;
     cursor: pointer;
-    box-shadow: 0 4px 16px rgba(15,23,42,0.18);
-    transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    box-shadow: 0 4px 14px rgba(15, 23, 42, 0.18);
+    transition: all 0.25s ease;
   }
 
   .menu-toggle-btn:hover {
     background: var(--primary);
     border-color: var(--primary);
-    transform: translateY(-2px);
-    box-shadow: 0 8px 24px rgba(37,99,235,0.35);
+    transform: translateY(-1px);
+    box-shadow: 0 6px 18px rgba(0, 100, 224, 0.3);
   }
 
   .menu-burger-icon {
-    width: 20px;
-    height: 14px;
+    width: 18px;
+    height: 13px;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
@@ -83,15 +162,38 @@
     height: 2px;
     background: #fff;
     border-radius: 2px;
-    transition: all 0.3s;
+    transition: all 0.3s ease;
   }
 
   .menu-burger-icon .line-1 { width: 100%; }
-  .menu-burger-icon .line-2 { width: 65%; margin-left: auto; }
+  .menu-burger-icon .line-2 { width: 75%; margin-left: auto; }
   .menu-burger-icon .line-3 { width: 100%; }
 
   .menu-toggle-btn:hover .menu-burger-icon .line-2 {
     width: 100%;
+  }
+
+  /* ─── Responsive Switch ─── */
+  @media (min-width: 901px) {
+    .nav-desktop-menu {
+      display: flex !important;
+    }
+    .nav-right-mobile {
+      display: none !important;
+    }
+  }
+
+  @media (max-width: 900px) {
+    .customer-navbar {
+      padding: 14px 5%;
+    }
+    .nav-desktop-menu {
+      display: none !important;
+    }
+    .nav-right-mobile {
+      display: flex !important;
+      align-items: center;
+    }
   }
 
   /* Side Drawer Backdrop */
@@ -350,22 +452,6 @@
   .drawer-wa-cta:hover {
     transform: translateY(-2px);
     box-shadow: 0 6px 20px rgba(37,211,102,0.45);
-  }
-
-  .user-nav-actions {
-    display: none;
-  }
-
-  .user-info-pill {
-    display: none;
-  }
-
-  .btn-nav-logout {
-    display: none;
-  }
-
-  .btn-edit-profile {
-    display: none;
   }
 
   /* Portal Content */
@@ -716,11 +802,36 @@
 <!-- Navigation Bar -->
 <nav class="customer-navbar">
   <a href="{{ route('home') }}" class="nav-brand">
-    <div class="brand-icon"><i class="bi bi-person-badge-fill" style="color:#fff; font-size:18px;"></i></div>
+    <div class="brand-icon">K</div>
     <span>Kafa Advertising</span>
   </a>
 
-  <div class="nav-right-wrap">
+  <!-- Desktop Navigation Menu -->
+  <ul class="nav-desktop-menu">
+    <li class="nav-desktop-item">
+      <a href="{{ route('home') }}" class="nav-desktop-link">Beranda</a>
+    </li>
+    <li class="nav-desktop-item">
+      <a href="{{ route('home') }}#keunggulan" class="nav-desktop-link">Tentang Kami</a>
+    </li>
+    <li class="nav-desktop-item">
+      <a href="{{ route('katalog') }}" class="nav-desktop-link">Layanan</a>
+    </li>
+    <li class="nav-desktop-item">
+      <a href="{{ route('portofolio') }}" class="nav-desktop-link">Portofolio</a>
+    </li>
+    <li class="nav-desktop-item">
+      <a href="{{ route('home') }}#cabang" class="nav-desktop-link">Cabang</a>
+    </li>
+    <li class="nav-desktop-item">
+      <button type="button" class="nav-desktop-portal" onclick="toggleSideNav()" aria-label="Menu Akun">
+        <i class="bi bi-person-circle"></i> {{ $user->username }}
+      </button>
+    </li>
+  </ul>
+
+  <!-- Mobile Menu Button -->
+  <div class="nav-right-mobile">
     <button type="button" class="menu-toggle-btn" id="menuToggleBtn" onclick="toggleSideNav()" aria-label="Buka Menu Navigasi">
       <span>MENU</span>
       <div class="menu-burger-icon">
