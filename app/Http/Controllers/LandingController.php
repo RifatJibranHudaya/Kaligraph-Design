@@ -33,6 +33,8 @@ class LandingController extends Controller
      */
     public function productsByCategory(string $slug)
     {
+        $tipe = request('tipe');
+
         if ($slug === 'semua' || $slug === 'all') {
             $category = (object)[
                 'id' => 0,
@@ -40,26 +42,32 @@ class LandingController extends Controller
                 'slug' => 'semua',
                 'deskripsi' => 'Pilihan lengkap seluruh produk dan varian advertising custom dari Kafa Advertising.'
             ];
-            $products = Product::with('category')
-                ->active()
-                ->ordered()
-                ->get();
-
+            $query = Product::with('category')->active()->ordered();
+            if ($tipe === 'custom_wa') {
+                $query->customWa();
+            } elseif ($tipe === 'ecommerce') {
+                $query->ecommerce();
+            }
+            $products = $query->get();
             $categories = Category::active()->ordered()->get();
 
-            return view('katalog.produk', compact('category', 'products', 'categories'));
+            return view('katalog.produk', compact('category', 'products', 'categories', 'tipe'));
         }
 
         $category = Category::where('slug', $slug)->firstOrFail();
-        $products = Product::with('category')
+        $query = Product::with('category')
             ->where('category_id', $category->id)
             ->active()
-            ->ordered()
-            ->get();
-
+            ->ordered();
+        if ($tipe === 'custom_wa') {
+            $query->customWa();
+        } elseif ($tipe === 'ecommerce') {
+            $query->ecommerce();
+        }
+        $products = $query->get();
         $categories = Category::active()->ordered()->get();
 
-        return view('katalog.produk', compact('category', 'products', 'categories'));
+        return view('katalog.produk', compact('category', 'products', 'categories', 'tipe'));
     }
 
     /**

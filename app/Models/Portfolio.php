@@ -52,9 +52,20 @@ class Portfolio extends Model
      */
     public function getFotoUrlAttribute(): ?string
     {
-        if ($this->foto && file_exists(public_path('uploads/portfolios/' . $this->foto))) {
+        if (!$this->foto) {
+            return null;
+        }
+
+        // Check new Storage path first
+        if (\Illuminate\Support\Facades\Storage::disk('public')->exists('portfolios/' . $this->foto)) {
+            return asset('storage/portfolios/' . $this->foto);
+        }
+
+        // Fallback to legacy public path
+        if (file_exists(public_path('uploads/portfolios/' . $this->foto))) {
             return asset('uploads/portfolios/' . $this->foto);
         }
+
         return null;
     }
 }

@@ -597,12 +597,24 @@
   <div class="filter-select-row">
     <div class="filter-select-col">
       <select class="filter-select" id="catalogCategorySelect" onchange="if(this.value) window.location.href=this.value;">
-        <option value="{{ route('katalog.kategori', 'semua') }}" {{ (isset($category) && $category->slug === 'semua') ? 'selected' : '' }}>-Semua Kategori-</option>
+        <option value="{{ route('katalog.kategori', ['slug' => 'semua', 'tipe' => request('tipe')]) }}" {{ (isset($category) && $category->slug === 'semua') ? 'selected' : '' }}>-Semua Kategori-</option>
         @foreach($categories as $cat)
-          <option value="{{ route('katalog.kategori', $cat->slug) }}" {{ (isset($category) && $cat->id === $category->id) ? 'selected' : '' }}>
+          <option value="{{ route('katalog.kategori', ['slug' => $cat->slug, 'tipe' => request('tipe')]) }}" {{ (isset($category) && $cat->id === $category->id) ? 'selected' : '' }}>
             {{ $cat->nama }}
           </option>
         @endforeach
+      </select>
+    </div>
+
+    <!-- Filter Sub-Modul (Custom WA vs E-Commerce) -->
+    <div class="filter-select-col">
+      <select class="filter-select" id="catalogTipeSelect" onchange="if(this.value) window.location.href=this.value;">
+        @php
+          $currCat = $category->slug ?? 'semua';
+        @endphp
+        <option value="{{ route('katalog.kategori', ['slug' => $currCat]) }}" {{ !request('tipe') ? 'selected' : '' }}>-Semua Tipe Produk-</option>
+        <option value="{{ route('katalog.kategori', ['slug' => $currCat, 'tipe' => 'ecommerce']) }}" {{ request('tipe') === 'ecommerce' ? 'selected' : '' }}>🛒 Beli Langsung (E-Commerce)</option>
+        <option value="{{ route('katalog.kategori', ['slug' => $currCat, 'tipe' => 'custom_wa']) }}" {{ request('tipe') === 'custom_wa' ? 'selected' : '' }}>📱 Pesanan Kustom (WA)</option>
       </select>
     </div>
 
@@ -629,20 +641,31 @@
           @if($prod->foto_url)
             <img src="{{ $prod->foto_url }}" alt="{{ $prod->nama }}">
           @else
-            
+            <div style="font-size:42px; font-weight:800; color:var(--primary);">K</div>
           @endif
         </div>
         <div class="product-body">
-          @if(isset($category) && $category->slug === 'semua' && $prod->category)
-            <div style="font-size:11px; font-weight:700; color:var(--primary); text-transform:uppercase; letter-spacing:0.5px; margin-bottom:4px;">
-              {{ $prod->category->nama }}
-            </div>
-          @endif
+          <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:6px; flex-wrap:wrap; gap:4px;">
+            @if(isset($category) && $category->slug === 'semua' && $prod->category)
+              <div style="font-size:11px; font-weight:700; color:var(--primary); text-transform:uppercase; letter-spacing:0.5px;">
+                {{ $prod->category->nama }}
+              </div>
+            @endif
+            @if($prod->isEcommerce())
+              <span style="display:inline-flex; align-items:center; gap:4px; font-size:10px; font-weight:700; color:#2563eb; background:#eff6ff; border:1px solid #bfdbfe; border-radius:12px; padding:2px 7px;">
+                🛒 Ready Stock
+              </span>
+            @else
+              <span style="display:inline-flex; align-items:center; gap:4px; font-size:10px; font-weight:700; color:#059669; background:#ecfdf5; border:1px solid #a7f3d0; border-radius:12px; padding:2px 7px;">
+                📱 Custom WA
+              </span>
+            @endif
+          </div>
           <div class="product-name">{{ $prod->nama }}</div>
           <div class="product-price">{{ $prod->harga_display }}</div>
-          <p class="product-desc">{{ Str::limit($prod->deskripsi ?: 'Kualitas terjamin, siap survey lokasi dan melayani pengiriman.', 100) }}</p>
+          <p class="product-desc">{{ Str::limit($prod->deskripsi ?: 'Kualitas terjamin, siap survey lokasi dan melayani pengiriman.', 90) }}</p>
           <div class="btn-detail">
-            <span>Detail & Harga →</span>
+            <span>{{ $prod->isEcommerce() ? 'Beli / Tambah Keranjang →' : 'Detail & Konsultasi →' }}</span>
           </div>
         </div>
       </a>

@@ -4,14 +4,20 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Storage;
 
 class Product extends Model
 {
     use HasFactory;
 
+    const TIPE_CUSTOM_WA = 'custom_wa';
+    const TIPE_ECOMMERCE = 'ecommerce';
+
     protected $fillable = [
         'category_id',
         'nama',
+        'sku',
+        'tipe_produk',
         'foto',
         'emoji',
         'harga_min',
@@ -19,6 +25,7 @@ class Product extends Model
         'harga_default',
         'deskripsi',
         'is_active',
+        'stock',
         'urutan',
     ];
 
@@ -27,11 +34,22 @@ class Product extends Model
         return $this->belongsTo(Category::class);
     }
 
+    public function orderItems()
+    {
+        return $this->hasMany(OrderItem::class);
+    }
+
+    public function cartItems()
+    {
+        return $this->hasMany(CartItem::class);
+    }
+
     protected $casts = [
         'harga_min'     => 'integer',
         'harga_max'     => 'integer',
         'harga_default' => 'integer',
         'is_active'     => 'boolean',
+        'stock'         => 'integer',
     ];
 
     public function scopeActive($query)
@@ -42,6 +60,47 @@ class Product extends Model
     public function scopeOrdered($query)
     {
         return $query->orderBy('urutan');
+    }
+
+    public function scopeCustomWa($query)
+    {
+        return $query->where('tipe_produk', self::TIPE_CUSTOM_WA);
+    }
+
+    public function scopeEcommerce($query)
+    {
+        return $query->where('tipe_produk', self::TIPE_ECOMMERCE);
+    }
+
+    public function isEcommerce(): bool
+    {
+        return $this->tipe_produk === self::TIPE_ECOMMERCE;
+    }
+
+    public function isCustomWa(): bool
+    {
+        return $this->tipe_produk !== self::TIPE_ECOMMERCE;
+    }
+
+    public function getTipeLabelAttribute(): string
+    {
+        return $this->isEcommerce() ? 'E-Commerce (Ready Stock)' : 'Pesanan Kustom (WA)';
+    }
+
+    /**
+     * Check if product is in stock.
+     */
+    public function scopeInStock($query)
+    {
+        return $query->where('stock', '>', 0);
+    }
+
+    /**
+     * Check if product is available for purchase (active + in stock).
+     */
+    public function getIsAvailableAttribute(): bool
+    {
+        return $this->is_active && $this->stock > 0;
     }
 
     /**
@@ -65,13 +124,35 @@ class Product extends Model
     }
 
     /**
-     * Get product photo URL or fallback.
+     * Get product photo URL — supports both Storage (new) and legacy public paths.
      */
     public function getFotoUrlAttribute(): ?string
     {
-        if ($this->foto && file_exists(public_path('uploads/products/' . $this->foto))) {
+        if (!$this->foto) {
+            return null;
+        }
+
+        // Check new Storage path first
+        if (Storage::disk('public')->exists('products/' . $this->foto)) {
+            return asset('storage/products/' . $this->foto);
+        }
+
+        // Fallback to legacy public path
+        if (file_exists(public_path('uploads/products/' . $this->foto))) {
             return asset('uploads/products/' . $this->foto);
         }
+
         return null;
+    }
+
+    /**
+     * Formatted stock display.
+     */
+    public function getStockDisplayAttribute(): string
+    {
+        if ($this->stock <= 0) {
+            return 'Habis';
+        }
+        return (string) $this->stock;
     }
 }

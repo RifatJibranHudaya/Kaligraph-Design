@@ -2,11 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\StorePortfolioRequest;
+use App\Http\Requests\UpdatePortfolioRequest;
 use App\Models\Category;
 use App\Models\Portfolio;
 use App\Services\ActivityLogService;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 
 class PortfolioController extends Controller
@@ -18,22 +19,9 @@ class PortfolioController extends Controller
         return view('portfolio.index', compact('portfolios', 'categories'));
     }
 
-    public function store(Request $request)
+    public function store(StorePortfolioRequest $request)
     {
-        $validated = $request->validate([
-            'nama'        => 'required|string|max:150',
-            'category_id' => 'nullable|exists:categories,id',
-            'deskripsi'   => 'nullable|string',
-            'client'      => 'nullable|string|max:150',
-            'lokasi'      => 'nullable|string|max:150',
-            'tahun'       => 'nullable|string|max:10',
-            'foto'        => 'nullable|image|mimes:jpeg,png,jpg,webp,svg|max:3072',
-            'urutan'      => 'nullable|integer',
-        ], [
-            'nama.required' => 'Nama portofolio wajib diisi.',
-            'foto.image'    => 'File yang diupload harus berupa gambar (JPG, PNG, WEBP, SVG).',
-            'foto.max'      => 'Ukuran foto maksimal 3 MB.',
-        ]);
+        $validated = $request->validated();
 
         if (!isset($validated['urutan'])) {
             $validated['urutan'] = Portfolio::max('urutan') + 1;
@@ -41,11 +29,11 @@ class PortfolioController extends Controller
 
         $validated['is_active'] = $request->has('is_active');
 
-        // Handle Photo Upload
+        // Secure Photo Upload via Storage facade with UUID filename
         if ($request->hasFile('foto')) {
             $file = $request->file('foto');
-            $filename = 'port_' . time() . '_' . Str::random(8) . '.' . $file->getClientOriginalExtension();
-            $file->move(public_path('uploads/portfolios'), $filename);
+            $filename = 'port_' . Str::uuid() . '.webp';
+            $this->compressAndStore($file->getRealPath(), 'portfolios/' . $filename);
             $validated['foto'] = $filename;
         }
 
@@ -56,35 +44,26 @@ class PortfolioController extends Controller
         return back()->with('success', "Portofolio '{$portfolio->nama}' berhasil ditambahkan.");
     }
 
-    public function update(Request $request, Portfolio $portfolio)
+    public function update(UpdatePortfolioRequest $request, Portfolio $portfolio)
     {
-        $validated = $request->validate([
-            'nama'        => 'required|string|max:150',
-            'category_id' => 'nullable|exists:categories,id',
-            'deskripsi'   => 'nullable|string',
-            'client'      => 'nullable|string|max:150',
-            'lokasi'      => 'nullable|string|max:150',
-            'tahun'       => 'nullable|string|max:10',
-            'foto'        => 'nullable|image|mimes:jpeg,png,jpg,webp,svg|max:3072',
-            'urutan'      => 'nullable|integer',
-        ], [
-            'nama.required' => 'Nama portofolio wajib diisi.',
-            'foto.image'    => 'File yang diupload harus berupa gambar.',
-            'foto.max'      => 'Ukuran foto maksimal 3 MB.',
-        ]);
+        $validated = $request->validated();
 
         $validated['is_active'] = $request->has('is_active');
 
-        // Handle Photo Upload
+        // Secure Photo Upload via Storage facade with UUID filename
         if ($request->hasFile('foto')) {
-            // Delete old photo if exists
-            if ($portfolio->foto && File::exists(public_path('uploads/portfolios/' . $portfolio->foto))) {
-                File::delete(public_path('uploads/portfolios/' . $portfolio->foto));
+            // Delete old photo
+            if ($portfolio->foto) {
+                Storage::disk('public')->delete('portfolios/' . $portfolio->foto);
+                $legacyPath = public_path('uploads/portfolios/' . $portfolio->foto);
+                if (file_exists($legacyPath)) {
+                    @unlink($legacyPath);
+                }
             }
 
             $file = $request->file('foto');
-            $filename = 'port_' . time() . '_' . Str::random(8) . '.' . $file->getClientOriginalExtension();
-            $file->move(public_path('uploads/portfolios'), $filename);
+            $filename = 'port_' . Str::uuid() . '.webp';
+            $this->compressAndStore($file->getRealPath(), 'portfolios/' . $filename);
             $validated['foto'] = $filename;
         }
 
@@ -100,9 +79,12 @@ class PortfolioController extends Controller
         $nama = $portfolio->nama;
         $id = $portfolio->id;
 
-        // Delete photo file if exists
-        if ($portfolio->foto && File::exists(public_path('uploads/portfolios/' . $portfolio->foto))) {
-            File::delete(public_path('uploads/portfolios/' . $portfolio->foto));
+        if ($portfolio->foto) {
+            Storage::disk('public')->delete('portfolios/' . $portfolio->foto);
+            $legacyPath = public_path('uploads/portfolios/' . $portfolio->foto);
+            if (file_exists($legacyPath)) {
+                @unlink($legacyPath);
+            }
         }
 
         $portfolio->delete();
@@ -121,5 +103,52 @@ class PortfolioController extends Controller
         ActivityLogService::log('toggle_portfolio', 'portfolio', "Portofolio '{$portfolio->nama}' {$status}", $portfolio->id);
 
         return back()->with('success', "Portofolio '{$portfolio->nama}' berhasil {$status}.");
+    }
+
+    /**
+     * Compress image and store via Storage facade.
+     */
+    private function compressAndStore(string $sourcePath, string $storagePath, int $maxKB = 1024): void
+    {
+        $imageInfo = @getimagesize($sourcePath);
+        if (!$imageInfo) {
+            Storage::disk('public')->put($storagePath, file_get_contents($sourcePath));
+            return;
+        }
+
+        $mime = $imageInfo['mime'];
+        $img = match ($mime) {
+            'image/jpeg', 'image/jpg' => @imagecreatefromjpeg($sourcePath),
+            'image/png'               => @imagecreatefrompng($sourcePath),
+            'image/webp'              => @imagecreatefromwebp($sourcePath),
+            default                   => false,
+        };
+
+        if (!$img) {
+            Storage::disk('public')->put($storagePath, file_get_contents($sourcePath));
+            return;
+        }
+
+        $width  = imagesx($img);
+        $height = imagesy($img);
+        $canvas = imagecreatetruecolor($width, $height);
+        $white  = imagecolorallocate($canvas, 255, 255, 255);
+        imagefill($canvas, 0, 0, $white);
+        imagecopy($canvas, $img, 0, 0, 0, 0, $width, $height);
+        imagedestroy($img);
+
+        $maxBytes = $maxKB * 1024;
+        $quality  = 85;
+
+        do {
+            ob_start();
+            imagejpeg($canvas, null, $quality);
+            $output = ob_get_clean();
+            $quality -= 5;
+        } while (strlen($output) > $maxBytes && $quality >= 20);
+
+        imagedestroy($canvas);
+
+        Storage::disk('public')->put($storagePath, $output);
     }
 }

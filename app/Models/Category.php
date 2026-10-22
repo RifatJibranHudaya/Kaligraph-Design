@@ -70,9 +70,20 @@ class Category extends Model
      */
     public function getFotoUrlAttribute(): ?string
     {
-        if ($this->foto && file_exists(public_path('uploads/categories/' . $this->foto))) {
+        if (!$this->foto) {
+            return null;
+        }
+
+        // Check new Storage path first
+        if (\Illuminate\Support\Facades\Storage::disk('public')->exists('categories/' . $this->foto)) {
+            return asset('storage/categories/' . $this->foto);
+        }
+
+        // Fallback to legacy public path
+        if (file_exists(public_path('uploads/categories/' . $this->foto))) {
             return asset('uploads/categories/' . $this->foto);
         }
+
         return null;
     }
 }

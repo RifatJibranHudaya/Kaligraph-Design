@@ -2,10 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\StoreCategoryRequest;
+use App\Http\Requests\UpdateCategoryRequest;
 use App\Models\Category;
 use App\Services\ActivityLogService;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 
 class CategoryController extends Controller
@@ -16,19 +17,9 @@ class CategoryController extends Controller
         return view('kategori.index', compact('categories'));
     }
 
-    public function store(Request $request)
+    public function store(StoreCategoryRequest $request)
     {
-        $validated = $request->validate([
-            'nama'      => 'required|string|max:100',
-            'deskripsi' => 'nullable|string',
-            'emoji'     => 'nullable|string|max:10',
-            'foto'      => 'nullable|image|mimes:jpeg,png,jpg,webp,svg|max:3072',
-            'urutan'    => 'nullable|integer',
-        ], [
-            'nama.required' => 'Nama kategori wajib diisi.',
-            'foto.image'    => 'File harus berupa gambar (JPG, PNG, WEBP, SVG).',
-            'foto.max'      => 'Ukuran foto maksimal 3 MB.',
-        ]);
+        $validated = $request->validated();
 
         $validated['slug'] = Str::slug($validated['nama']);
 
@@ -38,10 +29,11 @@ class CategoryController extends Controller
 
         $validated['is_active'] = $request->has('is_active');
 
+        // Secure Photo Upload via Storage facade with UUID filename
         if ($request->hasFile('foto')) {
             $file = $request->file('foto');
-            $filename = 'cat_' . time() . '_' . Str::random(8) . '.' . $file->getClientOriginalExtension();
-            $file->move(public_path('uploads/categories'), $filename);
+            $filename = 'cat_' . Str::uuid() . '.webp';
+            $this->compressAndStore($file->getRealPath(), 'categories/' . $filename);
             $validated['foto'] = $filename;
         }
 
@@ -52,32 +44,27 @@ class CategoryController extends Controller
         return back()->with('success', "Kategori '{$category->nama}' berhasil ditambahkan.");
     }
 
-    public function update(Request $request, Category $category)
+    public function update(UpdateCategoryRequest $request, Category $category)
     {
-        $validated = $request->validate([
-            'nama'      => 'required|string|max:100',
-            'deskripsi' => 'nullable|string',
-            'emoji'     => 'nullable|string|max:10',
-            'foto'      => 'nullable|image|mimes:jpeg,png,jpg,webp,svg|max:3072',
-            'urutan'    => 'nullable|integer',
-        ], [
-            'nama.required' => 'Nama kategori wajib diisi.',
-            'foto.image'    => 'File harus berupa gambar.',
-            'foto.max'      => 'Ukuran foto maksimal 3 MB.',
-        ]);
+        $validated = $request->validated();
 
         $validated['slug'] = Str::slug($validated['nama']);
         $validated['is_active'] = $request->has('is_active');
 
+        // Secure Photo Upload via Storage facade with UUID filename
         if ($request->hasFile('foto')) {
             // Delete old photo
-            if ($category->foto && File::exists(public_path('uploads/categories/' . $category->foto))) {
-                File::delete(public_path('uploads/categories/' . $category->foto));
+            if ($category->foto) {
+                Storage::disk('public')->delete('categories/' . $category->foto);
+                $legacyPath = public_path('uploads/categories/' . $category->foto);
+                if (file_exists($legacyPath)) {
+                    @unlink($legacyPath);
+                }
             }
 
             $file = $request->file('foto');
-            $filename = 'cat_' . time() . '_' . Str::random(8) . '.' . $file->getClientOriginalExtension();
-            $file->move(public_path('uploads/categories'), $filename);
+            $filename = 'cat_' . Str::uuid() . '.webp';
+            $this->compressAndStore($file->getRealPath(), 'categories/' . $filename);
             $validated['foto'] = $filename;
         }
 
@@ -93,8 +80,12 @@ class CategoryController extends Controller
         $nama = $category->nama;
         $id = $category->id;
 
-        if ($category->foto && File::exists(public_path('uploads/categories/' . $category->foto))) {
-            File::delete(public_path('uploads/categories/' . $category->foto));
+        if ($category->foto) {
+            Storage::disk('public')->delete('categories/' . $category->foto);
+            $legacyPath = public_path('uploads/categories/' . $category->foto);
+            if (file_exists($legacyPath)) {
+                @unlink($legacyPath);
+            }
         }
 
         $category->delete();
@@ -113,5 +104,52 @@ class CategoryController extends Controller
         ActivityLogService::log('toggle_category', 'kategori', "Kategori '{$category->nama}' {$status}", $category->id);
 
         return back()->with('success', "Kategori '{$category->nama}' berhasil {$status}.");
+    }
+
+    /**
+     * Compress image and store via Storage facade.
+     */
+    private function compressAndStore(string $sourcePath, string $storagePath, int $maxKB = 1024): void
+    {
+        $imageInfo = @getimagesize($sourcePath);
+        if (!$imageInfo) {
+            Storage::disk('public')->put($storagePath, file_get_contents($sourcePath));
+            return;
+        }
+
+        $mime = $imageInfo['mime'];
+        $img = match ($mime) {
+            'image/jpeg', 'image/jpg' => @imagecreatefromjpeg($sourcePath),
+            'image/png'               => @imagecreatefrompng($sourcePath),
+            'image/webp'              => @imagecreatefromwebp($sourcePath),
+            default                   => false,
+        };
+
+        if (!$img) {
+            Storage::disk('public')->put($storagePath, file_get_contents($sourcePath));
+            return;
+        }
+
+        $width  = imagesx($img);
+        $height = imagesy($img);
+        $canvas = imagecreatetruecolor($width, $height);
+        $white  = imagecolorallocate($canvas, 255, 255, 255);
+        imagefill($canvas, 0, 0, $white);
+        imagecopy($canvas, $img, 0, 0, 0, 0, $width, $height);
+        imagedestroy($img);
+
+        $maxBytes = $maxKB * 1024;
+        $quality  = 85;
+
+        do {
+            ob_start();
+            imagejpeg($canvas, null, $quality);
+            $output = ob_get_clean();
+            $quality -= 5;
+        } while (strlen($output) > $maxBytes && $quality >= 20);
+
+        imagedestroy($canvas);
+
+        Storage::disk('public')->put($storagePath, $output);
     }
 }

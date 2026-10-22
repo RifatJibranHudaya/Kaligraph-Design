@@ -2,118 +2,87 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\StoreProductRequest;
+use App\Http\Requests\UpdateProductRequest;
 use App\Models\Category;
 use App\Models\Product;
 use App\Services\ActivityLogService;
+use App\Services\ProductService;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\File;
-use Illuminate\Support\Str;
 
 class ProdukController extends Controller
 {
-    public function index()
+    /**
+     * Display product catalog with dual sub-module filtering:
+     * - 'custom_wa': Pesanan kustom via WhatsApp
+     * - 'ecommerce': E-commerce Ready Stock (WooCommerce style)
+     */
+    public function index(Request $request)
     {
-        $products = Product::with('category')->ordered()->get();
+        $currentTab = $request->get('tab', 'semua');
+
+        $query = Product::with('category')->ordered();
+
+        if ($currentTab === 'custom_wa') {
+            $query->customWa();
+        } elseif ($currentTab === 'ecommerce') {
+            $query->ecommerce();
+        }
+
+        $products = $query->get();
         $categories = Category::ordered()->get();
-        return view('produk.index', compact('products', 'categories'));
+
+        $counts = [
+            'semua'       => Product::count(),
+            'custom_wa'   => Product::customWa()->count(),
+            'ecommerce'   => Product::ecommerce()->count(),
+            'out_of_stock'=> Product::ecommerce()->where('stock', '<=', 0)->count(),
+        ];
+
+        return view('produk.index', compact('products', 'categories', 'currentTab', 'counts'));
     }
 
-    public function store(Request $request)
+    /**
+     * Store new product in either sub-module (custom_wa or ecommerce).
+     */
+    public function store(StoreProductRequest $request)
     {
-        $validated = $request->validate([
-            'nama'        => 'required|string|max:100',
-            'category_id' => 'nullable|exists:categories,id',
-            'harga_min'   => 'required|numeric|min:0',
-            'harga_max'   => 'nullable|numeric|min:0',
-            'deskripsi'   => 'nullable|string',
-            'foto'        => 'nullable|image|mimes:jpeg,png,jpg,webp,svg|max:3072',
-            'urutan'      => 'nullable|integer',
-        ], [
-            'nama.required'      => 'Nama produk wajib diisi.',
-            'harga_min.required' => 'Harga minimum (mulai dari) wajib diisi.',
-            'foto.image'         => 'File yang diupload harus berupa gambar (JPG, PNG, WEBP, SVG).',
-            'foto.max'           => 'Ukuran foto maksimal 3 MB.',
-        ]);
-
-        if (!isset($validated['urutan'])) {
-            $validated['urutan'] = Product::max('urutan') + 1;
-        }
-
-        $validated['harga_default'] = $validated['harga_min'];
+        $validated = $request->validated();
         $validated['is_active'] = $request->has('is_active');
 
-        // Handle Photo Upload
-        if ($request->hasFile('foto')) {
-            $file = $request->file('foto');
-            $filename = 'prod_' . time() . '_' . Str::random(8) . '.' . $file->getClientOriginalExtension();
-            $file->move(public_path('uploads/products'), $filename);
-            $validated['foto'] = $filename;
-        }
+        $product = ProductService::createProduct($validated, $request->file('foto'));
 
-        $product = Product::create($validated);
-
-        ActivityLogService::log('create_product', 'produk', "Produk '{$product->nama}' ditambahkan", $product->id);
-
-        return back()->with('success', "Produk '{$product->nama}' berhasil ditambahkan.");
+        $submodul = $product->isEcommerce() ? 'E-Commerce' : 'Pesanan Kustom (WA)';
+        return back()->with('success', "Produk '{$product->nama}' berhasil ditambahkan ke sub-modul {$submodul}.");
     }
 
-    public function update(Request $request, Product $product)
+    /**
+     * Update existing product.
+     */
+    public function update(UpdateProductRequest $request, Product $product)
     {
-        $validated = $request->validate([
-            'nama'        => 'required|string|max:100',
-            'category_id' => 'nullable|exists:categories,id',
-            'harga_min'   => 'required|numeric|min:0',
-            'harga_max'   => 'nullable|numeric|min:0',
-            'deskripsi'   => 'nullable|string',
-            'foto'        => 'nullable|image|mimes:jpeg,png,jpg,webp,svg|max:3072',
-            'urutan'      => 'nullable|integer',
-        ], [
-            'nama.required'      => 'Nama produk wajib diisi.',
-            'harga_min.required' => 'Harga minimum wajib diisi.',
-            'foto.image'         => 'File yang diupload harus berupa gambar.',
-            'foto.max'           => 'Ukuran foto maksimal 3 MB.',
-        ]);
-
-        $validated['harga_default'] = $validated['harga_min'];
+        $validated = $request->validated();
         $validated['is_active'] = $request->has('is_active');
 
-        // Handle Photo Upload
-        if ($request->hasFile('foto')) {
-            // Delete old photo if exists
-            if ($product->foto && File::exists(public_path('uploads/products/' . $product->foto))) {
-                File::delete(public_path('uploads/products/' . $product->foto));
-            }
-
-            $file = $request->file('foto');
-            $filename = 'prod_' . time() . '_' . Str::random(8) . '.' . $file->getClientOriginalExtension();
-            $file->move(public_path('uploads/products'), $filename);
-            $validated['foto'] = $filename;
-        }
-
-        $product->update($validated);
-
-        ActivityLogService::log('update_product', 'produk', "Produk '{$product->nama}' diperbarui", $product->id);
+        $product = ProductService::updateProduct($product, $validated, $request->file('foto'));
 
         return back()->with('success', "Produk '{$product->nama}' berhasil diperbarui.");
     }
 
+    /**
+     * Delete product.
+     */
     public function destroy(Product $product)
     {
         $nama = $product->nama;
-        $id = $product->id;
-
-        // Delete photo file if exists
-        if ($product->foto && File::exists(public_path('uploads/products/' . $product->foto))) {
-            File::delete(public_path('uploads/products/' . $product->foto));
-        }
-
-        $product->delete();
-
-        ActivityLogService::log('delete_product', 'produk', "Produk '{$nama}' dihapus", $id);
+        ProductService::deleteProduct($product);
 
         return back()->with('success', "Produk '{$nama}' berhasil dihapus.");
     }
 
+    /**
+     * Toggle active visibility on public website & catalog.
+     */
     public function toggleActive(Product $product)
     {
         $product->is_active = !$product->is_active;
@@ -123,5 +92,20 @@ class ProdukController extends Controller
         ActivityLogService::log('toggle_product', 'produk', "Produk '{$product->nama}' {$status}", $product->id);
 
         return back()->with('success', "Produk '{$product->nama}' berhasil {$status}.");
+    }
+
+    /**
+     * Quick adjust stock for e-commerce product.
+     */
+    public function adjustStock(Request $request, Product $product)
+    {
+        $validated = $request->validate([
+            'stock'  => 'required|integer|min:0|max:999999',
+            'reason' => 'nullable|string|max:255',
+        ]);
+
+        ProductService::adjustStock($product, $validated['stock'], $validated['reason'] ?? null);
+
+        return back()->with('success', "Stok produk '{$product->nama}' berhasil disesuaikan menjadi {$product->stock}.");
     }
 }

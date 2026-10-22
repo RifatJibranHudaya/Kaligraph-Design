@@ -2,6 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\LoginAdminRequest;
+use App\Http\Requests\LoginCustomerRequest;
+use App\Http\Requests\RegisterCustomerRequest;
 use App\Models\User;
 use App\Services\ActivityLogService;
 use Illuminate\Http\Request;
@@ -34,16 +37,9 @@ class AuthController extends Controller
     /**
      * Process Admin / Staff Login.
      */
-    public function loginAdmin(Request $request)
+    public function loginAdmin(LoginAdminRequest $request)
     {
-        $credentials = $request->validate([
-            'username' => 'required|string',
-            'password' => 'required|string',
-        ], [
-            'username.required' => 'Username wajib diisi.',
-            'password.required' => 'Password wajib diisi.',
-        ]);
-
+        $credentials = $request->validated();
         $remember = $request->boolean('remember');
 
         // Check if user exists & is an admin/staff
@@ -96,16 +92,9 @@ class AuthController extends Controller
     /**
      * Process Customer Login.
      */
-    public function loginCustomer(Request $request)
+    public function loginCustomer(LoginCustomerRequest $request)
     {
-        $credentials = $request->validate([
-            'email'    => 'required|string',
-            'password' => 'required|string',
-        ], [
-            'email.required'    => 'Email atau Username wajib diisi.',
-            'password.required' => 'Password wajib diisi.',
-        ]);
-
+        $credentials = $request->validated();
         $remember = $request->boolean('remember');
 
         // Check if user exists by email or username
@@ -165,23 +154,9 @@ class AuthController extends Controller
     /**
      * Process Customer Registration.
      */
-    public function registerCustomer(Request $request)
+    public function registerCustomer(RegisterCustomerRequest $request)
     {
-        $validated = $request->validate([
-            'name'     => 'required|string|max:100',
-            'email'    => 'required|email|max:100|unique:users,email',
-            'phone'    => 'required|string|max:20',
-            'password' => 'required|string|min:6|confirmed',
-        ], [
-            'name.required'      => 'Nama lengkap wajib diisi.',
-            'email.required'     => 'Email wajib diisi.',
-            'email.email'        => 'Format email tidak valid.',
-            'email.unique'       => 'Email sudah terdaftar. Silakan gunakan email lain atau masuk ke akun Anda.',
-            'phone.required'     => 'Nomor WhatsApp/HP wajib diisi.',
-            'password.required'  => 'Password wajib diisi.',
-            'password.min'       => 'Password minimal 6 karakter.',
-            'password.confirmed' => 'Konfirmasi password tidak cocok.',
-        ]);
+        $validated = $request->validated();
 
         // Generate username from email or name
         $baseUsername = strtolower(preg_replace('/[^a-zA-Z0-9]/', '', explode('@', $validated['email'])[0]));

@@ -3,6 +3,7 @@
 use App\Http\Controllers\ActivityLogController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\BranchController;
+use App\Http\Controllers\CartController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\DashboardController;
@@ -42,25 +43,31 @@ Route::middleware('guest')->group(function () {
     // Portal Choice
     Route::get('/login', [AuthController::class, 'showLogin'])->name('login');
 
-    // Admin & Staff Login
+    // Admin & Staff Login (Rate limited: 5/min)
     Route::get('/login/admin', [AuthController::class, 'showAdminLogin'])->name('login.admin');
-    Route::post('/login/admin', [AuthController::class, 'loginAdmin'])->name('login.admin.post');
+    Route::post('/login/admin', [AuthController::class, 'loginAdmin'])->name('login.admin.post')
+        ->middleware('throttle:login');
 
-    // Customer Login & Register
+    // Customer Login & Register (Rate limited)
     Route::get('/login/customer', [AuthController::class, 'showCustomerLogin'])->name('login.customer');
-    Route::post('/login/customer', [AuthController::class, 'loginCustomer'])->name('login.customer.post');
+    Route::post('/login/customer', [AuthController::class, 'loginCustomer'])->name('login.customer.post')
+        ->middleware('throttle:login');
 
     Route::get('/register', [AuthController::class, 'showCustomerRegister'])->name('register');
     Route::get('/register/customer', [AuthController::class, 'showCustomerRegister'])->name('register.customer');
-    Route::post('/register/customer', [AuthController::class, 'registerCustomer'])->name('register.customer.post');
+    Route::post('/register/customer', [AuthController::class, 'registerCustomer'])->name('register.customer.post')
+        ->middleware('throttle:register');
 
-    // Forgot Password OTP Flow
+    // Forgot Password OTP Flow (Rate limited: 3/min)
     Route::get('/forgot-password', [ForgotPasswordController::class, 'showForgotForm'])->name('password.request');
-    Route::post('/forgot-password', [ForgotPasswordController::class, 'sendOtp'])->name('password.email');
+    Route::post('/forgot-password', [ForgotPasswordController::class, 'sendOtp'])->name('password.email')
+        ->middleware('throttle:otp');
 
     Route::get('/forgot-password/verify', [ForgotPasswordController::class, 'showVerifyOtpForm'])->name('password.otp.verify');
-    Route::post('/forgot-password/verify', [ForgotPasswordController::class, 'verifyOtp'])->name('password.otp.verify.post');
-    Route::post('/forgot-password/resend', [ForgotPasswordController::class, 'resendOtp'])->name('password.otp.resend');
+    Route::post('/forgot-password/verify', [ForgotPasswordController::class, 'verifyOtp'])->name('password.otp.verify.post')
+        ->middleware('throttle:otp');
+    Route::post('/forgot-password/resend', [ForgotPasswordController::class, 'resendOtp'])->name('password.otp.resend')
+        ->middleware('throttle:otp');
 
     Route::get('/forgot-password/reset', [ForgotPasswordController::class, 'showResetForm'])->name('password.reset.form');
     Route::post('/forgot-password/reset', [ForgotPasswordController::class, 'resetPassword'])->name('password.reset.update');
@@ -77,17 +84,18 @@ Route::middleware(['auth:web', 'prevent.back'])->group(function () {
     // Produk
     Route::prefix('produk')->name('produk.')->middleware('permission:produk')->group(function () {
         Route::get('/', [ProdukController::class, 'index'])->name('index');
-        Route::post('/', [ProdukController::class, 'store'])->name('store');
-        Route::put('/{product}', [ProdukController::class, 'update'])->name('update');
+        Route::post('/', [ProdukController::class, 'store'])->name('store')->middleware('throttle:upload');
+        Route::put('/{product}', [ProdukController::class, 'update'])->name('update')->middleware('throttle:upload');
         Route::delete('/{product}', [ProdukController::class, 'destroy'])->name('destroy');
         Route::post('/{product}/toggle', [ProdukController::class, 'toggleActive'])->name('toggle');
+        Route::post('/{product}/adjust-stock', [ProdukController::class, 'adjustStock'])->name('adjust_stock');
     });
 
     // Kategori Produk
     Route::prefix('kategori')->name('kategori.')->middleware('permission:kategori')->group(function () {
         Route::get('/', [CategoryController::class, 'index'])->name('index');
-        Route::post('/', [CategoryController::class, 'store'])->name('store');
-        Route::put('/{category}', [CategoryController::class, 'update'])->name('update');
+        Route::post('/', [CategoryController::class, 'store'])->name('store')->middleware('throttle:upload');
+        Route::put('/{category}', [CategoryController::class, 'update'])->name('update')->middleware('throttle:upload');
         Route::delete('/{category}', [CategoryController::class, 'destroy'])->name('destroy');
         Route::post('/{category}/toggle', [CategoryController::class, 'toggleActive'])->name('toggle');
     });
@@ -95,8 +103,8 @@ Route::middleware(['auth:web', 'prevent.back'])->group(function () {
     // Portofolio
     Route::prefix('portfolio')->name('portfolio.')->middleware('permission:portfolio')->group(function () {
         Route::get('/', [PortfolioController::class, 'index'])->name('index');
-        Route::post('/', [PortfolioController::class, 'store'])->name('store');
-        Route::put('/{portfolio}', [PortfolioController::class, 'update'])->name('update');
+        Route::post('/', [PortfolioController::class, 'store'])->name('store')->middleware('throttle:upload');
+        Route::put('/{portfolio}', [PortfolioController::class, 'update'])->name('update')->middleware('throttle:upload');
         Route::delete('/{portfolio}', [PortfolioController::class, 'destroy'])->name('destroy');
         Route::post('/{portfolio}/toggle', [PortfolioController::class, 'toggleActive'])->name('toggle');
     });
@@ -104,7 +112,7 @@ Route::middleware(['auth:web', 'prevent.back'])->group(function () {
     // Data Pembayaran (Satu Pintu dengan Status Pengerjaan)
     Route::prefix('pembayaran')->name('pembayaran.')->middleware('permission:status_order')->group(function () {
         Route::get('/', fn() => redirect()->route('status_order.index'))->name('index');
-        Route::post('/', [PaymentController::class, 'store'])->name('store');
+        Route::post('/', [PaymentController::class, 'store'])->name('store')->middleware('throttle:checkout');
         Route::get('/{payment}/nota', [PaymentController::class, 'nota'])->name('nota');
         Route::delete('/{payment}', [PaymentController::class, 'destroy'])->name('destroy');
         Route::get('/order/{order}/detail', [PaymentController::class, 'detailOrder'])->name('detail.order');
@@ -116,7 +124,7 @@ Route::middleware(['auth:web', 'prevent.back'])->group(function () {
     // Status Pengerjaan Order
     Route::prefix('status-order')->name('status_order.')->middleware('permission:status_order')->group(function () {
         Route::get('/', [StatusOrderController::class, 'index'])->name('index');
-        Route::post('/', [StatusOrderController::class, 'store'])->name('store');
+        Route::post('/', [StatusOrderController::class, 'store'])->name('store')->middleware('throttle:checkout');
         Route::get('/search-pelanggan', [StatusOrderController::class, 'searchPelanggan'])->name('search_pelanggan');
         Route::put('/{order}/status', [StatusOrderController::class, 'updateStatus'])->name('update_status');
     });
@@ -187,7 +195,18 @@ Route::middleware(['auth:customer', 'prevent.back'])->group(function () {
     
     // Detail pembayaran untuk pelanggan
     Route::get('/customer/order/{order}/detail', [PaymentController::class, 'detailOrder'])->name('customer.order.detail');
-    Route::post('/customer/order/{order}/payment-upload', [PaymentController::class, 'customerUploadReceipt'])->name('customer.payment.upload');
+    Route::post('/customer/order/{order}/payment-upload', [PaymentController::class, 'customerUploadReceipt'])->name('customer.payment.upload')
+        ->middleware('throttle:upload');
     // Existing routes
     Route::post('/customer/order/{order}/send-whatsapp', [PaymentController::class, 'sendWhatsapp'])->name('customer.order.send.whatsapp');
+
+    // Cart Routes
+    Route::prefix('customer/cart')->name('cart.')->group(function () {
+        Route::get('/', [CartController::class, 'index'])->name('index');
+        Route::post('/add', [CartController::class, 'addItem'])->name('add');
+        Route::put('/item/{cartItem}', [CartController::class, 'updateItem'])->name('update');
+        Route::delete('/item/{cartItem}', [CartController::class, 'removeItem'])->name('remove');
+        Route::post('/checkout', [CartController::class, 'checkout'])->name('checkout')
+            ->middleware('throttle:checkout');
+    });
 });

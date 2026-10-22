@@ -413,16 +413,42 @@
 
     <!-- Sticky Purchase Rail Column Right (card-checkout-summary) -->
     <div class="pdp-summary-rail">
-      <div class="pdp-badge-pill">
-        {{ $product->category->nama ?? 'Advertising & Signage' }}
+      <div style="display:flex; align-items:center; gap:8px; margin-bottom:12px; flex-wrap:wrap;">
+        <div class="pdp-badge-pill" style="margin-bottom:0;">
+          {{ $product->category->nama ?? 'Advertising & Signage' }}
+        </div>
+        @if($product->isEcommerce())
+          <span style="display:inline-flex; align-items:center; gap:5px; padding:3px 10px; background:#eff6ff; color:#2563eb; border:1px solid #bfdbfe; border-radius:20px; font-size:11px; font-weight:700;">
+            🛒 E-Commerce (Ready Stock)
+          </span>
+        @else
+          <span style="display:inline-flex; align-items:center; gap:5px; padding:3px 10px; background:#ecfdf5; color:#059669; border:1px solid #a7f3d0; border-radius:20px; font-size:11px; font-weight:700;">
+            📱 Pesanan Kustom (Konsultasi WA)
+          </span>
+        @endif
       </div>
+
       <h1 class="pdp-title">{{ $product->nama }}</h1>
 
       <div class="pdp-price-row">
-        <div class="pdp-price-label">Estimasi Biaya Mulai</div>
-        <div class="pdp-price-value">
-          Rp {{ number_format($product->harga, 0, ',', '.') }}
+        <div class="pdp-price-label">
+          {{ $product->isEcommerce() ? 'Harga Jual Satuan' : 'Estimasi Biaya Mulai' }}
         </div>
+        <div class="pdp-price-value">
+          {{ $product->harga_display }}
+        </div>
+        @if($product->isEcommerce())
+          <div style="margin-top:6px; font-size:12px;">
+            @if($product->stock > 0)
+              <span style="color:#059669; font-weight:700;">✓ Stok Tersedia: {{ $product->stock }} pcs</span>
+            @else
+              <span style="color:#dc2626; font-weight:700;">✕ Stok Habis (Out of Stock)</span>
+            @endif
+            @if($product->sku)
+              <span style="color:var(--text-muted); margin-left:8px;">SKU: {{ $product->sku }}</span>
+            @endif
+          </div>
+        @endif
       </div>
 
       <p class="pdp-desc">
@@ -431,29 +457,55 @@
 
       <!-- Tech Specs Box -->
       <div class="tech-specs-box">
-        <div class="tech-specs-title">Spesifikasi Material</div>
+        <div class="tech-specs-title">Spesifikasi Material & Layanan</div>
         <div class="spec-row">
           <span class="spec-label">Kategori</span>
           <span class="spec-val">{{ $product->category->nama ?? '-' }}</span>
+        </div>
+        <div class="spec-row">
+          <span class="spec-label">Tipe Pembelian</span>
+          <span class="spec-val">{{ $product->isEcommerce() ? 'Beli Langsung (E-Commerce)' : 'Custom Order (Konsultasi)' }}</span>
         </div>
         <div class="spec-row">
           <span class="spec-label">Ketahanan</span>
           <span class="spec-val">Outdoor & Indoor (Weatherproof)</span>
         </div>
         <div class="spec-row">
-          <span class="spec-label">Penerangan</span>
-          <span class="spec-val">Modul LED High-Brightness</span>
-        </div>
-        <div class="spec-row">
-          <span class="spec-label">Waktu Pengerjaan</span>
-          <span class="spec-val">3 – 7 Hari Kerja</span>
+          <span class="spec-label">Garansi & Quality</span>
+          <span class="spec-val">Garansi Kualitas 100% Kafa Advertising</span>
         </div>
       </div>
 
-      <!-- Buy CTA Button -->
-      <a href="{{ \App\Helpers\FormatHelper::whatsappUrl('Halo Kafa Advertising, saya berminat memesan produk ' . $product->nama . ' (Rp ' . number_format($product->harga, 0, ',', '.') . ')') }}" target="_blank" class="btn-buy-rail">
-        Pesan via WhatsApp
-      </a>
+      <!-- Action Buttons depending on Sub-Modul -->
+      @if($product->isEcommerce())
+        @if($product->stock > 0)
+          <form action="{{ route('cart.add') }}" method="POST" style="margin-top: 20px;">
+            @csrf
+            <input type="hidden" name="product_id" value="{{ $product->id }}">
+            <div style="display: flex; gap: 12px; align-items: center; margin-bottom: 14px;">
+              <label style="font-size: 13px; font-weight: 700; color: var(--ink-deep);">Jumlah:</label>
+              <input type="number" name="quantity" value="1" min="1" max="{{ $product->stock }}" style="width: 80px; padding: 9px 12px; border: 1.5px solid var(--hairline-soft); border-radius: 10px; font-weight: 800; font-size: 15px; text-align: center; color: var(--ink-deep);">
+              <span style="font-size: 12px; color: var(--text-muted);">Maks: {{ $product->stock }} pcs</span>
+            </div>
+            <button type="submit" class="btn-buy-rail" style="background: linear-gradient(135deg, #2563eb, #1d4ed8); border: none; cursor: pointer; width: 100%; justify-content: center; font-size: 15px;">
+              🛒 Tambah ke Keranjang
+            </button>
+          </form>
+        @else
+          <div style="padding: 14px; background: #fef2f2; border: 1px solid #fecaca; border-radius: 12px; color: #dc2626; font-weight: 700; text-align: center; margin-top: 18px;">
+            ⚠️ Maaf, Stok Produk Ini Sedang Habis
+          </div>
+        @endif
+
+        <a href="{{ \App\Helpers\FormatHelper::whatsappUrl('Halo Kafa Advertising, saya ingin tanya produk ready stock ' . $product->nama . ' (SKU: ' . ($product->sku ?? '-') . ')') }}" target="_blank" style="display: flex; align-items: center; justify-content: center; gap: 8px; margin-top: 12px; padding: 10px 16px; border: 1.5px solid #22c55e; color: #15803d; border-radius: 12px; text-decoration: none; font-weight: 700; font-size: 13px; transition: all 0.2s;">
+          <span>💬 Tanya Penjual via WhatsApp</span>
+        </a>
+      @else
+        <!-- Pesanan Kustom WA Button -->
+        <a href="{{ \App\Helpers\FormatHelper::whatsappUrl('Halo Kafa Advertising, saya berminat konsultasi & memesan produk custom ' . $product->nama . ' (Estimasi: ' . $product->harga_display . ')') }}" target="_blank" class="btn-buy-rail" style="background: linear-gradient(135deg, #059669, #047857); margin-top: 20px;">
+          <span>📱 Konsultasi & Pesan via WhatsApp</span>
+        </a>
+      @endif
     </div>
 
   </div>

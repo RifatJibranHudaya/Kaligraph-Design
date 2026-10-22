@@ -48,7 +48,7 @@ class CatalogAndAdminTest extends TestCase
             ]
         );
 
-        $this->product = Product::firstOrCreate(
+        $this->product = Product::updateOrCreate(
             ['nama' => 'Neon Box Test Product'],
             [
                 'category_id' => $this->category->id,

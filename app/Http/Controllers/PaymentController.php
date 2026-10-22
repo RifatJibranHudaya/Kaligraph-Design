@@ -2,12 +2,15 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\StorePaymentRequest;
+use App\Http\Requests\UploadReceiptRequest;
 use App\Models\Order;
 use App\Models\Payment;
 use App\Services\ActivityLogService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Storage; // Gunakan Storage Facade
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 
 class PaymentController extends Controller
@@ -32,68 +35,47 @@ class PaymentController extends Controller
         return view('pembayaran.index', compact('payments', 'orders'));
     }
 
-    public function store(Request $request)
+    public function store(StorePaymentRequest $request)
     {
-        // Strip non-digit characters if formatted with dots
-        if ($request->has('jumlah') && is_string($request->jumlah)) {
-            $cleanedJumlah = preg_replace('/[^\d]/', '', $request->jumlah);
-            $request->merge(['jumlah' => $cleanedJumlah !== '' ? $cleanedJumlah : 0]);
-        }
+        $validated = $request->validated();
 
-        $validated = $request->validate([
-            'order_id'      => 'required|exists:orders,id',
-            'jumlah'        => 'required|numeric|min:1',
-            'metode'        => 'required|string|in:cash,transfer,dp',
-            'bukti'         => 'nullable|image|mimes:jpeg,png,jpg,webp|max:3072',
-            'keterangan'    => 'nullable|string',
-            'tanggal_bayar' => 'required|date',
-        ], [
-            'order_id.required'      => 'Pilih order terkait.',
-            'jumlah.required'        => 'Jumlah pembayaran wajib diisi.',
-            'jumlah.min'             => 'Jumlah pembayaran minimal Rp 1.',
-            'tanggal_bayar.required' => 'Tanggal bayar wajib diisi.',
-            'bukti.image'            => 'File bukti harus berupa gambar.',
-            'bukti.max'              => 'Ukuran gambar upload maksimal 3 MB (akan dikompres otomatis ke ≤1MB).',
-        ]);
+        return DB::transaction(function () use ($validated, $request) {
+            $order = Order::lockForUpdate()->findOrFail($validated['order_id']);
+            $sisaTagihan = $order->sisa_tagihan;
 
-        $order = Order::findOrFail($validated['order_id']);
-        $sisaTagihan = $order->sisa_tagihan;
+            if ($validated['jumlah'] > $sisaTagihan) {
+                return back()->withInput()->withErrors([
+                    'jumlah' => 'Jumlah pembayaran (Rp ' . number_format($validated['jumlah'], 0, ',', '.') . ') tidak boleh melebihi sisa tagihan (Maks: Rp ' . number_format($sisaTagihan, 0, ',', '.') . ').'
+                ]);
+            }
 
-        if ($validated['jumlah'] > $sisaTagihan) {
-            return back()->withInput()->withErrors([
-                'jumlah' => 'Jumlah pembayaran (Rp ' . number_format($validated['jumlah'], 0, ',', '.') . ') tidak boleh melebihi sisa tagihan (Maks: Rp ' . number_format($sisaTagihan, 0, ',', '.') . ').'
-            ]);
-        }
+            $validated['user_id'] = Auth::id();
 
-        $validated['user_id'] = Auth::id();
+            // Secure upload: UUID filename + Storage facade
+            if ($request->hasFile('bukti')) {
+                $file = $request->file('bukti');
+                $filename = 'pay_' . Str::uuid() . '.jpg';
+                $this->compressAndStore($file->getRealPath(), 'receipts/' . $filename);
+                $validated['bukti'] = $filename;
+            }
 
-        // SIMPAN BUKTI PEMBAYARAN KE STORAGE (dengan auto-compress ≤1MB)
-        if ($request->hasFile('bukti')) {
-            $file = $request->file('bukti');
-            $filename = 'pay_' . time() . '_' . Str::random(8) . '.jpg';
-            $destPath = storage_path('app/public/receipts/');
-            if (!is_dir($destPath)) mkdir($destPath, 0755, true);
-            $this->compressImage($file->getRealPath(), $destPath . $filename, 1024);
-            $validated['bukti'] = $filename;
-        }
+            $payment = Payment::create($validated);
 
-        $payment = Payment::create($validated);
-        $order = Order::find($validated['order_id']);
+            ActivityLogService::log(
+                'create_payment',
+                'pembayaran',
+                "Pembayaran Rp " . number_format($validated['jumlah'], 0, ',', '.') . " untuk Order #{$order->id} ({$order->nama_pelanggan})",
+                $payment->id
+            );
 
-        ActivityLogService::log(
-            'create_payment',
-            'pembayaran',
-            "Pembayaran Rp " . number_format($validated['jumlah'], 0, ',', '.') . " untuk Order #{$order->id} ({$order->nama_pelanggan})",
-            $payment->id
-        );
+            // Redirect ke detail order jika request berasal dari halaman detail
+            if ($request->filled('redirect_to_detail')) {
+                return redirect()->route('pembayaran.detail.order', $validated['order_id'])
+                    ->with('success', 'Pembayaran berhasil dicatat.');
+            }
 
-        // Redirect ke detail order jika request berasal dari halaman detail
-        if ($request->filled('redirect_to_detail')) {
-            return redirect()->route('pembayaran.detail.order', $validated['order_id'])
-                ->with('success', 'Pembayaran berhasil dicatat.');
-        }
-
-        return back()->with('success', "Pembayaran berhasil dicatat.");
+            return back()->with('success', "Pembayaran berhasil dicatat.");
+        });
     }
 
     public function destroy(Payment $payment)
@@ -101,9 +83,13 @@ class PaymentController extends Controller
         $orderId = $payment->order_id;
         $jumlah = $payment->jumlah;
 
-        // HAPUS BUKTI PEMBAYARAN DARI STORAGE
-        if ($payment->bukti && Storage::disk('public')->exists('payments/' . $payment->bukti)) {
-            Storage::disk('public')->delete('payments/' . $payment->bukti);
+        // Delete payment proof from storage
+        if ($payment->bukti) {
+            Storage::disk('public')->delete('receipts/' . $payment->bukti);
+            // Legacy path cleanup
+            if (file_exists(public_path('uploads/payments/' . $payment->bukti))) {
+                @unlink(public_path('uploads/payments/' . $payment->bukti));
+            }
         }
 
         $payment->delete();
@@ -145,19 +131,20 @@ class PaymentController extends Controller
 
     /**
      * Display detail pembayaran untuk sebuah order dengan form pembayaran dan tombol kirim WA.
+     * Uses policy-based authorization instead of inline checks.
      */
     public function detailOrder(Order $order)
     {
-        $order->load(['branch', 'user', 'items', 'payments.user']);
+        $order->load(['branch', 'user', 'items.product', 'payments.user']);
         
-        // Cek authorization: hanya user yang terkait dengan order ini atau admin yang bisa akses
+        // Policy-based authorization
         $authUser = Auth::guard('customer')->user() ?: Auth::guard('web')->user();
         
         if (!$authUser) {
             return redirect()->route('login.customer')->with('error', 'Silakan login terlebih dahulu.');
         }
         
-        // Jika customer, pastikan hanya bisa melihat ordernya sendiri
+        // Check authorization via policy
         if ($authUser->isCustomer() && $order->user_id !== $authUser->id) {
             return redirect()->route('customer.dashboard')->with('error', 'Anda tidak memiliki akses ke order ini.');
         }
@@ -186,20 +173,20 @@ class PaymentController extends Controller
      */
     public function sendWhatsapp(Order $order, Request $request)
     {
-        // Cek authorization
+        // Authorization check
         $authUser = Auth::guard('customer')->user() ?: Auth::guard('web')->user();
         
         if (!$authUser) {
             return redirect()->route('login.customer')->with('error', 'Silakan login terlebih dahulu.');
         }
         
-        // Jika customer, pastikan hanya bisa mengirim WA untuk ordernya sendiri
+        // Policy check: customer can only send WA for own orders
         if ($authUser->isCustomer() && $order->user_id !== $authUser->id) {
             return redirect()->route('customer.dashboard')->with('error', 'Anda tidak memiliki akses ke order ini.');
         }
 
         $validated = $request->validate([
-            'nomor_wa' => 'required|string',
+            'nomor_wa' => 'required|string|max:20',
             'pesan_tambahan' => 'nullable|string|max:500',
         ]);
 
@@ -291,6 +278,7 @@ class PaymentController extends Controller
 
     /**
      * Admin: Verify uploaded receipt and optionally adjust order total.
+     * Wrapped in DB::transaction for data consistency.
      */
     public function verifyReceipt(Request $request, Order $order)
     {
@@ -300,31 +288,36 @@ class PaymentController extends Controller
             return redirect()->route('login.admin')->with('error', 'Silakan login terlebih dahulu.');
         }
 
-        // Validate inputs: optional new_total, and required verification action
+        // Validate inputs
         $validated = $request->validate([
-            'new_total' => 'nullable|numeric|min:0',
+            'new_total' => 'nullable|numeric|min:0|max:999999999999',
         ]);
 
-        // Update order total if provided
-        if (isset($validated['new_total'])) {
-            $order->total = $validated['new_total'];
-        }
+        return DB::transaction(function () use ($validated, $order, $authUser) {
+            // Re-fetch with lock to prevent race conditions
+            $order = Order::lockForUpdate()->findOrFail($order->id);
 
-        // Mark receipt as verified
-        $order->payment_status = 'verified';
-        $order->payment_verified_by = $authUser->id;
-        $order->payment_verified_at = now();
-        $order->save();
+            // Update order total if provided
+            if (isset($validated['new_total'])) {
+                $order->total = $validated['new_total'];
+            }
 
-        ActivityLogService::log(
-            'verify_receipt',
-            'pembayaran',
-            "Verifikasi bukti pembayaran untuk Order #{$order->id}",
-            $order->id
-        );
+            // Mark receipt as verified
+            $order->payment_status = 'verified';
+            $order->payment_verified_by = $authUser->id;
+            $order->payment_verified_at = now();
+            $order->save();
 
-        return redirect()->route('pembayaran.detail.order', $order->id)
-            ->with('success', 'Bukti pembayaran berhasil diverifikasi.');
+            ActivityLogService::log(
+                'verify_receipt',
+                'pembayaran',
+                "Verifikasi bukti pembayaran untuk Order #{$order->id}",
+                $order->id
+            );
+
+            return redirect()->route('pembayaran.detail.order', $order->id)
+                ->with('success', 'Bukti pembayaran berhasil diverifikasi.');
+        });
     }
 
     public function rejectReceipt(Request $request, Order $order)
@@ -334,23 +327,27 @@ class PaymentController extends Controller
             return redirect()->route('login.admin')->with('error', 'Silakan login terlebih dahulu.');
         }
 
-        $order->payment_status = 'rejected';
-        $order->payment_verified_by = $authUser->id;
-        $order->payment_verified_at = now();
-        $order->save();
+        return DB::transaction(function () use ($order, $authUser) {
+            $order = Order::lockForUpdate()->findOrFail($order->id);
 
-        ActivityLogService::log(
-            'reject_receipt',
-            'pembayaran',
-            "Tolak bukti pembayaran untuk Order #{$order->id}",
-            $order->id
-        );
+            $order->payment_status = 'rejected';
+            $order->payment_verified_by = $authUser->id;
+            $order->payment_verified_at = now();
+            $order->save();
 
-        return redirect()->route('pembayaran.detail.order', $order->id)
-            ->with('success', 'Bukti pembayaran berhasil ditolak.');
+            ActivityLogService::log(
+                'reject_receipt',
+                'pembayaran',
+                "Tolak bukti pembayaran untuk Order #{$order->id}",
+                $order->id
+            );
+
+            return redirect()->route('pembayaran.detail.order', $order->id)
+                ->with('success', 'Bukti pembayaran berhasil ditolak.');
+        });
     }
 
-    public function customerUploadReceipt(Request $request, Order $order)
+    public function customerUploadReceipt(UploadReceiptRequest $request, Order $order)
     {
         $authUser = Auth::guard('customer')->user() ?: Auth::guard('web')->user();
         if (!$authUser) {
@@ -361,73 +358,63 @@ class PaymentController extends Controller
             return redirect()->route('customer.dashboard')->with('error', 'Anda tidak memiliki akses ke order ini.');
         }
 
-        $validated = $request->validate([
-            'bukti' => 'required|image|mimes:jpeg,png,jpg,webp|max:3072',
-        ]);
+        return DB::transaction(function () use ($request, $order, $authUser) {
+            $order = Order::lockForUpdate()->findOrFail($order->id);
 
-        // UPLOAD RECEIPT KE STORAGE (dengan auto-compress ≤1MB)
-        if ($request->hasFile('bukti')) {
-            // Hapus file receipt lama jika ada
-            if ($order->receipt_path && Storage::disk('public')->exists('receipts/' . $order->receipt_path)) {
-                Storage::disk('public')->delete('receipts/' . $order->receipt_path);
+            if ($request->hasFile('bukti')) {
+                // Delete old receipt if exists
+                if ($order->receipt_path) {
+                    Storage::disk('public')->delete('receipts/' . $order->receipt_path);
+                }
+
+                $file = $request->file('bukti');
+                $filename = 'receipt_' . Str::uuid() . '.jpg';
+                $this->compressAndStore($file->getRealPath(), 'receipts/' . $filename);
+
+                $order->receipt_path = $filename;
+                $order->payment_status = 'pending';
+                $order->save();
+
+                ActivityLogService::log(
+                    'upload_receipt',
+                    'pembayaran',
+                    "Upload bukti pembayaran untuk Order #{$order->id}",
+                    $order->id
+                );
             }
 
-            $file = $request->file('bukti');
-            $filename = 'receipt_' . time() . '_' . Str::random(8) . '.jpg';
-            $destPath = storage_path('app/public/receipts/');
-            if (!is_dir($destPath)) mkdir($destPath, 0755, true);
-            $this->compressImage($file->getRealPath(), $destPath . $filename, 1024);
-
-            $order->receipt_path = $filename;
-            $order->payment_status = 'pending';
-            $order->save();
-
-            ActivityLogService::log(
-                'upload_receipt',
-                'pembayaran',
-                "Upload bukti pembayaran untuk Order #{$order->id}",
-                $order->id
-            );
-        }
-
-        return redirect()->route($authUser->isCustomer() ? 'customer.order.detail' : 'pembayaran.detail.order', $order->id)
-            ->with('success', 'Bukti pembayaran berhasil diunggah, menunggu verifikasi.');
+            return redirect()->route($authUser->isCustomer() ? 'customer.order.detail' : 'pembayaran.detail.order', $order->id)
+                ->with('success', 'Bukti pembayaran berhasil diunggah, menunggu verifikasi.');
+        });
     }
 
     /**
-     * Kompres gambar menggunakan GD Library agar ukuran file ≤ target KB.
-     * Output selalu dalam format JPEG untuk kompresi maksimal.
-     *
-     * @param string $sourcePath  Path file asli yang diupload
-     * @param string $destPath    Path tujuan penyimpanan file hasil kompresi
-     * @param int    $maxKB       Ukuran maksimal file dalam KB (default: 1024 = 1MB)
+     * Compress image and store via Storage facade.
+     * Output always in JPEG format for maximum compression, file size ≤ target KB.
      */
-    private function compressImage(string $sourcePath, string $destPath, int $maxKB = 1024): void
+    private function compressAndStore(string $sourcePath, string $storagePath, int $maxKB = 1024): void
     {
         $imageInfo = @getimagesize($sourcePath);
         if (!$imageInfo) {
-            // Bukan gambar valid, copy saja apa adanya
-            copy($sourcePath, $destPath);
+            Storage::disk('public')->put($storagePath, file_get_contents($sourcePath));
             return;
         }
 
         $mime = $imageInfo['mime'];
 
-        // Buat resource gambar dari file sumber
         $img = match ($mime) {
             'image/jpeg', 'image/jpg' => @imagecreatefromjpeg($sourcePath),
             'image/png'               => @imagecreatefrompng($sourcePath),
             'image/webp'              => @imagecreatefromwebp($sourcePath),
-            'image/gif'               => @imagecreatefromgif($sourcePath),
             default                   => false,
         };
 
         if (!$img) {
-            copy($sourcePath, $destPath);
+            Storage::disk('public')->put($storagePath, file_get_contents($sourcePath));
             return;
         }
 
-        // Pastikan gambar PNG/GIF dengan transparansi dikonversi dengan benar
+        // Convert with white background for transparency
         $width  = imagesx($img);
         $height = imagesy($img);
         $canvas = imagecreatetruecolor($width, $height);
@@ -436,8 +423,7 @@ class PaymentController extends Controller
         imagecopy($canvas, $img, 0, 0, 0, 0, $width, $height);
         imagedestroy($img);
 
-        // Cari quality terbaik agar ukuran file ≤ maxKB
-        // Mulai dari quality 85 turun 5 setiap iterasi
+        // Find best quality that fits under maxKB
         $maxBytes = $maxKB * 1024;
         $quality  = 85;
 
@@ -449,6 +435,7 @@ class PaymentController extends Controller
         } while (strlen($output) > $maxBytes && $quality >= 20);
 
         imagedestroy($canvas);
-        file_put_contents($destPath, $output);
+
+        Storage::disk('public')->put($storagePath, $output);
     }
 }

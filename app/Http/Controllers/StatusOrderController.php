@@ -2,17 +2,20 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\StoreOrderRequest;
 use App\Models\Category;
 use App\Models\Order;
 use App\Models\User;
 use App\Services\ActivityLogService;
+use App\Services\OrderService;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class StatusOrderController extends Controller
 {
     public function index(Request $request)
     {
-        $query = Order::with(['user', 'branch', 'items', 'payments'])->latest('id');
+        $query = Order::with(['user', 'branch', 'items.product', 'payments'])->latest('id');
 
         // Filter by status tab
         if ($request->filled('status') && $request->status !== 'semua') {
@@ -46,6 +49,9 @@ class StatusOrderController extends Controller
         return view('status-order.index', compact('orders', 'statusCounts', 'categories'));
     }
 
+    /**
+     * Update order status. Uses OrderService for stock handling on cancel/un-cancel.
+     */
     public function updateStatus(Request $request, Order $order)
     {
         $validated = $request->validate([
@@ -53,8 +59,12 @@ class StatusOrderController extends Controller
         ]);
 
         $oldStatus = $order->status_label;
-        $order->status = $validated['status'];
-        $order->save();
+
+        try {
+            $order = OrderService::updateStatus($order, $validated['status']);
+        } catch (\Exception $e) {
+            return back()->with('error', $e->getMessage());
+        }
 
         $newStatus = $order->status_label;
 
@@ -68,29 +78,17 @@ class StatusOrderController extends Controller
         return back()->with('success', "Status Order #{$order->id} berhasil diubah menjadi '{$newStatus}'.");
     }
 
-    public function store(Request $request)
+    /**
+     * Create new order from admin panel.
+     * Uses FormRequest for validation. Total sanitized server-side.
+     */
+    public function store(StoreOrderRequest $request)
     {
-        // Sanitize total input if formatted with thousand dots
-        if ($request->has('total')) {
-            $rawTotal = preg_replace('/[^\d]/', '', (string)$request->input('total'));
-            $request->merge(['total' => $rawTotal !== '' ? $rawTotal : 0]);
-        }
-
-        $validated = $request->validate([
-            'nama_pelanggan' => 'required|string|max:150',
-            'no_hp'          => 'nullable|string|max:20',
-            'alamat'         => 'nullable|string',
-            'kategori'       => 'nullable|string|max:100',
-            'total'          => 'required|numeric|min:0',
-            'keterangan'     => 'nullable|string',
-        ], [
-            'nama_pelanggan.required' => 'Nama pelanggan wajib diisi.',
-            'total.required'          => 'Total harga wajib diisi.',
-        ]);
+        $validated = $request->validated();
 
         $validated['status'] = 'order';
         
-        // Cari user_id berdasarkan no_hp jika ada
+        // Match customer user_id by phone number or name
         $userId = null;
         if (!empty($validated['no_hp'])) {
             $customer = User::where(function ($query) {
@@ -105,7 +103,7 @@ class StatusOrderController extends Controller
             }
         }
         
-        // Jika tidak ditemukan berdasarkan no_hp, coba cari berdasarkan nama
+        // Fallback: search by name
         if (!$userId && !empty($validated['nama_pelanggan'])) {
             $customer = User::where(function ($query) {
                     $query->where('user_type', 'customer')
@@ -121,7 +119,11 @@ class StatusOrderController extends Controller
         
         $validated['user_id'] = $userId ?? auth()->id();
 
-        $order = Order::create($validated);
+        try {
+            $order = OrderService::createFromAdmin($validated, $validated['user_id']);
+        } catch (\Exception $e) {
+            return back()->with('error', $e->getMessage());
+        }
 
         ActivityLogService::log(
             'create_order',
