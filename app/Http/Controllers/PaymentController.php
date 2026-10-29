@@ -302,6 +302,20 @@ class PaymentController extends Controller
                 $order->total = $validated['new_total'];
             }
 
+            // Deduct stock if not yet deducted
+            if (!$order->stock_deducted) {
+                $order->loadMissing('items.product');
+                foreach ($order->items as $item) {
+                    if ($item->product_id) {
+                        $p = \App\Models\Product::lockForUpdate()->find($item->product_id);
+                        if ($p) {
+                            $p->decrement('stock', min($p->stock, $item->quantity));
+                        }
+                    }
+                }
+                $order->stock_deducted = true;
+            }
+
             // Mark receipt as verified
             $order->payment_status = 'verified';
             $order->payment_verified_by = $authUser->id;

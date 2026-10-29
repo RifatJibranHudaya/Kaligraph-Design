@@ -10,6 +10,7 @@ use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\ForgotPasswordController;
 use App\Http\Controllers\HomeManagerController;
 use App\Http\Controllers\LandingController;
+use App\Http\Controllers\MidtransController;
 use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\PelangganController;
 use App\Http\Controllers\PermissionController;
@@ -36,6 +37,9 @@ Route::get('/katalog/{slug}/{product}', [LandingController::class, 'productDetai
 
 // Public Portfolio Page
 Route::get('/portofolio', [LandingController::class, 'portfolio'])->name('portofolio');
+
+// Midtrans Payment Notification Webhook (CSRF exempt)
+Route::match(['get', 'post'], '/midtrans/webhook', [MidtransController::class, 'webhook'])->name('midtrans.webhook');
 
 
 // Auth Routes (Guest only)
@@ -116,6 +120,7 @@ Route::middleware(['auth:web', 'prevent.back'])->group(function () {
         Route::get('/{payment}/nota', [PaymentController::class, 'nota'])->name('nota');
         Route::delete('/{payment}', [PaymentController::class, 'destroy'])->name('destroy');
         Route::get('/order/{order}/detail', [PaymentController::class, 'detailOrder'])->name('detail.order');
+        Route::get('/order/{order}/snap-token', [MidtransController::class, 'getSnapToken'])->name('order.snap.token');
         Route::post('/order/{order}/send-whatsapp', [PaymentController::class, 'sendWhatsapp'])->name('send.whatsapp');
         Route::post('/order/{order}/verify-receipt', [PaymentController::class, 'verifyReceipt'])->name('verify.receipt');
         Route::post('/order/{order}/reject-receipt', [PaymentController::class, 'rejectReceipt'])->name('reject.receipt');
@@ -193,10 +198,15 @@ Route::middleware(['auth:customer', 'prevent.back'])->group(function () {
     Route::get('/customer/dashboard', [CustomerController::class, 'index'])->name('customer.dashboard');
     Route::post('/customer/profile/update', [CustomerController::class, 'updateProfile'])->name('customer.profile.update');
     
-    // Detail pembayaran untuk pelanggan
+    // Detail pembayaran manual (upload bukti) untuk pelanggan
     Route::get('/customer/order/{order}/detail', [PaymentController::class, 'detailOrder'])->name('customer.order.detail');
+    Route::get('/customer/order/{order}/snap-token', [MidtransController::class, 'getSnapToken'])->name('customer.order.snap.token');
     Route::post('/customer/order/{order}/payment-upload', [PaymentController::class, 'customerUploadReceipt'])->name('customer.payment.upload')
         ->middleware('throttle:upload');
+    // Halaman Khusus Pembayaran Online Midtrans (E-Commerce Products Only)
+    Route::get('/customer/order/{order}/midtrans', [MidtransController::class, 'showPaymentPage'])->name('customer.order.midtrans');
+    Route::post('/customer/order/{order}/midtrans-success', [MidtransController::class, 'paymentSuccessCallback'])->name('customer.order.midtrans.success');
+    Route::post('/customer/order/{order}/cancel', [CustomerController::class, 'cancelOrder'])->name('customer.order.cancel');
     // Existing routes
     Route::post('/customer/order/{order}/send-whatsapp', [PaymentController::class, 'sendWhatsapp'])->name('customer.order.send.whatsapp');
 
@@ -210,3 +220,6 @@ Route::middleware(['auth:customer', 'prevent.back'])->group(function () {
             ->middleware('throttle:checkout');
     });
 });
+
+// Instant Direct Checkout via Midtrans (E-Commerce Products)
+Route::post('/customer/instant-buy/{product}', [CartController::class, 'instantBuy'])->name('customer.instant.buy');

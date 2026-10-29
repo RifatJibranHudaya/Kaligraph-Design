@@ -592,6 +592,13 @@
             </div>
 
             <div style="display:flex;flex-direction:column;gap:9px;">
+              @if(!$isLunas && $order->isEcommerce())
+                <a href="{{ route('customer.order.midtrans', $order->id) }}"
+                   class="btn-co btn-co-primary btn-co-full"
+                   style="background: linear-gradient(135deg, #4f46e5, #4338ca); justify-content: center; font-size: 14px; padding: 12px; text-decoration: none;">
+                  <i class="bi bi-wallet2"></i> Buka Halaman Bayar Midtrans
+                </a>
+              @endif
               <a href="{{ route('customer.dashboard') }}"
                  class="btn-co btn-co-secondary btn-co-full">
                 <i class="bi bi-arrow-left"></i> Dashboard

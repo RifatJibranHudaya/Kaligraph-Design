@@ -25,11 +25,29 @@ class Order extends Model
         'user_id', 'branch_id', 'kategori', 'total', 'keterangan',
         'status', 'nama_pelanggan', 'no_hp', 'alamat',
         'receipt_path', 'payment_status', 'payment_verified_by', 'payment_verified_at',
+        'snap_token', 'stock_deducted',
     ];
 
     protected $casts = [
-        'total' => 'integer',
+        'total'          => 'integer',
+        'stock_deducted' => 'boolean',
     ];
+
+    /**
+     * Check if this order contains only e-commerce products.
+     */
+    public function isEcommerce(): bool
+    {
+        $this->loadMissing('items.product');
+
+        if ($this->items->isEmpty()) {
+            return false;
+        }
+
+        return $this->items->every(function ($item) {
+            return $item->product && $item->product->isEcommerce();
+        });
+    }
 
     public function user()
     {

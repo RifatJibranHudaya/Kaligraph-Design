@@ -81,10 +81,13 @@ class AuthController extends Controller
     /**
      * Show Customer Login form.
      */
-    public function showCustomerLogin()
+    public function showCustomerLogin(Request $request)
     {
         if (Auth::guard('customer')->check()) {
             return redirect()->route('customer.dashboard');
+        }
+        if ($request->filled('redirect')) {
+            session(['url.intended' => $request->query('redirect')]);
         }
         return view('auth.login-customer');
     }

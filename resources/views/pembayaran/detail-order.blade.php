@@ -797,6 +797,9 @@
     <button type="button" class="btn-action-add" onclick="openModal('catatBayarModal')">
       + Bayar
     </button>
+    <button type="button" id="admin-pay-midtrans-btn" class="btn-action-add" style="background: linear-gradient(135deg, #6366f1, #4f46e5);" title="Bayar via Midtrans (QRIS / VA / E-Wallet)">
+      <i class="bi bi-wallet2"></i> Midtrans
+    </button>
     @endif
     @php $firstPayment = $allPayments && count($allPayments) > 0 ? $allPayments[0] : null; @endphp
     @if($firstPayment)
@@ -1446,6 +1449,73 @@
       });
     }
   }
+
+  // Midtrans Payment Handler for Admin
+  const adminPayBtn = document.getElementById('admin-pay-midtrans-btn');
+  if (adminPayBtn) {
+    adminPayBtn.addEventListener('click', function () {
+      adminPayBtn.disabled = true;
+      adminPayBtn.innerHTML = '<i class="bi bi-hourglass-split"></i> Loading...';
+
+      fetch("{{ route('order.snap.token', $order->id) }}", {
+        headers: {
+          'Accept': 'application/json',
+          'X-Requested-With': 'XMLHttpRequest'
+        }
+      })
+      .then(async res => {
+        const data = await res.json().catch(() => null);
+        if (!res.ok || !data || data.status === 'error') {
+          throw new Error((data && data.message) ? data.message : 'HTTP ' + res.status + ': Gagal memuat token Midtrans');
+        }
+        return data;
+      })
+      .then(data => {
+        adminPayBtn.disabled = false;
+        adminPayBtn.innerHTML = '<i class="bi bi-wallet2"></i> Midtrans';
+
+        function triggerAdminSnap() {
+          if (!window.snap || typeof window.snap.pay !== 'function') {
+            alert('Script Midtrans Snap belum siap. Silakan klik sekali lagi.');
+            return;
+          }
+          window.snap.pay(data.snap_token, {
+            onSuccess: function (result) {
+              alert('Pembayaran Midtrans berhasil!');
+              window.location.reload();
+            },
+            onPending: function (result) {
+              alert('Instruksi pembayaran dibuat.');
+              window.location.reload();
+            },
+            onError: function (result) {
+              alert('Pembayaran gagal: ' + (result.status_message || 'Terjadi gangguan'));
+            }
+          });
+        }
+
+        if (typeof window.snap === 'undefined') {
+          const script = document.createElement('script');
+          script.src = data.snap_url;
+          script.setAttribute('data-client-key', data.client_key);
+          script.onload = triggerAdminSnap;
+          document.head.appendChild(script);
+        } else {
+          triggerAdminSnap();
+        }
+      })
+      .catch(err => {
+        adminPayBtn.disabled = false;
+        adminPayBtn.innerHTML = '<i class="bi bi-wallet2"></i> Midtrans';
+        alert('Gagal membuka Midtrans: ' + err.message);
+        console.error('Midtrans Snap Error:', err);
+      });
+    });
+  }
 </script>
+
+@if(!$isLunas && \App\Services\MidtransService::isConfigured())
+  <script src="{{ \App\Services\MidtransService::getSnapUrl() }}" data-client-key="{{ config('services.midtrans.client_key') }}"></script>
+@endif
 
 @endsection

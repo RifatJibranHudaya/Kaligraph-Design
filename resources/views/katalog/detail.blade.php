@@ -479,18 +479,33 @@
       <!-- Action Buttons depending on Sub-Modul -->
       @if($product->isEcommerce())
         @if($product->stock > 0)
-          <form action="{{ route('cart.add') }}" method="POST" style="margin-top: 20px;">
-            @csrf
-            <input type="hidden" name="product_id" value="{{ $product->id }}">
+          <div style="margin-top: 20px;">
             <div style="display: flex; gap: 12px; align-items: center; margin-bottom: 14px;">
               <label style="font-size: 13px; font-weight: 700; color: var(--ink-deep);">Jumlah:</label>
-              <input type="number" name="quantity" value="1" min="1" max="{{ $product->stock }}" style="width: 80px; padding: 9px 12px; border: 1.5px solid var(--hairline-soft); border-radius: 10px; font-weight: 800; font-size: 15px; text-align: center; color: var(--ink-deep);">
+              <input type="number" id="product-quantity" value="1" min="1" max="{{ $product->stock }}" style="width: 80px; padding: 9px 12px; border: 1.5px solid var(--hairline-soft); border-radius: 10px; font-weight: 800; font-size: 15px; text-align: center; color: var(--ink-deep);">
               <span style="font-size: 12px; color: var(--text-muted);">Maks: {{ $product->stock }} pcs</span>
             </div>
-            <button type="submit" class="btn-buy-rail" style="background: linear-gradient(135deg, #2563eb, #1d4ed8); border: none; cursor: pointer; width: 100%; justify-content: center; font-size: 15px;">
-              🛒 Tambah ke Keranjang
+
+            <!-- Tombol 1: Beli Langsung via Midtrans -->
+            <button type="button" id="btn-midtrans-pay" class="btn-buy-rail" style="background: linear-gradient(135deg, #4f46e5, #4338ca); border: none; cursor: pointer; width: 100%; justify-content: center; font-size: 15px; font-weight: 800; margin-bottom: 8px; box-shadow: 0 4px 14px rgba(79, 70, 229, 0.35); transition: all 0.2s;">
+              ⚡ Bayar Sekarang via Midtrans
             </button>
-          </form>
+            <div style="font-size: 11.5px; text-align: center; color: var(--text-muted); margin-top: 2px; margin-bottom: 12px;">
+              QRIS, GoPay, Transfer Bank (Virtual Account) & E-Wallet
+            </div>
+
+            <!-- Tombol 2: Tambah ke Keranjang -->
+            <form action="{{ route('cart.add') }}" method="POST" id="form-cart-add">
+              @csrf
+              <input type="hidden" name="product_id" value="{{ $product->id }}">
+              <input type="hidden" name="quantity" id="cart-quantity-val" value="1">
+              <button type="submit" class="btn-buy-rail" style="background: linear-gradient(135deg, #2563eb, #1d4ed8); border: none; cursor: pointer; width: 100%; justify-content: center; font-size: 14px; font-weight: 700;">
+                🛒 Tambah ke Keranjang
+              </button>
+            </form>
+
+            <div id="midtrans-alert-msg" style="display:none; padding:12px; border-radius:10px; font-size:13px; margin-top:12px; text-align:center;"></div>
+          </div>
         @else
           <div style="padding: 14px; background: #fef2f2; border: 1px solid #fecaca; border-radius: 12px; color: #dc2626; font-weight: 700; text-align: center; margin-top: 18px;">
             ⚠️ Maaf, Stok Produk Ini Sedang Habis
@@ -542,10 +557,86 @@
 @endsection
 
 @section('scripts')
+@if($product->isEcommerce() && \App\Services\MidtransService::isConfigured())
+  <script src="{{ \App\Services\MidtransService::getSnapUrl() }}" data-client-key="{{ config('services.midtrans.client_key') }}"></script>
+@endif
+
 <script>
-document.addEventListener('keydown', function(e) {
-  if (e.key === 'Escape') {
-    // Handle escape if needed
+document.addEventListener('DOMContentLoaded', function () {
+  const qtyInput = document.getElementById('product-quantity');
+  const cartQtyVal = document.getElementById('cart-quantity-val');
+  const btnMidtrans = document.getElementById('btn-midtrans-pay');
+  const alertBox = document.getElementById('midtrans-alert-msg');
+
+  // Sync quantity with cart form
+  if (qtyInput && cartQtyVal) {
+    qtyInput.addEventListener('input', function () {
+      cartQtyVal.value = qtyInput.value;
+    });
+  }
+
+  // Handle Instant Buy via Midtrans
+  if (btnMidtrans) {
+    btnMidtrans.addEventListener('click', async function () {
+      @guest('customer')
+        const currentUrl = encodeURIComponent(window.location.href);
+        const loginUrl = "{{ route('login.customer') }}?redirect=" + currentUrl;
+        if (confirm("Silakan login akun pelanggan terlebih dahulu untuk melakukan pembayaran online via Midtrans.\n\nKlik OK untuk masuk ke halaman login.")) {
+          window.location.href = loginUrl;
+        }
+        return;
+      @endguest
+
+      const qty = parseInt(qtyInput ? qtyInput.value : 1) || 1;
+      const originalText = btnMidtrans.innerHTML;
+      btnMidtrans.disabled = true;
+      btnMidtrans.innerHTML = '<span style="display:inline-block;animation:spin 1s linear infinite;margin-right:6px;">⏳</span> Menyiapkan Midtrans...';
+      
+      if (alertBox) {
+        alertBox.style.display = 'none';
+      }
+
+      try {
+        const response = await fetch("{{ route('customer.instant.buy', $product->id) }}", {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'Accept': 'application/json',
+            'X-CSRF-TOKEN': '{{ csrf_token() }}'
+          },
+          body: JSON.stringify({ quantity: qty })
+        });
+
+        const data = await response.json();
+
+        if (response.status === 401 && data.login_url) {
+          window.location.href = data.login_url;
+          return;
+        }
+
+        if (!response.ok || data.status === 'error' || !data.redirect_url) {
+          throw new Error(data.message || 'Gagal menyiapkan pesanan untuk pembayaran Midtrans.');
+        }
+
+        // Arahkan langsung ke Halaman Khusus Pembayaran Midtrans
+        window.location.href = data.redirect_url;
+
+      } catch (err) {
+        console.error('Midtrans Instant Checkout Error:', err);
+        if (alertBox) {
+          alertBox.style.display = 'block';
+          alertBox.style.background = '#fef2f2';
+          alertBox.style.color = '#dc2626';
+          alertBox.style.border = '1px solid #fecaca';
+          alertBox.textContent = err.message || 'Terjadi kesalahan saat memproses pembayaran.';
+        } else {
+          alert(err.message || 'Terjadi kesalahan saat memproses pembayaran.');
+        }
+      } finally {
+        btnMidtrans.disabled = false;
+        btnMidtrans.innerHTML = originalText;
+      }
+    });
   }
 });
 </script>

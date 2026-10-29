@@ -36,22 +36,28 @@ class OrderService
             $order = Order::lockForUpdate()->findOrFail($order->id);
             $oldStatus = $order->status;
 
-            // If changing TO cancelled, return stock
+            // If changing TO cancelled, return stock if it was previously deducted
             if ($newStatus === Order::STATUS_CANCELLED && $oldStatus !== Order::STATUS_CANCELLED) {
-                StockService::returnStock($order);
+                if ($order->stock_deducted) {
+                    StockService::returnStock($order);
+                    $order->stock_deducted = false;
+                }
             }
 
-            // If changing FROM cancelled to active status, re-deduct stock
+            // If changing FROM cancelled to active status, re-deduct stock if needed
             if ($oldStatus === Order::STATUS_CANCELLED && $newStatus !== Order::STATUS_CANCELLED) {
-                $items = $order->items->map(function ($item) {
-                    return [
-                        'product_id' => $item->product_id,
-                        'quantity'   => $item->quantity,
-                    ];
-                })->filter(fn($item) => $item['product_id'] !== null)->toArray();
+                if (!$order->stock_deducted) {
+                    $items = $order->items->map(function ($item) {
+                        return [
+                            'product_id' => $item->product_id,
+                            'quantity'   => $item->quantity,
+                        ];
+                    })->filter(fn($item) => $item['product_id'] !== null)->toArray();
 
-                if (!empty($items)) {
-                    StockService::deductStock($items);
+                    if (!empty($items)) {
+                        StockService::deductStock($items);
+                        $order->stock_deducted = true;
+                    }
                 }
             }
 

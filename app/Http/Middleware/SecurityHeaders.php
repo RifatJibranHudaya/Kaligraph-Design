@@ -22,22 +22,22 @@ class SecurityHeaders
         $response->headers->set('X-XSS-Protection', '1; mode=block');
         $response->headers->set('Permissions-Policy', 'camera=(), microphone=(), geolocation=()');
 
-        // Content Security Policy — balanced for Laravel with Vite
+        // Content Security Policy — balanced for Laravel, Vite, and Midtrans
         $csp = implode('; ', [
             "default-src 'self'",
-            "script-src 'self' 'unsafe-inline' 'unsafe-eval' https://cdn.jsdelivr.net https://cdnjs.cloudflare.com https://wa.me",
+            "script-src 'self' 'unsafe-inline' 'unsafe-eval' https://cdn.jsdelivr.net https://cdnjs.cloudflare.com https://wa.me https://app.sandbox.midtrans.com https://app.midtrans.com https://api.midtrans.com https://api.sandbox.midtrans.com",
             "style-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net https://cdnjs.cloudflare.com https://fonts.googleapis.com",
             "font-src 'self' https://fonts.gstatic.com https://cdn.jsdelivr.net https://cdnjs.cloudflare.com data:",
             "img-src 'self' data: blob: https:",
-            "connect-src 'self'",
-            "frame-src 'self' https://www.google.com https://maps.google.com",
+            "connect-src 'self' https://app.sandbox.midtrans.com https://app.midtrans.com https://api.midtrans.com https://api.sandbox.midtrans.com",
+            "frame-src 'self' https://app.sandbox.midtrans.com https://app.midtrans.com https://api.midtrans.com https://api.sandbox.midtrans.com https://www.google.com https://maps.google.com",
             "object-src 'none'",
             "base-uri 'self'",
         ]);
         $response->headers->set('Content-Security-Policy', $csp);
 
-        // HSTS only in production (when HTTPS is in use)
-        if ($request->isSecure() || config('app.env') === 'production') {
+        // HSTS strictly only in real production with secure connection
+        if (config('app.env') === 'production' && $request->isSecure()) {
             $response->headers->set('Strict-Transport-Security', 'max-age=31536000; includeSubDomains');
         }
 

@@ -3,11 +3,15 @@
 namespace App\Http\Controllers;
 
 use App\Models\CartItem;
+use App\Models\Order;
+use App\Models\OrderItem;
 use App\Models\Product;
 use App\Services\ActivityLogService;
 use App\Services\CartService;
+use App\Services\MidtransService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 
 class CartController extends Controller
 {
@@ -37,10 +41,10 @@ class CartController extends Controller
         $user = Auth::guard('customer')->user();
         $quantity = $validated['quantity'] ?? 1;
 
-        // Verify product is active before adding
+        // Verify product is active and ecommerce before adding
         $product = Product::active()->find($validated['product_id']);
-        if (!$product) {
-            return back()->with('error', 'Produk tidak tersedia.');
+        if (!$product || !$product->isEcommerce()) {
+            return back()->with('error', 'Produk ini hanya dapat dipesan melalui konsultasi WhatsApp.');
         }
 
         try {
@@ -131,6 +135,102 @@ class CartController extends Controller
 
         } catch (\Exception $e) {
             return back()->with('error', $e->getMessage());
+        }
+    }
+
+    /**
+     * Instant Buy / Direct Checkout with Midtrans for an E-Commerce Product.
+     */
+    public function instantBuy(Request $request, Product $product)
+    {
+        $validated = $request->validate([
+            'quantity' => 'nullable|integer|min:1|max:999',
+        ]);
+        $quantity = $validated['quantity'] ?? 1;
+
+        $user = Auth::guard('customer')->user();
+        if (!$user) {
+            return response()->json([
+                'status'    => 'unauthenticated',
+                'login_url' => route('login.customer', ['redirect' => url()->previous()]),
+                'message'   => 'Silakan login akun pelanggan terlebih dahulu untuk melanjutkan pembayaran.',
+            ], 401);
+        }
+
+        if (!$product->is_active || !$product->isEcommerce()) {
+            return response()->json([
+                'status'  => 'error',
+                'message' => 'Produk ini tidak tersedia untuk pembelian langsung.',
+            ], 400);
+        }
+
+        if ($product->stock < $quantity) {
+            return response()->json([
+                'status'  => 'error',
+                'message' => "Stok produk tidak mencukupi (tersedia: {$product->stock}).",
+            ], 400);
+        }
+
+        try {
+            $unitPrice = (int) $product->harga_default;
+            $serverTotal = $unitPrice * $quantity;
+
+            $order = DB::transaction(function () use ($user, $product, $quantity, $unitPrice, $serverTotal) {
+                $p = Product::lockForUpdate()->findOrFail($product->id);
+                if ($p->stock < $quantity) {
+                    throw new \Exception("Stok tidak mencukupi (tersedia: {$p->stock}).");
+                }
+                // NOTE: Stock is NOT decremented here to prevent depletion if customer cancels/exits before paying.
+                // Stock is deducted atomically upon successful Midtrans payment confirmation.
+
+                $newOrder = Order::create([
+                    'user_id'         => $user->id,
+                    'branch_id'       => null,
+                    'kategori'        => $product->category->nama ?? null,
+                    'total'           => $serverTotal,
+                    'status'          => Order::STATUS_ORDER,
+                    'payment_status'  => 'pending',
+                    'stock_deducted'  => false,
+                    'nama_pelanggan'  => $user->username,
+                    'no_hp'           => $user->phone ?? '',
+                    'alamat'          => '',
+                    'keterangan'      => 'Beli Langsung: ' . $product->nama . ' (x' . $quantity . ')',
+                ]);
+
+                OrderItem::create([
+                    'order_id'   => $newOrder->id,
+                    'product_id' => $product->id,
+                    'produk'     => $product->nama,
+                    'harga'      => $serverTotal,
+                    'quantity'   => $quantity,
+                    'unit_price' => $unitPrice,
+                ]);
+
+                return $newOrder;
+            });
+
+            ActivityLogService::log(
+                'instant_buy',
+                'order',
+                "Instant Buy Order #{$order->id} for {$product->nama} (x{$quantity}) - Rp " . number_format($serverTotal, 0, ',', '.'),
+                $order->id
+            );
+
+            // Generate Snap Token
+            $midtransService = new MidtransService();
+            $snapToken = $midtransService->createSnapToken($order, $serverTotal);
+
+            return response()->json([
+                'status'       => 'success',
+                'order_id'     => $order->id,
+                'snap_token'   => $snapToken,
+                'redirect_url' => route('customer.order.midtrans', $order->id),
+            ]);
+        } catch (\Throwable $e) {
+            return response()->json([
+                'status'  => 'error',
+                'message' => 'Gagal memproses pesanan: ' . $e->getMessage(),
+            ], 500);
         }
     }
 }
